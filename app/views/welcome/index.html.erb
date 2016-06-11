@@ -1,0 +1,19 @@
+<body class="login-page">
+<div class="login-box">
+  <div class="login-logo">
+      <%= image_tag("EOPES_Logo_Top.png", :size => "354x90") %><br/><h4>Eve Online Profit Estimate System</h4>
+  </div>
+  <!-- /.login-logo -->
+  <div class="login-box-body">
+    <p class="login-box-msg">Sign in to start your session</p>
+
+    <div class="social-auth-links text-center">
+      <%= link_to image_tag("EVE_SSO_Login_Buttons_Large_Black.png"), user_omniauth_authorize_path(:eve_online) %>
+    </div>
+    <!-- /.social-auth-links -->
+
+
+  </div>
+  <!-- /.login-box-body -->
+</div>
+<!-- /.login-box -->

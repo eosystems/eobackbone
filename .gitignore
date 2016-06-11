@@ -32,3 +32,5 @@ public/sitemap.xml.gz
 public/robots.txt
 
 public/images
+
+.env
