@@ -28,9 +28,14 @@
   </div>
 
   <div class="form-group">
-    <label>Total Price: </label>
-    <label> {{ totalPrice | number }} ISK </label>
+    <label>Total Sell Price: </label>
+    <label> {{ sellPrice | number }} ISK </label>
   </div>
+  <div class="form-group">
+    <label>Total Volume: </label>
+    <label> {{ totalVolume | number }} m3</label>
+  </div>
+
 
   <table class="table table-condensed table-responsive table-hover mt-10">
   <thead>
@@ -49,8 +54,8 @@
       <td> {{ row.item_name }} </td>
       <td> {{ row.quantity | number }} </td>
       <td> {{ row.volume | number }} </td>
-      <td> {{ row.unit_price | number }} </td>
-      <td> {{ row.price | number }} </td>
+      <td> {{ row.sell_unit_price | number }} </td>
+      <td> {{ row.sell_price | number }} </td>
     </tr>
   </tbody>
 </table>

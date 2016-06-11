@@ -7,6 +7,7 @@ end
 create_table :orders, collate: "utf8_bin", comment: "注文" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
   t.decimal :total_price, default: "0.0000", precision: 20, scale: 4, comment: "注文合計額"
+  t.decimal :sell_price, default: "0.0000", precision: 20, scale: 4, comment: "買取合計額\t注文価格から一定の係数をかけて買取価格とする"
   t.decimal :total_volume, default: "0.0000", precision: 20, scale: 4, comment: "注文合計容量"
   t.varchar :processing_status, default: "waiting", comment: "処理ステータス"
   t.int :order_by, comment: "申請ユーザId"
@@ -21,6 +22,7 @@ create_table :order_details, collate: "utf8_bin", comment: "注文明細" do |t|
   t.int :order_id
   t.int :item_id, comment: "商品Id"
   t.decimal :unit_price, default: "0.0000", precision: 20, scale: 4, comment: "単価"
+  t.decimal :sell_unit_price, default: "0.0000", precision: 20, scale: 4, comment: "買取単価"
   t.int :quantity, comment: "数量"
   t.decimal :volume, default: "0.0000", precision: 20, scale: 4, comment: "容量"
 
