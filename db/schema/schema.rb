@@ -9,7 +9,7 @@ create_table :orders, collate: "utf8_bin", comment: "注文" do |t|
   t.decimal :total_price, default: "0.000", precision: 15, scale: 3, comment: "注文合計額"
   t.varchar :processing_status, default: "waiting", comment: "処理ステータス"
   t.int :order_by, comment: "申請ユーザId"
-  t.int :assigned_user_id, comment: "注文処理ユーザId"
+  t.int :assigned_user_id, null: true, comment: "注文処理ユーザId"
 
   t.datetime :created_at
   t.datetime :updated_at

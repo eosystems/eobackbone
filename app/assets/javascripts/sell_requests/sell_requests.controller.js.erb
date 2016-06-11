@@ -4,7 +4,7 @@ angular.module('eoApp')
 
 .controller(
   'sellRequestsController',
-  ['ngTableParams', '$resource', '$scope', '$state', function(ngTableParams, $resource, $scope, $state) {
+  ['$resource', '$scope', '$state', '$uibModal', function($resource, $scope, $state, $uibModal) {
     var Api = $resource("/api/sell_orders", {}, {
       create: {
         method: 'POST'
@@ -12,6 +12,7 @@ angular.module('eoApp')
     });
 
 
+    // Retrieval
     $scope.totalPrice = 0.0;
     $scope.retrievalItems = function() {
       return Api.get({ form: $scope.retrievalForm }).$promise.then(function(data) {
@@ -20,6 +21,33 @@ angular.module('eoApp')
           $scope.items = data.result.order_details;
         }
       });
+    };
+
+    // 申請ボタン
+    $scope.requestConfirm = function() {
+      var modalInstance = $uibModal.open({
+        templateUrl: "<%= asset_path 'shared/simple_dialog.html' %>",
+        controller: 'SimpleDialogController',
+        backdrop: true,
+        scope: $scope,
+        resolve: {
+          params: function() {
+            return {
+              title: 'Sell Request',
+              message: 'Are you sure?'
+            };
+          }
+        }
+      });
+      modalInstance.result.then(
+        // cancel
+        function(result) {
+        },
+        // request
+        function(result) {
+          Api.create({ form: $scope.retrievalForm })
+        }
+      );
     };
   }]
 );

@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.decimal  "total_price",                   precision: 15, scale: 3, default: 0.0,       null: false
     t.string   "processing_status", limit: 255,                          default: "waiting", null: false
     t.integer  "order_by",          limit: 4,                                                null: false
-    t.integer  "assigned_user_id",  limit: 4,                                                null: false
+    t.integer  "assigned_user_id",  limit: 4
     t.datetime "created_at",                                                                 null: false
     t.datetime "updated_at",                                                                 null: false
   end

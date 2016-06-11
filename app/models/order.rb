@@ -6,7 +6,7 @@
 #  total_price       :decimal(15, 3)   default(0.0), not null
 #  processing_status :string(255)      default("waiting"), not null
 #  order_by          :integer          not null
-#  assigned_user_id  :integer          not null
+#  assigned_user_id  :integer
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #
