@@ -29,7 +29,6 @@ class User < ActiveRecord::Base
 
   def self.find_for_eve_online_oauth(auth)
     user = User.where(provider: auth.provider, uid: auth.uid).first
-    binding.pry
     unless user
       user = User.create(name: auth.info.character_name,
                          provider: auth.provider,
