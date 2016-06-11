@@ -13,7 +13,8 @@
 
 ActiveRecord::Schema.define(version: 0) do
 
-  create_table "users", primary_key: "uid", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
+    t.string   "uid",                    limit: 255,              null: false
     t.string   "name",                   limit: 255
     t.string   "token",                  limit: 255
     t.string   "refresh_token",          limit: 255

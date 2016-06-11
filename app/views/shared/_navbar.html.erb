@@ -31,8 +31,10 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <%= link_to '#' do %>
-            Admin@example.com | Logout
+          <% if current_user.present? %>
+            <%= link_to destroy_user_session_path, method: :delete do %>
+              <%= current_user.name %> | Logout
+            <% end %>
           <% end %>
         </li>
       </ul>
