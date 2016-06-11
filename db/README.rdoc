@@ -1,0 +1,72 @@
+== README
+
+マスタDB入れ替え
+
+insert into inv_types
+(
+  type_id,
+  group_id,
+  type_name,
+  description,
+  mass,
+  volume,
+  base_price,
+  market_group_id
+)
+(
+  select
+  typeID,
+  groupID,
+  typeName,
+  description,
+  mass,
+  volume,
+  basePrice,
+  marketGroupID
+  from EveDB.InvTypes
+
+);
+
+insert into map_regions
+(
+   region_id,
+   region_name
+)
+(
+  select
+  regionID,
+  regionName
+  from EveDB.MapRegions
+);
+
+
+insert into map_solar_systems
+(
+   region_id,
+   solar_system_id,
+   solar_system_name
+)
+(
+  select
+  regionID,
+  solarSystemID,
+  solarSystemName
+  from EveDB.MapSolarSystems
+);
+
+insert into sta_stations
+(
+   region_id,
+   solar_system_id,
+   station_id,
+   station_name
+)
+(
+  select 
+  regionID,
+  solarSystemID,
+  stationID,
+  stationName
+  from EveDB.StaStations
+
+);

@@ -94,3 +94,50 @@ create_table :market_orders, collate: "utf8_bin" do |t|
 
   t.index ["type_id", "buy", "station_id"], name: "index_type_id_and_buy_and_station_id"
 end
+
+
+# master
+create_table :inv_types, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.int :type_id
+  t.int :group_id, null: true
+  t.varchar :type_name, null: true
+  t.text :description, null: true
+  t.double :mass, null: true
+  t.double :volume, null: true
+  t.decimal :base_price, null: true, precision: 20, scale: 4
+  t.int :market_group_id, null: true
+
+  t.index ["type_id"], name: "index_type_id"
+  t.index ["type_name"], name: "index_type_name"
+end
+
+create_table :map_regions, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.int :region_id, primary_key: true
+  t.varchar :region_name, null: true
+
+  t.index ["region_id"], name: "index_region_id"
+  t.index ["region_name"], name: "index_region_name"
+end
+
+create_table :map_solar_systems, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.int :region_id
+  t.int :solar_system_id
+  t.varchar :solar_system_name
+
+  t.index ["region_id"], name: "index_region_id"
+  t.index ["solar_system_id"], name: "index_solar_system_id"
+end
+
+create_table :sta_stations, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.int :station_id
+  t.int :region_id
+  t.int :solar_system_id
+  t.varchar :station_name
+
+  t.index ["station_id"], name: "index_station_id"
+  t.index ["solar_system_id"], name: "index_solar_system_id"
+end

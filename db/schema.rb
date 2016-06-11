@@ -29,6 +29,38 @@ ActiveRecord::Schema.define(version: 0) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
+  create_table "inv_types", force: :cascade do |t|
+    t.integer "type_id",         limit: 4,                              null: false
+    t.integer "group_id",        limit: 4
+    t.string  "type_name",       limit: 255
+    t.text    "description",     limit: 65535
+    t.float   "mass",            limit: 53
+    t.float   "volume",          limit: 53
+    t.decimal "base_price",                    precision: 20, scale: 4
+    t.integer "market_group_id", limit: 4
+  end
+
+  add_index "inv_types", ["type_id"], name: "index_type_id", using: :btree
+  add_index "inv_types", ["type_name"], name: "index_type_name", using: :btree
+
+  create_table "map_regions", id: false, force: :cascade do |t|
+    t.integer "id",          limit: 4,   null: false
+    t.integer "region_id",   limit: 4,   null: false
+    t.string  "region_name", limit: 255
+  end
+
+  add_index "map_regions", ["region_id"], name: "index_region_id", using: :btree
+  add_index "map_regions", ["region_name"], name: "index_region_name", using: :btree
+
+  create_table "map_solar_systems", force: :cascade do |t|
+    t.integer "region_id",         limit: 4,   null: false
+    t.integer "solar_system_id",   limit: 4,   null: false
+    t.string  "solar_system_name", limit: 255, null: false
+  end
+
+  add_index "map_solar_systems", ["region_id"], name: "index_region_id", using: :btree
+  add_index "map_solar_systems", ["solar_system_id"], name: "index_solar_system_id", using: :btree
+
   create_table "market_orders", force: :cascade do |t|
     t.integer  "order_id",       limit: 8,                            null: false
     t.integer  "type_id",        limit: 4,                            null: false
@@ -66,6 +98,16 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "created_at",                                                                 null: false
     t.datetime "updated_at",                                                                 null: false
   end
+
+  create_table "sta_stations", force: :cascade do |t|
+    t.integer "station_id",      limit: 4,   null: false
+    t.integer "region_id",       limit: 4,   null: false
+    t.integer "solar_system_id", limit: 4,   null: false
+    t.string  "station_name",    limit: 255, null: false
+  end
+
+  add_index "sta_stations", ["solar_system_id"], name: "index_solar_system_id", using: :btree
+  add_index "sta_stations", ["station_id"], name: "index_station_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "uid",                    limit: 255,              null: false
