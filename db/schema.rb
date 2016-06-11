@@ -13,6 +13,40 @@
 
 ActiveRecord::Schema.define(version: 0) do
 
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer  "priority",   limit: 4,     default: 0, null: false
+    t.integer  "attempts",   limit: 4,     default: 0, null: false
+    t.text     "handler",    limit: 65535,             null: false
+    t.text     "last_error", limit: 65535
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by",  limit: 255
+    t.string   "queue",      limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "market_orders", force: :cascade do |t|
+    t.integer  "order_id",       limit: 8,                            null: false
+    t.integer  "type_id",        limit: 4,                            null: false
+    t.boolean  "buy"
+    t.datetime "issued"
+    t.decimal  "price",                      precision: 20, scale: 4
+    t.integer  "volume_entered", limit: 4
+    t.integer  "station_id",     limit: 4
+    t.integer  "volume",         limit: 4
+    t.string   "range",          limit: 255
+    t.integer  "min_volume",     limit: 4
+    t.integer  "duration",       limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "market_orders", ["type_id", "buy", "station_id"], name: "index_type_id_and_buy_and_station_id", using: :btree
+
   create_table "order_details", force: :cascade do |t|
     t.integer  "order_id",   limit: 4,                                        null: false
     t.integer  "item_id",    limit: 4,                                        null: false
