@@ -36,6 +36,7 @@ class CrawlMarketJob < ActiveJob::Base
         MarketOrder.import save_results
         save_results = []
       end
+      count = count + 1
     end
     MarketOrder.import save_results
   end
