@@ -8,5 +8,4 @@
 #
 
 class MapRegion < ActiveRecord::Base
-
 end
