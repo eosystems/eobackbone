@@ -28,6 +28,10 @@ gem 'bootstrap-sass', "~> 3.3.6"
 gem 'bower-rails'
 gem 'rabl'
 gem 'rest-client'
+#認証
+gem "omniauth-oauth2"
+gem "omniauth-eveonline"
+gem 'devise'
 
 group :development do
   gem 'spring'
