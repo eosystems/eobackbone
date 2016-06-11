@@ -11,6 +11,7 @@ create_table "users", collate: "utf8_bin", comment: "" do |t|
   t.varchar "refresh_token", null:true
   t.datetime "expire", null:true
   t.varchar "encrypted_password", null: false, default: ""
+  t.varchar :provider
 
   ## Recoverable
   t.varchar   :reset_password_token
