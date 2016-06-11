@@ -1,0 +1,35 @@
+'use strict';
+
+angular.module('eoApp', [
+  'ngResource',
+  'ui.router',
+  'ui.bootstrap',
+  'ngTable',
+  'chart.js',
+  'ngAnimate',
+  'toastr',
+  'ngDragDrop'
+]).config(['$stateProvider', '$urlRouterProvider', '$sceProvider', 'toastrConfig', '$httpProvider',
+  function ($stateProvider, $urlRouterProvider, $sceProvider, toastrConfig, $httpProvider) {
+  // Toastr
+  angular.extend(toastrConfig, {
+    timeOut: 2000
+  });
+
+  // Routing
+  $sceProvider.enabled(false);
+  $urlRouterProvider.otherwise('/');
+  // Creatives
+  $stateProvider.state('dashboard', {
+    url: '/dashboard',
+    templateUrl: '<%= asset_path 'dashboard/index.html' %>',
+    controller: 'dashboardController'
+  })
+  ;
+
+}])
+.run(['$rootScope', '$state', '$stateParams', function ($rootScope, $state, $stateParams) {
+  $rootScope.$state = $state;
+  $rootScope.$stateParams = $stateParams;
+}])
+;

@@ -1,0 +1,17 @@
+{
+  "vendor": {
+    "name": "bower-rails generated vendor assets",
+    "dependencies": {
+      "angular" : "latest",
+      "angular-resource" : "latest",
+      "angular-ui-router" : "latest",
+      "angular-bootstrap" : "latest",
+      "ng-table": "latest",
+      "lodash" : "latest",
+      "angular-chart.js": "latest",
+      "angular-animate": "latest",
+      "angular-toastr": "latest",
+      "angular-dragdrop": "latest"
+    }
+  }
+}
