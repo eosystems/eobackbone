@@ -14,6 +14,13 @@
 #
 
 class Order < ActiveRecord::Base
+  include NgTableSearchable
+
+  RANSACK_FILTER_ATTRIBUTES = {
+    id: :id_eq_any,
+    processing_status: :processing_status_eq,
+  }.with_indifferent_access.freeze
+
   # Relations
   has_many :order_details
 

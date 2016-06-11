@@ -24,6 +24,9 @@ class OrderDetail < ActiveRecord::Base
   belongs_to :order
   belongs_to :item, foreign_key: :item_id, class_name: 'InvType'
 
+  # Delegates
+  delegate :type_name, to: :item, prefix: :item
+
   # Methods
 
   def price

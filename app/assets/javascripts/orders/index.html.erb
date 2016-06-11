@@ -4,54 +4,73 @@
 <div class="col-md-6">
   <h2>Orders</h2>
 
-  <button id="get-inventory-info" class="btn btn-default" ng-click="retrievalItems()">Retrieval</button>
+  <div class="text-left">
+    <button class="btn btn-normal" ng-click="reload()">Reload</button>
+  </div>
 
-  <textarea class="form-control mt-10" rows="15" ng-model="retrievalForm">
-  </textarea>
+  <section class="content table-responsive">
+    <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
+      show-filter="true">
+      <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
+        <td data-title="'Status'" sortable="'processing_status'" width="100px"
+          filter="{processing_status: 'select'}" filter-data="statuses" class="text-center">
+          <label ng-show="row.processing_status == 'in_process'" class="label label-primary">In Process</label>
+          <label ng-show="row.processing_status == 'done'" class="label label-success">Done</label>
+          <label ng-show="row.processing_status == 'canceled'" class="label label-default">Canceled</label>
+          <label ng-show="row.processing_status == 'reject'" class="label label-danger">Reject</label>
+        </td>
+        <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="100px" class="deletable">
+          {{row.id}}
+        </td>
+        <td data-title="'Price'" sortable="'sell_price'">
+          {{row.sell_price | number}} isk
+        </td>
+        <td data-title="'Volume'" sortable="'total_volume'">
+          {{row.sell_price | number}} m3
+        </td>
+        <td data-title="'Created'" sortable="'created_at'">
+          {{row.created_at}}
+        </td>
+      </tr>
+    </table>
+  </section>
 </div>
 
 <div class="col-md-6">
   <div class="loading" dw-loading="loading" dw-loading-options="{text: 'Loading...'}">
   <!-- メモ: 何故かloadingで囲うとng-modelが動かなくなることがある。何かあったら削除 -->
 
-  <h2>Items</h2>
+  <h2>Order Detail (#{{selectedId}})</h2>
 
   <div class="text-right">
-    <button id="get-inventory-info" class="btn btn-primary" ng-click="requestConfirm()">Sell Request</button>
+    <button class="btn btn-normal"  ng-click="updateStatus('in_process')">In Process</button>
+    <button class="btn btn-normal"  ng-click="updateStatus('reject')">Reject</button>
+    <button class="btn btn-normal"  ng-click="updateStatus('canceled')">Cancel</button>
+    <button class="btn btn-primary" ng-click="updateStatus('done')">Done</button>
   </div>
-
-  <div class="form-group">
-    <label>Total Sell Price: </label>
-    <label> {{ sellPrice | number }} ISK </label>
-  </div>
-  <div class="form-group">
-    <label>Total Volume: </label>
-    <label> {{ totalVolume | number }} m3</label>
-  </div>
-
 
   <table class="table table-condensed table-responsive table-hover mt-10">
-  <thead>
-    <tr>
-      <th> </th>
-      <th> Name </th>
-      <th> Quantity </th>
-      <th> Volume </th>
-      <th> Unit Price (ISK/m3) </th>
-      <th> Price (ISK) </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-repeat="row in items">
-      <td> <img ng-src="{{ row.image_path }}" class="img-responsive"/> </td>
-      <td> {{ row.item_name }} </td>
-      <td> {{ row.quantity | number }} </td>
-      <td> {{ row.volume | number }} </td>
-      <td> {{ row.sell_unit_price | number }} </td>
-      <td> {{ row.sell_price | number }} </td>
-    </tr>
-  </tbody>
-</table>
+    <thead>
+      <tr>
+        <th> </th>
+        <th> Name </th>
+        <th> Quantity </th>
+        <th> Volume </th>
+        <th> Unit Price (ISK/m3) </th>
+        <th> Price (ISK) </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="row in orderDetails">
+        <td> <img ng-src="{{ row.image_path }}" class="img-responsive"/> </td>
+        <td> {{ row.item_name }} </td>
+        <td> {{ row.quantity | number }} </td>
+        <td> {{ row.volume | number }} </td>
+        <td> {{ row.sell_unit_price | number }} </td>
+        <td> {{ row.sell_price | number }} </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 </div>
 
