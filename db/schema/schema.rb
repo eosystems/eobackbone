@@ -4,13 +4,14 @@ create_table "schema_migrations", collate: "utf8_bin", comment: "" do |t|
   t.index "version", name: "unique_schema_migrations", unique: true
 end
 
-create_table "users", collate: "utf8_bin", comment: "" do |t|
-  t.varchar "uid", primary_key: true
-  t.varchar "name", null: true
-  t.varchar "token", null:true
-  t.varchar "refresh_token", null:true
-  t.datetime "expire", null:true
-  t.varchar "encrypted_password", null: false, default: ""
+create_table :users, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.varchar :uid
+  t.varchar :name, null: true
+  t.varchar :token, null:true
+  t.varchar :refresh_token, null:true
+  t.datetime :expire, null:true
+  t.varchar :encrypted_password, null: false, default: ""
   t.varchar :provider
   t.varchar :email,null: true, default: ""
 
