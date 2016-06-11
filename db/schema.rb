@@ -13,4 +13,22 @@
 
 ActiveRecord::Schema.define(version: 0) do
 
+  create_table "users", primary_key: "uid", force: :cascade do |t|
+    t.string   "name",                   limit: 255
+    t.string   "token",                  limit: 255
+    t.string   "refresh_token",          limit: 255
+    t.datetime "expire"
+    t.string   "encrypted_password",     limit: 255, default: "", null: false
+    t.string   "reset_password_token",   limit: 255,              null: false
+    t.datetime "reset_password_sent_at",                          null: false
+    t.datetime "remember_created_at",                             null: false
+    t.integer  "sign_in_count",          limit: 4,   default: 0,  null: false
+    t.datetime "current_sign_in_at",                              null: false
+    t.datetime "last_sign_in_at",                                 null: false
+    t.string   "current_sign_in_ip",     limit: 255,              null: false
+    t.string   "last_sign_in_ip",        limit: 255,              null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+  end
+
 end
