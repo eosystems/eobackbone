@@ -1,0 +1,19 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+  'sellRequestsController',
+  ['ngTableParams', '$resource', '$scope', '$state', function(ngTableParams, $resource, $scope, $state) {
+    var Api = $resource("/api/sell_requests");
+
+    $scope.retrievalItems = function() {
+      // dummy
+      $scope.items = [
+        { index: 1, image_path: "https://image.eveonline.com/Type/14264_64.png", name: "Golden Omber", quantity: 54, volume: "54.00", unit_price: "0.09", price: "5.6700.00" },
+        { index: 2, image_path: "https://image.eveonline.com/Type/14264_64.png", name: "Golden Omber", quantity: 54, volume: "54.00", unit_price: "0.09", price: "5.6700.00" },
+        { index: 3, image_path: "https://image.eveonline.com/Type/14264_64.png", name: "Golden Omber", quantity: 54, volume: "54.00", unit_price: "0.09", price: "5.6700.00" },
+      ];
+    };
+  }]
+);
