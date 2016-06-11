@@ -1,5 +1,9 @@
 defaults: &defaults
-  something: "Something"
+  applications:
+    app_id: ""
+    app_secret: ""
+  market:
+    jita_price_refresh_time: 600
 
 development:
   <<: *defaults
