@@ -5,8 +5,9 @@
 #  id         :integer          not null, primary key
 #  order_id   :integer          not null
 #  item_id    :integer          not null
-#  unit_price :decimal(15, 3)   default(0.0), not null
+#  unit_price :decimal(20, 4)   default(0.0), not null
 #  quantity   :integer          not null
+#  volume     :decimal(20, 4)   default(0.0), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

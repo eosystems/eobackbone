@@ -3,7 +3,8 @@
 # Table name: orders
 #
 #  id                :integer          not null, primary key
-#  total_price       :decimal(15, 3)   default(0.0), not null
+#  total_price       :decimal(20, 4)   default(0.0), not null
+#  total_volume      :decimal(20, 4)   default(0.0), not null
 #  processing_status :string(255)      default("waiting"), not null
 #  order_by          :integer          not null
 #  assigned_user_id  :integer

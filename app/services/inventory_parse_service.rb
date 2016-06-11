@@ -4,8 +4,9 @@ class InventoryParseService
     order.order_details = text
       .split("\n")
       .map { |v| v.split("\t") }
-      .map { |name, quantity, _, _, _, _| OrderDetail.new(raw_item_name: name, quantity: quantity) }
-      .select { |detail| detail.quantity.present? }
+      .map { |name, quantity, _, _, _, volume|
+        OrderDetail.new(raw_item_name: name, quantity: quantity, volume: volume)
+      }.select { |detail| detail.quantity.present? }
     order
   rescue => e
     Rails.logger.error "[ERROR] Inventory Parse Error"
