@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require spin.js/spin
 //= require bootstrap-sprockets
 //= require angular
 //= require angular-resource
@@ -24,6 +25,7 @@
 //= require ng-table/dist/ng-table.min
 //= require angular-animate/angular-animate
 //= require angular-toastr/dist/angular-toastr.tpls
+//= require angular-loading/angular-loading.min
 //= require common
 //
 //= require eobackbone

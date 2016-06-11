@@ -4,22 +4,65 @@ angular.module('eoApp')
 
 .controller(
   'sellRequestsController',
-  ['ngTableParams', '$resource', '$scope', '$state', function(ngTableParams, $resource, $scope, $state) {
+  ['$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+    function($resource, $scope, $state, $uibModal, $loading, toastr, $location) {
     var Api = $resource("/api/sell_orders", {}, {
       create: {
         method: 'POST'
       }
     });
 
-
+    // Retrieval
     $scope.totalPrice = 0.0;
     $scope.retrievalItems = function() {
       return Api.get({ form: $scope.retrievalForm }).$promise.then(function(data) {
         if (data.result) {
           $scope.totalPrice = data.result.total_price;
           $scope.items = data.result.order_details;
+          toastr.success("Retrieval Success", "Success");
+        }
+      }, function(error) {
+          toastr.error("Something Wrong.", "Error");
+      });
+    };
+
+    // 申請ボタン
+    $scope.requestConfirm = function() {
+      var modalInstance = $uibModal.open({
+        templateUrl: "<%= asset_path 'shared/simple_dialog.html' %>",
+        controller: 'SimpleDialogController',
+        backdrop: true,
+        scope: $scope,
+        resolve: {
+          params: function() {
+            return {
+              title: 'Sell Request',
+              message: 'Are you sure?'
+            };
+          }
         }
       });
+      modalInstance.result.then(
+        // cancel
+        function(result) {
+        },
+        // request
+        function(result) {
+          $loading.start("loading");
+          toastr.info("Send Sell Request", "Request");
+
+          Api.create({ form: $scope.retrievalForm }).$promise.then(function(data) {
+            // TODO: /dashboard ではなくorders に移動するようにする
+            toastr.success("Request Accepted", "Success");
+            $loading.finish("loading");
+
+            $location.path("/dashboard");
+          }, function(error) {
+            $loading.finish("loading");
+            toastr.error("Something wrong.", "Error");
+          });
+        }
+      );
     };
   }]
 );

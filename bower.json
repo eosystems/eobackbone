@@ -11,7 +11,8 @@
       "angular-chart.js": "latest",
       "angular-animate": "latest",
       "angular-toastr": "latest",
-      "angular-dragdrop": "latest"
+      "angular-dragdrop": "latest",
+      "angular-loading": "latest"
     }
   }
 }
