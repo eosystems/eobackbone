@@ -19,12 +19,17 @@ angular.module('eoApp', [
 
   // Routing
   $sceProvider.enabled(false);
-  $urlRouterProvider.otherwise('/');
+  // $urlRouterProvider.otherwise('/');
   // Creatives
   $stateProvider.state('dashboard', {
     url: '/dashboard',
     templateUrl: '<%= asset_path 'dashboard' %>',
     controller: 'dashboardController'
+  })
+  .state('orders', {
+    url: '/orders',
+    templateUrl: '<%= asset_path 'orders/index.html' %>',
+    controller: 'ordersController'
   })
   .state('sellRequests', {
     url: '/sell_requests',

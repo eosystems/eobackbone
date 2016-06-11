@@ -23,4 +23,28 @@ class Order < ActiveRecord::Base
     self.total_price = order_details.map(&:price).sum
     self.sell_price = order_details.map(&:sell_price).sum
   end
+
+  def self.available_orders(user)
+    if user.has_contract_management_authority?
+      all
+    else
+      all.where(order_by: user.id)
+    end
+  end
+
+  # 未処理の注文
+  # - ユーザが契約管理権限を持っている場合は、Corp宛の未処理の注文を返す
+  # - ユーザが契約管理権限を持っていない場合は、自身の未処理注文を返す
+  def self.in_process_orders(user)
+    if user.has_contract_management_authority?
+      self
+        .available_orders(user)
+        .where(processing_status: ProcessingStatus::IN_PROCESS.id)
+    else
+      self
+        .available_orders(user)
+        .where(processing_status: ProcessingStatus::IN_PROCESS.id)
+        .where(order_by: user.id)
+    end
+  end
 end

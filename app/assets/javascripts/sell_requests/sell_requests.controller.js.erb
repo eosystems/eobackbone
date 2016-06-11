@@ -56,11 +56,10 @@ angular.module('eoApp')
           toastr.info("Send Sell Request", "Request");
 
           Api.create({ form: $scope.retrievalForm }).$promise.then(function(data) {
-            // TODO: /dashboard ではなくorders に移動するようにする
             toastr.success("Request Accepted", "Success");
             $loading.finish("loading");
 
-            $location.path("/dashboard");
+            $location.path("/orders");
           }, function(error) {
             $loading.finish("loading");
             toastr.error("Something wrong.", "Error");

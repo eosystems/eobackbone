@@ -17,8 +17,8 @@
           <% end %>
         </li>
         <li>
-          <%= link_to "/#/dashboard" do %>
-            <i class="fa fa-database mr-2"></i> Orders
+          <%= link_to "/#/orders" do %>
+            <i class="fa fa-database mr-2"></i> Orders (<%= Order.in_process_orders(current_user).count %>)
           <% end %>
         </li>
         <li>

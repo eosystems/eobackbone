@@ -1,0 +1,20 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+  'ordersController',
+  ['$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+    function($resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+    var RootApi = $resource("/api/orders", {}, {
+    });
+    var DetailApi = $resource("/api/orders/:id", { id: $scope.selectedId }, {
+      get: {
+        method: 'GET'
+      },
+      update: {
+        method: 'PUT'
+      }
+    });
+  }]
+);

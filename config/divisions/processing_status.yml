@@ -1,0 +1,8 @@
+- id: in_process
+  name: In Process
+- id: Done
+  name: Done
+- id: canceled
+  name: Canceled
+- id: reject
+  name: Reject

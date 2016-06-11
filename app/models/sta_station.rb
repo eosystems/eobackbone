@@ -13,6 +13,6 @@ class StaStation < ActiveRecord::Base
   JITA_REGION_ID = "10000002" # JITA
 
   def self.jita_stations
-    self.all.where(region_id: JITA_REGION_ID)
+    all.where(region_id: JITA_REGION_ID)
   end
 end
