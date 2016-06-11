@@ -4,13 +4,13 @@ angular.module('eoApp')
 
 .controller(
   'sellRequestsController',
-  ['$resource', '$scope', '$state', '$uibModal', function($resource, $scope, $state, $uibModal) {
+  ['$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+    function($resource, $scope, $state, $uibModal, $loading, toastr, $location) {
     var Api = $resource("/api/sell_orders", {}, {
       create: {
         method: 'POST'
       }
     });
-
 
     // Retrieval
     $scope.totalPrice = 0.0;
@@ -19,7 +19,10 @@ angular.module('eoApp')
         if (data.result) {
           $scope.totalPrice = data.result.total_price;
           $scope.items = data.result.order_details;
+          toastr.success("Retrieval Success", "Success");
         }
+      }, function(error) {
+          toastr.error("Something Wrong.", "Error");
       });
     };
 
@@ -45,7 +48,19 @@ angular.module('eoApp')
         },
         // request
         function(result) {
-          Api.create({ form: $scope.retrievalForm })
+          $loading.start("loading");
+          toastr.info("Send Sell Request", "Request");
+
+          Api.create({ form: $scope.retrievalForm }).$promise.then(function(data) {
+            // TODO: /dashboard ではなくorders に移動するようにする
+            toastr.success("Request Accepted", "Success");
+            $loading.finish("loading");
+
+            $location.path("/dashboard");
+          }, function(error) {
+            $loading.finish("loading");
+            toastr.error("Something wrong.", "Error");
+          });
         }
       );
     };
