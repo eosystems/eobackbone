@@ -19,11 +19,13 @@
 #
 
 class MarketOrder < ActiveRecord::Base
+  JITA_REGION_ID = "10000002".freeze # JITA
+
   def self.jita_buy_orders(item_id)
     self
       .all
       .where(buy: true)
-      .where(station_id: StaStation.jita_stations.map(&:station_id))
+      .where(station_id: StaStation.where(region_id: JITA_REGION_ID).map(&:station_id))
       .where(type_id: item_id)
   end
 
