@@ -1,0 +1,60 @@
+<div class="container-fluid">
+<div class="row">
+
+<div class="col-md-6">
+  <h2>Sell Request Form</h2>
+  <p>
+    <i class="fa fa-info-circle"></i>
+    Eve OnlineのInventoryをリスト表示し、Ctrl+Cでコピーしたものを下記申請フォームに貼り付け、
+    Retrievalボタンを押してください。
+  </p>
+
+  <hr>
+
+  <button id="get-inventory-info" class="btn btn-default" ng-click="retrievalItems()">Retrieval</button>
+
+  <textarea class="form-control mt-10" rows="15">
+  </textarea>
+</div>
+
+<div class="col-md-6">
+  <h2>Items</h2>
+
+  <div class="text-right">
+    <button id="get-inventory-info" class="btn btn-primary">Sell Request</button>
+  </div>
+
+  <div class="form-group">
+    <label>Total Price: </label>
+    <label> 9999 ISK </label>
+  </div>
+
+  <table class="table table-condensed table-responsive table-hover mt-10">
+  <thead>
+    <tr>
+      <th> </th>
+      <th> Name </th>
+      <th> Quantity </th>
+      <th> Volume </th>
+      <th> Unit Price (ISK/m3) </th>
+      <th> Price (ISK) </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="row in items">
+      <td> <img ng-src="{{ row.image_path }}" class="img-responsive"/> </td>
+      <td> {{ row.name }} </td>
+      <td> {{ row.quantity }} </td>
+      <td> {{ row.volume }} </td>
+      <td> {{ row.unit_price }} </td>
+      <td> {{ row.price }} </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+</div>
+
+</div><!-- /row -->
+</div>

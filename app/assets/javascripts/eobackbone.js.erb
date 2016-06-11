@@ -22,8 +22,13 @@ angular.module('eoApp', [
   // Creatives
   $stateProvider.state('dashboard', {
     url: '/dashboard',
-    templateUrl: '<%= asset_path 'dashboard/index.html' %>',
+    templateUrl: '<%= asset_path 'dashboard' %>',
     controller: 'dashboardController'
+  })
+  .state('sellRequests', {
+    url: '/sell_requests',
+    templateUrl: '<%= asset_path 'sell_requests/new.html' %>',
+    controller: 'sellRequestsController'
   })
   ;
 
