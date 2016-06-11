@@ -20,7 +20,22 @@ module Eobackbone
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
+    config.time_zone = 'Tokyo'
+
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    config.autoload_paths += Dir["#{config.root}/lib/",
+                                 "#{config.root}/lib/inputs",
+                                 "#{config.root}/app/uploaders",
+                                 "#{config.root}/jobs",
+                                 "#{config.root}/representers",
+                                 "#{config.root}/services"]
+
+    config.generators do |g|
+      g.helper false
+      g.stylesheets false
+      g.javascripts false
+    end
   end
 end

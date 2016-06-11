@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   resources :dashboard, only: [:index]
 
-  namespace :api do
-    resources :sell_orders, only: [:new, :create]
+  namespace :api, defaults: { format: :json } do
+    resources :sell_orders, only: [:index, :create]
   end
 end

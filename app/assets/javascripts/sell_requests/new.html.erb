@@ -13,7 +13,7 @@
 
   <button id="get-inventory-info" class="btn btn-default" ng-click="retrievalItems()">Retrieval</button>
 
-  <textarea class="form-control mt-10" rows="15">
+  <textarea class="form-control mt-10" rows="15" ng-model="retrievalForm">
   </textarea>
 </div>
 
@@ -26,7 +26,7 @@
 
   <div class="form-group">
     <label>Total Price: </label>
-    <label> 9999 ISK </label>
+    <label> {{ totalPrice | number }} ISK </label>
   </div>
 
   <table class="table table-condensed table-responsive table-hover mt-10">
@@ -43,11 +43,11 @@
   <tbody>
     <tr ng-repeat="row in items">
       <td> <img ng-src="{{ row.image_path }}" class="img-responsive"/> </td>
-      <td> {{ row.name }} </td>
-      <td> {{ row.quantity }} </td>
-      <td> {{ row.volume }} </td>
-      <td> {{ row.unit_price }} </td>
-      <td> {{ row.price }} </td>
+      <td> {{ row.item_name }} </td>
+      <td> {{ row.quantity | number }} </td>
+      <td> {{ row.volume | number }} </td>
+      <td> {{ row.unit_price | number }} </td>
+      <td> {{ row.price | number }} </td>
     </tr>
   </tbody>
 </table>

@@ -13,6 +13,26 @@
 
 ActiveRecord::Schema.define(version: 0) do
 
+  create_table "order_details", force: :cascade do |t|
+    t.integer  "order_id",   limit: 4,                                        null: false
+    t.integer  "item_id",    limit: 4,                                        null: false
+    t.decimal  "unit_price",           precision: 15, scale: 3, default: 0.0, null: false
+    t.integer  "quantity",   limit: 4,                                        null: false
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
+  end
+
+  add_index "order_details", ["order_id"], name: "order_details_order_id_fk", using: :btree
+
+  create_table "orders", force: :cascade do |t|
+    t.decimal  "total_price",                   precision: 15, scale: 3, default: 0.0,       null: false
+    t.string   "processing_status", limit: 255,                          default: "waiting", null: false
+    t.integer  "order_by",          limit: 4,                                                null: false
+    t.integer  "assigned_user_id",  limit: 4,                                                null: false
+    t.datetime "created_at",                                                                 null: false
+    t.datetime "updated_at",                                                                 null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "uid",                    limit: 255,              null: false
     t.string   "name",                   limit: 255
@@ -34,4 +54,5 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at",                                      null: false
   end
 
+  add_foreign_key "order_details", "orders", name: "order_details_order_id_fk"
 end
