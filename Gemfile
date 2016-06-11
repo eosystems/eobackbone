@@ -32,6 +32,8 @@ gem 'rest-client'
 gem "omniauth-oauth2"
 gem "omniauth-eveonline"
 gem 'devise'
+#環境設定
+gem 'dotenv-rails'
 
 group :development do
   gem 'spring'
