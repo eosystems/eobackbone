@@ -93,14 +93,17 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "order_details", ["order_id"], name: "order_details_order_id_fk", using: :btree
 
   create_table "orders", force: :cascade do |t|
-    t.decimal  "total_price",                   precision: 20, scale: 4, default: 0.0,          null: false
-    t.decimal  "sell_price",                    precision: 20, scale: 4, default: 0.0,          null: false
-    t.decimal  "total_volume",                  precision: 20, scale: 4, default: 0.0,          null: false
-    t.string   "processing_status", limit: 255,                          default: "in_process", null: false
-    t.integer  "order_by",          limit: 4,                                                   null: false
+    t.decimal  "total_price",                     precision: 20, scale: 4, default: 0.0,          null: false
+    t.decimal  "sell_price",                      precision: 20, scale: 4, default: 0.0,          null: false
+    t.decimal  "total_volume",                    precision: 20, scale: 4, default: 0.0,          null: false
+    t.boolean  "is_credit",                                                default: false,        null: false
+    t.string   "processing_status", limit: 255,                            default: "in_process", null: false
+    t.integer  "station_id",        limit: 4
+    t.integer  "order_by",          limit: 4,                                                     null: false
     t.integer  "assigned_user_id",  limit: 4
-    t.datetime "created_at",                                                                    null: false
-    t.datetime "updated_at",                                                                    null: false
+    t.text     "note",              limit: 65535
+    t.datetime "created_at",                                                                      null: false
+    t.datetime "updated_at",                                                                      null: false
   end
 
   create_table "sta_stations", force: :cascade do |t|

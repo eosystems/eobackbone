@@ -192,3 +192,22 @@ table .deleted .deletable a {
   font-size: 100%;
   font-weight: normal;
 }
+
+// ui-select
+.select2 > .select2-choice.ui-select-match {
+  height: 29px;
+}
+
+.selectize-control > .selectize-dropdown {
+  top: 36px;
+}
+.select-box {
+  background: #fff;
+  position: relative;
+  z-index: 1;
+}
+.alert-info.positioned {
+  margin-top: 1em;
+  position: relative;
+  z-index: 10000;
+}

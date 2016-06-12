@@ -3,12 +3,14 @@
 angular.module('eoApp', [
   'ngResource',
   'ui.router',
+  'ui.select',
   'ui.bootstrap',
   'ngTable',
   'chart.js',
   'ngAnimate',
   'toastr',
   'ngDragDrop',
+  'ngSanitize',
   'darthwade.dwLoading'
 ]).config(['$stateProvider', '$urlRouterProvider', '$sceProvider', 'toastrConfig', '$httpProvider',
   function ($stateProvider, $urlRouterProvider, $sceProvider, toastrConfig, $httpProvider) {

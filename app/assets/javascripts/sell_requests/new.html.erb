@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="sellRequestsController as src">
 <div class="row">
 
 <div class="col-md-6">
@@ -18,24 +18,60 @@
 </div>
 
 <div class="col-md-6">
-  <div class="loading" dw-loading="loading" dw-loading-options="{text: 'Loading...'}">
-  <!-- メモ: 何故かloadingで囲うとng-modelが動かなくなることがある。何かあったら削除 -->
-
   <h2>Items</h2>
 
   <div class="text-right">
     <button id="get-inventory-info" class="btn btn-primary" ng-click="requestConfirm()">Sell Request</button>
   </div>
 
-  <div class="form-group">
-    <label>Total Sell Price: </label>
-    <label> {{ sellPrice | number }} ISK </label>
-  </div>
-  <div class="form-group">
-    <label>Total Volume: </label>
-    <label> {{ totalVolume | number }} m3</label>
-  </div>
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Total Volume:</label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ totalVolume | number }} m3</p>
+      </div>
+    </div>
+    <div class="form-group form-inline">
+      <label class="col-sm-3 control-label">Total Sell Price:</label>
+      <div class="col-sm-9">
+        <input class="form-control" ng-model="sellPrice"></input> ISK
+      </div>
+    </div>
+    <div class="form-group form-inline">
+      <label class="col-sm-3 control-label">Payment Method:</label>
+      <div class="col-sm-9">
+        <div class="btn-group">
+          <label class="btn btn-success" ng-model="paymentMethod" uib-btn-radio="'credit'">掛売</label>
+          <label class="btn btn-success" ng-model="paymentMethod" uib-btn-radio="'immediate'">即時</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-3 control-label">Contract Location:</label>
+      <div class="col-xs-9">
+        <ui-select ng-model="src.contractLocation">
+          <ui-select-match placeholder="Select Contract Location ...">
+            <span>{{ src.contractLocation.station_name }}</span>
+          </ui-select-match>
 
+          <ui-select-choices repeat="loc in locations"
+            refresh="searchLocation($select.search)"
+            refresh-delay="0">
+            <span>{{ loc.station_name }}</span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-3 control-label">Note:</label>
+      <div class="col-xs-9">
+        <textarea class="form-control mt-10" rows="3" ng-model="note">
+        </textarea>
+      </div>
+    </div>
+
+
+  </form>
 
   <table class="table table-condensed table-responsive table-hover mt-10">
   <thead>
@@ -59,7 +95,6 @@
     </tr>
   </tbody>
 </table>
-</div>
 </div>
 
 

@@ -2,8 +2,8 @@
 #
 # Table name: inv_types
 #
-#  id              :integer          not null, primary key
-#  type_id         :integer          not null
+#  id              :integer          not null
+#  type_id         :integer          not null, primary key
 #  group_id        :integer
 #  type_name       :string(255)
 #  description     :text(65535)
@@ -14,4 +14,5 @@
 #
 
 class InvType < ActiveRecord::Base
+  self.primary_key = 'type_id'
 end
