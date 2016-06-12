@@ -1,5 +1,6 @@
 'use strict';
 
+// TODO: できるだけ $scopeの変数を使わずthisに置き換える 不具合が起こるので
 angular.module('eoApp')
 
 .controller(
@@ -11,6 +12,9 @@ angular.module('eoApp')
         method: 'POST'
       }
     });
+    var LocationApi = $resource("/api/locations", {});
+
+    var that = this;
 
     // Retrieval
     $scope.totalPrice = 0.0;
@@ -28,6 +32,14 @@ angular.module('eoApp')
         }
       }, function(error) {
           toastr.error("Something Wrong.", "Error");
+      });
+    };
+
+    // Location Suggest
+    this.contractLocation = null;
+    $scope.searchLocation = function(loc) {
+      LocationApi.get({ keyword: loc }).$promise.then(function(data) {
+        $scope.locations = data.results;
       });
     };
 

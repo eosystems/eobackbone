@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="sellRequestsController as src">
 <div class="row">
 
 <div class="col-md-6">
@@ -49,6 +49,17 @@
     <div class="form-group">
       <label class="col-xs-3 control-label">Contract Location:</label>
       <div class="col-xs-9">
+        <ui-select ng-model="src.contractLocation">
+          <ui-select-match placeholder="Select Contract Location ...">
+            <span>{{ src.contractLocation.station_name }}</span>
+          </ui-select-match>
+
+          <ui-select-choices repeat="loc in locations"
+            refresh="searchLocation($select.search)"
+            refresh-delay="0">
+            <span>{{ loc.station_name }}</span>
+          </ui-select-choices>
+        </ui-select>
       </div>
     </div>
     <div class="form-group">
