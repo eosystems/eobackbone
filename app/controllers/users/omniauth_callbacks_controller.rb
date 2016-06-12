@@ -10,7 +10,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     session[:access_token] = token
     session[:expires_at] = auth["credentials"]["expires_at"]
     session[:refresh_token] = auth["credentials"]["refresh_token"]
-
+    session[:character] = User.get_character_account_read(get_token, @user.uid)
     if @user.persisted?
         sign_in_and_redirect @user, :event => :authentication
         set_flash_message(:notice, :success, :kind => "Eve Online") if is_navigational_format?
