@@ -27,6 +27,7 @@
 //= require angular-toastr/dist/angular-toastr.tpls
 //= require angular-loading/angular-loading.min
 //= require angular-ui-select/dist/select
+//= require angular-sanitize/angular-sanitize.min
 //= require common
 //
 //= require eobackbone
