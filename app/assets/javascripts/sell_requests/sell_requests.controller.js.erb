@@ -67,7 +67,13 @@ angular.module('eoApp')
         function(result) {
           toastr.info("Send Sell Request", "Request");
 
-          Api.create({ form: $scope.retrievalForm }).$promise.then(function(data) {
+          var orderForm = {
+            sell_price: $scope.sellPrice,
+            is_credit: $scope.paymentMethod == "credit",
+            station_id: $scope.contractLocation ? that.contractLocation.station_id : null,
+            note: $scope.note
+          };
+          Api.create({ form: $scope.retrievalForm, order: orderForm }).$promise.then(function(data) {
             toastr.success("Request Accepted", "Success");
 
             $location.path("/orders");

@@ -11,6 +11,7 @@ class Api::SellOrdersController < ApiController
   def create
     @order = InventoryParseService.new.parse(params[:form])
     @order.retrieval!
+    @order.attributes = permitted_attributes
     @order.order_by = current_user.id
 
     if @order.save
@@ -18,5 +19,13 @@ class Api::SellOrdersController < ApiController
     else
       render json: { error: "Cannot parse" }, status: 500
     end
+  end
+
+  private
+
+  def permitted_attributes
+    params
+      .require(:order)
+      .permit(:sell_price, :is_credit, :station_id, :note)
   end
 end
