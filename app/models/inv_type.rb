@@ -14,4 +14,5 @@
 #
 
 class InvType < ActiveRecord::Base
+  self.primary_key = 'type_id'
 end
