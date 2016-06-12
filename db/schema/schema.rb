@@ -6,8 +6,10 @@ end
 
 create_table :orders, collate: "utf8_bin", comment: "注文" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
-  t.decimal :total_price, default: "0.000", precision: 15, scale: 3, comment: "注文合計額"
-  t.varchar :processing_status, default: "waiting", comment: "処理ステータス"
+  t.decimal :total_price, default: "0.0000", precision: 20, scale: 4, comment: "注文合計額"
+  t.decimal :sell_price, default: "0.0000", precision: 20, scale: 4, comment: "買取合計額\t注文価格から一定の係数をかけて買取価格とする"
+  t.decimal :total_volume, default: "0.0000", precision: 20, scale: 4, comment: "注文合計容量"
+  t.varchar :processing_status, default: "in_process", comment: "処理ステータス"
   t.int :order_by, comment: "申請ユーザId"
   t.int :assigned_user_id, null: true, comment: "注文処理ユーザId"
 
@@ -19,8 +21,10 @@ create_table :order_details, collate: "utf8_bin", comment: "注文明細" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
   t.int :order_id
   t.int :item_id, comment: "商品Id"
-  t.decimal :unit_price, default: "0.000", precision: 15, scale: 3, comment: "単価"
+  t.decimal :unit_price, default: "0.0000", precision: 20, scale: 4, comment: "単価"
+  t.decimal :sell_unit_price, default: "0.0000", precision: 20, scale: 4, comment: "買取単価"
   t.int :quantity, comment: "数量"
+  t.decimal :volume, default: "0.0000", precision: 20, scale: 4, comment: "容量"
 
   t.datetime :created_at
   t.datetime :updated_at
@@ -77,22 +81,22 @@ end
 
 create_table :market_orders, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
-  t.bigint "order_id"
-  t.int "type_id"
-  t.boolean "buy", null: true
-  t.datetime "issued", null: true
-  t.decimal "price", null: true, precision: 20, scale: 4
-  t.int "volume_entered", null: true
-  t.int "station_id", null: true
-  t.int "volume", null: true
-  t.varchar "range", null: true
-  t.int "min_volume", null: true
-  t.int "duration", null: true
-  t.datetime "created_at", null: true
-  t.datetime "updated_at", null: true
+  t.bigint :order_id
+  t.int :type_id
+  t.boolean :buy, null: true
+  t.datetime :issued, null: true
+  t.decimal :price, null: true, precision: 20, scale: 4
+  t.int :volume_entered, null: true
+  t.int :station_id, null: true
+  t.int :volume, null: true
+  t.varchar :range, null: true
+  t.int :min_volume, null: true
+  t.int :duration, null: true
+  t.datetime :created_at, null: true
+  t.datetime :updated_at, null: true
 
 
-  t.index ["type_id", "buy", "station_id"], name: "index_type_id_and_buy_and_station_id"
+  t.index [:type_id, :buy, :station_id], name: "index_type_id_and_buy_and_station_id"
 end
 
 

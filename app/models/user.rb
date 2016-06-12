@@ -41,4 +41,9 @@ class User < ActiveRecord::Base
   def email_required?
     false
   end
+
+  # 契約管理権限を持っているか
+  def has_contract_management_authority?
+    true # TODO: FIXME
+  end
 end

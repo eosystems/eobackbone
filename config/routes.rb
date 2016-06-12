@@ -8,5 +8,6 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     resources :sell_orders, only: [:index, :create]
+    resources :orders, only: [:index, :show, :update]
   end
 end

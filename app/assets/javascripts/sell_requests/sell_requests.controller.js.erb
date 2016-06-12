@@ -14,10 +14,14 @@ angular.module('eoApp')
 
     // Retrieval
     $scope.totalPrice = 0.0;
+    $scope.totalVolume = 0.0;
+    $scope.sellPrice = 0.0;
     $scope.retrievalItems = function() {
       return Api.get({ form: $scope.retrievalForm }).$promise.then(function(data) {
         if (data.result) {
           $scope.totalPrice = data.result.total_price;
+          $scope.sellPrice = data.result.sell_price;
+          $scope.totalVolume = data.result.total_volume;
           $scope.items = data.result.order_details;
           toastr.success("Retrieval Success", "Success");
         }
@@ -52,11 +56,10 @@ angular.module('eoApp')
           toastr.info("Send Sell Request", "Request");
 
           Api.create({ form: $scope.retrievalForm }).$promise.then(function(data) {
-            // TODO: /dashboard ではなくorders に移動するようにする
             toastr.success("Request Accepted", "Success");
             $loading.finish("loading");
 
-            $location.path("/dashboard");
+            $location.path("/orders");
           }, function(error) {
             $loading.finish("loading");
             toastr.error("Something wrong.", "Error");
