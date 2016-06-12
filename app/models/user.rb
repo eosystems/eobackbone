@@ -25,6 +25,7 @@
 
 class User < ActiveRecord::Base
   devise :database_authenticatable, :rememberable, :trackable, :validatable, :omniauthable
+  has_one :user_detail
 
   def self.find_for_eve_online_oauth(auth)
     user = User.where(provider: auth.provider, uid: auth.uid).first

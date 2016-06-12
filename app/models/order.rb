@@ -9,7 +9,6 @@
 #  is_credit         :boolean          default(FALSE), not null
 #  processing_status :string(255)      default("in_process"), not null
 #  station_id        :integer
-#  processing_status :string(255)      default("in_process"), not null
 #  order_by          :integer          not null
 #  assigned_user_id  :integer
 #  note              :text(65535)

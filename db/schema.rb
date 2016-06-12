@@ -120,6 +120,12 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "sta_stations", ["solar_system_id"], name: "index_solar_system_id", using: :btree
   add_index "sta_stations", ["station_id"], name: "index_station_id", using: :btree
 
+  create_table "user_details", force: :cascade do |t|
+    t.integer "user_id",        limit: 4, null: false
+    t.integer "corporation_id", limit: 4
+    t.integer "alliance_id",    limit: 4
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "uid",                    limit: 255,              null: false
     t.string   "name",                   limit: 255
