@@ -70,7 +70,7 @@ angular.module('eoApp')
           var orderForm = {
             sell_price: $scope.sellPrice,
             is_credit: $scope.paymentMethod == "credit",
-            station_id: $scope.contractLocation ? that.contractLocation.station_id : null,
+            station_id: that.contractLocation != null ? that.contractLocation.station_id : null,
             note: $scope.note
           };
           Api.create({ form: $scope.retrievalForm, order: orderForm }).$promise.then(function(data) {
