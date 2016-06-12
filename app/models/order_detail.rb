@@ -14,7 +14,7 @@
 #
 
 class OrderDetail < ActiveRecord::Base
-  IMAGE_SERVER_PATH = "https://image.eveonline.com/Type/%d_64.png".freeze
+  IMAGE_SERVER_PATH = "https://image.eveonline.com/Type/%d_32.png".freeze
   # 買取価格係数 元の価格に一定係数かけたものを買取額とする
   PURCHASE_FACTOR = 0.9
 
