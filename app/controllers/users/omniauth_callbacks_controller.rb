@@ -2,7 +2,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def eve_online
     @user = User.find_for_eve_online_oauth(request.env['omniauth.auth'])
     #id,name setting
-    session[:user_id] = @user.uid
+    session[:user_id] = @user.id
     session[:user_name] = @user.name
     #GET access token
     auth = request.env["omniauth.auth"]
