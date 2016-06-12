@@ -18,9 +18,6 @@
 </div>
 
 <div class="col-md-6">
-  <div class="loading" dw-loading="loading" dw-loading-options="{text: 'Loading...'}">
-  <!-- メモ: 何故かloadingで囲うとng-modelが動かなくなることがある。何かあったら削除 -->
-
   <h2>Items</h2>
 
   <div class="text-right">
@@ -28,12 +25,15 @@
   </div>
 
   <div class="form-group">
-    <label>Total Sell Price: </label>
-    <label> {{ sellPrice | number }} ISK </label>
-  </div>
-  <div class="form-group">
     <label>Total Volume: </label>
     <label> {{ totalVolume | number }} m3</label>
+  </div>
+
+  <div class="form-inline">
+  <div class="form-group">
+    <label>Total Sell Price: </label>
+    <input class="form-control" ng-model="sellPrice"></input> ISK
+  </div>
   </div>
 
 
@@ -59,7 +59,6 @@
     </tr>
   </tbody>
 </table>
-</div>
 </div>
 
 

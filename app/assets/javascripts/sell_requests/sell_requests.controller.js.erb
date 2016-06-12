@@ -52,16 +52,13 @@ angular.module('eoApp')
         },
         // request
         function(result) {
-          $loading.start("loading");
           toastr.info("Send Sell Request", "Request");
 
           Api.create({ form: $scope.retrievalForm }).$promise.then(function(data) {
             toastr.success("Request Accepted", "Success");
-            $loading.finish("loading");
 
             $location.path("/orders");
           }, function(error) {
-            $loading.finish("loading");
             toastr.error("Something wrong.", "Error");
           });
         }
