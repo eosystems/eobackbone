@@ -18,6 +18,16 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       corp.corporation_name = session[:character].corporation_name
       corp.save!
     end
+
+    # user情報更新
+    user_detail = UserDetail.find_or_initialize_by(user_id: User.find_by_uid(@user.uid))
+    user_detail.attributes = {
+      user_id: @user.id,
+      corporation_id: session[:character].corporation_id,
+      alliance_id: session[:character].alliance_id,
+    }
+    user_detail.save!
+
     if @user.persisted?
         sign_in_and_redirect @user, :event => :authentication
         set_flash_message(:notice, :success, :kind => "Eve Online") if is_navigational_format?
