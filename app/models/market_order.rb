@@ -33,5 +33,8 @@ class MarketOrder < ActiveRecord::Base
   def self.jita_buy_price(item_id)
     orders = self.jita_buy_orders(item_id)
     orders.map(&:price).max
+    if orders.size == 0
+      0.0
+    end
   end
 end
