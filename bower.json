@@ -12,7 +12,8 @@
       "angular-animate": "latest",
       "angular-toastr": "latest",
       "angular-dragdrop": "latest",
-      "angular-loading": "latest"
+      "angular-loading": "latest",
+      "angular-ui-select": "latest"
     }
   }
 }
