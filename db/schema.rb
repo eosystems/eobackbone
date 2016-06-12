@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer  "station_id",        limit: 4
     t.integer  "order_by",          limit: 4,                                                     null: false
     t.integer  "assigned_user_id",  limit: 4
+    t.integer  "corporation_id",    limit: 4
     t.text     "note",              limit: 65535
     t.datetime "created_at",                                                                      null: false
     t.datetime "updated_at",                                                                      null: false

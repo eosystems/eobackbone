@@ -26,6 +26,7 @@ class Order < ActiveRecord::Base
 
   # Relations
   has_many :order_details
+  belongs_to :corp, foreign_key: "corporation_id"
 
   def retrieval!
     self.order_details.each(&:retrieval!)

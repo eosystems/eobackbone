@@ -14,6 +14,7 @@ create_table :orders, collate: "utf8_bin", comment: "注文" do |t|
   t.int :station_id, null: true, comment: "契約場所"
   t.int :order_by, comment: "申請ユーザId"
   t.int :assigned_user_id, null: true, comment: "注文処理ユーザId"
+  t.int :corporation_id, null: true, comment: "参照範囲用コープId"
   t.text :note, null: true, comment: "メモ"
 
   t.datetime :created_at
