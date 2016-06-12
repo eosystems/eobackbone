@@ -16,6 +16,7 @@ angular.module('eoApp')
     $scope.totalPrice = 0.0;
     $scope.totalVolume = 0.0;
     $scope.sellPrice = 0.0;
+    $scope.paymentMethod = "credit";
     $scope.retrievalItems = function() {
       return Api.get({ form: $scope.retrievalForm }).$promise.then(function(data) {
         if (data.result) {
