@@ -13,6 +13,10 @@
 
 ActiveRecord::Schema.define(version: 0) do
 
+  create_table "corps", primary_key: "corporation_id", force: :cascade do |t|
+    t.string "corporation_name", limit: 255, null: false
+  end
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   limit: 4,     default: 0, null: false
     t.integer  "attempts",   limit: 4,     default: 0, null: false

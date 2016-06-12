@@ -64,6 +64,11 @@ create_table :users, collate: "utf8_bin" do |t|
 
 end
 
+create_table :corps, collate: "utf8_bin" do |t|
+  t.int :corporation_id, primary_key: true
+  t.varchar :corporation_name
+end
+
 create_table :delayed_jobs, comment: 'Delayed Job' do |t|
   t.int :id, primary_key: true, extra: 'auto_increment'
   t.int :priority, default: 0, null: false
