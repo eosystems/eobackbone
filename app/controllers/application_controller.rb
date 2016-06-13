@@ -29,6 +29,10 @@ class ApplicationController < ActionController::Base
     session[:user_id]
   end
 
+  def get_current_corporation_id
+    session[:character]["corporation_id"]
+  end
+
   def refresh_token
     response = RestClient.post "https://login.eveonline.com/oauth/token",
                                :grant_type => 'refresh_token',
