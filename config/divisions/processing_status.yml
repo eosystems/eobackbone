@@ -1,6 +1,6 @@
 - id: in_process
   name: In Process
-- id: Done
+- id: done
   name: Done
 - id: canceled
   name: Canceled
