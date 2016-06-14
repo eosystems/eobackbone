@@ -1,4 +1,5 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  # TODO: 要リファクタ
   def eve_online
     @user = User.find_for_eve_online_oauth(request.env['omniauth.auth'])
     auth = request.env["omniauth.auth"]
@@ -30,8 +31,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user_detail.save!
 
     if @user.persisted?
-        sign_in_and_redirect @user, :event => :authentication
-        set_flash_message(:notice, :success, :kind => "Eve Online") if is_navigational_format?
+      sign_in_and_redirect @user, event: :authentication
+      set_flash_message(:notice, :success, kind: "Eve Online") if is_navigational_format?
     end
   end
 end
