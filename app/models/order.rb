@@ -20,7 +20,7 @@
 class Order < ActiveRecord::Base
   include NgTableSearchable
 
-  attr_accessor :management
+  attr_accessor :management_done, :management_cancel, :management_reject, :management_in_process
 
   RANSACK_FILTER_ATTRIBUTES = {
     id: :id_eq_any,
@@ -61,4 +61,12 @@ class Order < ActiveRecord::Base
         .where(order_by: user.id)
     end
   end
+
+  # order 操作権限判断
+  # 返却値 [in_process, reject, cancel, done]
+  def get_order_permit(user_id)
+
+    [true,true,true,true]
+  end
+
 end

@@ -67,8 +67,11 @@ angular.module('eoApp')
     $scope.loadDetail = function() {
       DetailApi.get({id: $scope.selectedId}).$promise.then(function(data) {
         $scope.orderDetails = data.results.order_details;
-        // Done 操作権限
-        $scope.management = data.results.management;
+        // 各種操作権限
+        $scope.management_done = data.results.management_done;
+        $scope.management_cancel = data.results.management_cancel;
+        $scope.management_reject = data.results.management_reject;
+        $scope.management_in_process = data.results.management_in_process;
       });
     }
 
