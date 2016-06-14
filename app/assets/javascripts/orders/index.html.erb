@@ -46,7 +46,7 @@
     <button class="btn btn-normal"  ng-click="updateStatus('in_process')">In Process</button>
     <button class="btn btn-normal"  ng-click="updateStatus('reject')">Reject</button>
     <button class="btn btn-normal"  ng-click="updateStatus('canceled')">Cancel</button>
-    <button class="btn btn-primary" ng-click="updateStatus('done')">Done</button>
+    <button class="btn btn-primary" ng-click="updateStatus('done')" ng-class="{disabled : !management}">Done</button>
   </div>
 
   <table class="table table-condensed table-responsive table-hover mt-10">
