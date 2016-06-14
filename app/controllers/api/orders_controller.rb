@@ -20,7 +20,7 @@ class Api::OrdersController < ApiController
       @order.management_reject,
       @order.management_cancel,
       @order.management_done =
-      @order.get_order_permit(get_current_user_id)
+      @order.get_order_permit(current_user.id)
   end
 
   def update
