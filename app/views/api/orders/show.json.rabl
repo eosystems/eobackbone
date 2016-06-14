@@ -4,6 +4,7 @@ child @order => :results do
   attributes :total_price
   attributes :sell_price
   attributes :total_volume
+  attributes :management
 
   child :order_details do
     attributes :item_id, :unit_price,

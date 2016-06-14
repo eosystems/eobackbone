@@ -20,6 +20,8 @@
 class Order < ActiveRecord::Base
   include NgTableSearchable
 
+  attr_accessor :management
+
   RANSACK_FILTER_ATTRIBUTES = {
     id: :id_eq_any,
     processing_status: :processing_status_eq,
