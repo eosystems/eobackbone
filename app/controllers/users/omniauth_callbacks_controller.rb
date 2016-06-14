@@ -12,8 +12,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     session[:refresh_token] = auth["credentials"]["refresh_token"]
     session[:character] = User.get_character_account_read(get_token, @user.uid)
     # corp 初回
-    if Corp.find_by_corporation_id(session[:character].corporation_id).nil? && session[:character].corporation_id.present?
-      corp = Corp.new
+    if Corporation.find_by_corporation_id(session[:character].corporation_id).nil? && session[:character].corporation_id.present?
+      corp = Corporation.new
       corp.corporation_id = session[:character].corporation_id
       corp.corporation_name = session[:character].corporation_name
       corp.save!
