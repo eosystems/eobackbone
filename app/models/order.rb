@@ -31,6 +31,15 @@ class Order < ActiveRecord::Base
   has_many :order_details
   belongs_to :corp, foreign_key: "corporation_id"
 
+  # Scopes
+
+  # 指定したCorpに属している、または指定したユーザIDが出した注文であれば参照可能
+  scope :accessable_orders, -> (corporation_id, user_id) do
+    cid = arel_table[:corporation_id]
+    order_by = arel_table[:order_by]
+    where(cid.eq(corporation_id).or(order_by.eq(user_id)))
+  end
+
   def retrieval!
     self.order_details.each(&:retrieval!)
     self.total_volume = order_details.map(&:volume).sum
