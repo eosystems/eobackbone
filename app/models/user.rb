@@ -49,17 +49,4 @@ class User < ActiveRecord::Base
   def has_contract_management_authority?
     true # TODO: FIXME
   end
-
-  def self.get_character_account_read(token, account_id)
-    account_info = token.get('https://api.eveonline.com/eve/CharacterInfo.xml.aspx?characterID=' + account_id)
-    result = Hash.from_xml(account_info.body)["eveapi"]["result"]
-    character = Character.new
-    character.character_id = result["characterID"]
-    character.character_name = result["characterName"]
-    character.corporation_id = result["corporationID"] if result["corporationID"].present?
-    character.corporation_name = result["corporation"] if result["corporation"].present?
-    character.alliance_id = result["allianceID"] if result["allianceID"].present?
-    character.alliance_name = result["alliance"] if result["alliance"].present?
-    character
-  end
 end
