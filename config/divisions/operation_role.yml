@@ -1,0 +1,6 @@
+- id: 0
+  type: admin
+  name: Administrator Role
+- id: 1
+  type: contract
+  name: Contracting Officer

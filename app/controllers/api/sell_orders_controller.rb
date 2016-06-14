@@ -13,6 +13,7 @@ class Api::SellOrdersController < ApiController
     @order.retrieval!
     @order.attributes = permitted_attributes
     @order.order_by = current_user.id
+    @order.corporation_id = get_current_corporation_id
 
     if @order.save
       render json: { message: "success" }

@@ -13,6 +13,10 @@
 
 ActiveRecord::Schema.define(version: 0) do
 
+  create_table "corps", primary_key: "corporation_id", force: :cascade do |t|
+    t.string "corporation_name", limit: 255, null: false
+  end
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   limit: 4,     default: 0, null: false
     t.integer  "attempts",   limit: 4,     default: 0, null: false
@@ -101,6 +105,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer  "station_id",        limit: 4
     t.integer  "order_by",          limit: 4,                                                     null: false
     t.integer  "assigned_user_id",  limit: 4
+    t.integer  "corporation_id",    limit: 4
     t.text     "note",              limit: 65535
     t.datetime "created_at",                                                                      null: false
     t.datetime "updated_at",                                                                      null: false
@@ -115,6 +120,17 @@ ActiveRecord::Schema.define(version: 0) do
 
   add_index "sta_stations", ["solar_system_id"], name: "index_solar_system_id", using: :btree
   add_index "sta_stations", ["station_id"], name: "index_station_id", using: :btree
+
+  create_table "user_details", force: :cascade do |t|
+    t.integer "user_id",        limit: 4, null: false
+    t.integer "corporation_id", limit: 4
+    t.integer "alliance_id",    limit: 4
+  end
+
+  create_table "user_roles", force: :cascade do |t|
+    t.integer "user_id", limit: 4, null: false
+    t.integer "role",    limit: 4
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "uid",                    limit: 255,              null: false

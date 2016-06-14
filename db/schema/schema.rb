@@ -14,6 +14,7 @@ create_table :orders, collate: "utf8_bin", comment: "注文" do |t|
   t.int :station_id, null: true, comment: "契約場所"
   t.int :order_by, comment: "申請ユーザId"
   t.int :assigned_user_id, null: true, comment: "注文処理ユーザId"
+  t.int :corporation_id, null: true, comment: "参照範囲用コープId"
   t.text :note, null: true, comment: "メモ"
 
   t.datetime :created_at
@@ -62,6 +63,24 @@ create_table :users, collate: "utf8_bin" do |t|
   t.datetime :created_at
   t.datetime :updated_at
 
+end
+
+create_table :user_details, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.int :user_id
+  t.int :corporation_id, null: true
+  t.int :alliance_id, null: true
+end
+
+create_table :user_roles, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.int :user_id
+  t.int :role, null: true
+end
+
+create_table :corps, collate: "utf8_bin" do |t|
+  t.int :corporation_id, primary_key: true
+  t.varchar :corporation_name
 end
 
 create_table :delayed_jobs, comment: 'Delayed Job' do |t|
