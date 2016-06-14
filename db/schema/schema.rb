@@ -72,6 +72,12 @@ create_table :user_details, collate: "utf8_bin" do |t|
   t.int :alliance_id, null: true
 end
 
+create_table :user_roles, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.int :user_id
+  t.int :role, null: true
+end
+
 create_table :corps, collate: "utf8_bin" do |t|
   t.int :corporation_id, primary_key: true
   t.varchar :corporation_name

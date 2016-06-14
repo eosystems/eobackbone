@@ -11,6 +11,7 @@
 #  station_id        :integer
 #  order_by          :integer          not null
 #  assigned_user_id  :integer
+#  corporation_id    :integer
 #  note              :text(65535)
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null

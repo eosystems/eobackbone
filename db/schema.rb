@@ -127,6 +127,11 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer "alliance_id",    limit: 4
   end
 
+  create_table "user_roles", force: :cascade do |t|
+    t.integer "user_id", limit: 4, null: false
+    t.integer "role",    limit: 4
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "uid",                    limit: 255,              null: false
     t.string   "name",                   limit: 255
