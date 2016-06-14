@@ -71,57 +71,35 @@ class Order < ActiveRecord::Base
     end
   end
 
-  # order 操作権限判断
-  # 返却値 [in_process, reject, cancel, done]
-  def get_order_permit(user_id)
-    in_process = true
-    reject = false
-    cancel = false
-    done = false
-
-    # in_process
-    # ステータスがdone/reject かつ 契約管理権限を持っていない場合は操作不可
-    if ((self.processing_status == ProcessingStatus::DONE.id ||
-        self.processing_status == ProcessingStatus::REJECT.id) &&
-       !UserRole.has_contract_role(user_id))
-      in_process = false
-    end
-
-    # reject
-    # 契約管理権限を持っている場合は操作可能
-    if UserRole.has_contract_role(user_id)
-      reject = true
-    end
-
-    # cancel
-    # 自分のオーダー かつ in_process であれば操作可能
-    if my_order?(user_id) && self.processing_status == ProcessingStatus::IN_PROCESS.id
-      cancel = true
-    end
-
-    # done
-    # 契約管理権限を持っている場合は操作可能
-    if UserRole.has_contract_role(user_id)
-      done = true
-    end
-
-    # 全体操作
-    # 自分のオーダーではない かつ 契約管理権限を持っていない場合は操作不可
-    if !my_order?(user_id) && !UserRole.has_contract_role(user_id)
-      in_process = false
-      reject = false
-      cancel = false
-      done = false
-    end
-
-    [in_process, reject, cancel, done]
+  # In Processに変更可能か
+  # - ユーザが契約管理権限を持っていない場合は In Process には戻せない
+  # - ステータスがDone または Rejectの場合は In Processには変更不可
+  def can_change_to_in_process?(user)
+    return false unless user.has_contract_role?
+    (self.processing_status != ProcessingStatus::DONE.id &&
+     self.processing_status != ProcessingStatus::REJECT.id)
   end
 
-  def my_order?(user_id)
-   if user_id == self.order_by
-     true
-   else
-     false
-   end
+  # Rejectに変更可能か
+  # - 契約管理権限を持っている場合は操作可能
+  def can_change_to_reject?(user)
+    user.has_contract_role?
+  end
+
+  # Cancelに変更可能か
+  # - 自分のオーダー かつ in_process であれば操作可能
+  def can_change_to_cancel?(user)
+    my_order?(user) && self.processing_status == ProcessingStatus::IN_PROCESS.id
+  end
+
+  # Doneに変更可能か
+  # - 契約管理権限を持っている場合は操作可能
+  def can_change_to_done?(user)
+    user.has_contract_role?
+  end
+
+  def my_order?(user)
+    return false unless user.present?
+    user.id == self.order_by
   end
 end
