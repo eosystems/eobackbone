@@ -47,6 +47,11 @@ class User < ActiveRecord::Base
 
   # 契約管理権限を持っているか
   def has_contract_management_authority?
-    true # TODO: FIXME
+    has_contract_role?
+  end
+
+  # 契約管理権限を持っているか
+  def has_contract_role?
+    UserRole.exists?(user_id: self.id, role: OperationRole::CONTRACT.id)
   end
 end
