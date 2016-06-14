@@ -28,15 +28,17 @@ class User < ActiveRecord::Base
   has_one :user_detail
 
   def self.find_for_eve_online_oauth(auth)
-    user = User.where(provider: auth.provider, uid: auth.uid).first
+    user = User.find_by(provider: auth.provider, uid: auth.uid)
     unless user
-      user = User.create(name: auth.info.character_name,
-                         provider: auth.provider,
-                         uid: auth.uid,
-                         token: auth.credentials.token,
-                         password: Devise.friendly_token[0,20])
+      user = User.create(
+        name: auth.info.character_name,
+        provider: auth.provider,
+        uid: auth.uid,
+        token: auth.credentials.token,
+        password: Devise.friendly_token[0, 20]
+      )
     end
-    return user
+    user
   end
 
   def email_required?
