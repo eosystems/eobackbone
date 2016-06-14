@@ -65,8 +65,54 @@ class Order < ActiveRecord::Base
   # order 操作権限判断
   # 返却値 [in_process, reject, cancel, done]
   def get_order_permit(user_id)
+    in_process = true
+    reject = false
+    cancel = false
+    done = false
 
-    [true,true,true,true]
+    # in_process
+    # ステータスがdone/reject かつ 契約管理権限を持っていない場合は操作不可
+    if ((self.processing_status == ProcessingStatus::DONE.id ||
+        self.processing_status == ProcessingStatus::REJECT.id) &&
+       !UserRole.has_contract_role(user_id))
+      in_process = false
+    end
+
+    # reject
+    # 契約管理権限を持っている場合は操作可能
+    if UserRole.has_contract_role(user_id)
+      reject = true
+    end
+
+    # cancel
+    # 自分のオーダー かつ in_process であれば操作可能
+    if my_order?(user_id) && self.processing_status == ProcessingStatus::IN_PROCESS.id
+      cancel = true
+    end
+
+    # done
+    # 契約管理権限を持っている場合は操作可能
+    if UserRole.has_contract_role(user_id)
+      done = true
+    end
+
+    # 全体操作
+    # 自分のオーダーではない かつ 契約管理権限を持っていない場合は操作不可
+    if !my_order?(user_id) && !UserRole.has_contract_role(user_id)
+      in_process = false
+      reject = false
+      cancel = false
+      done = false
+    end
+
+    [in_process, reject, cancel, done]
   end
 
+  def my_order?(user_id)
+   if user_id == self.order_by
+     true
+   else
+     false
+   end
+  end
 end
