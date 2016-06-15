@@ -28,7 +28,7 @@ set :log_level, :debug
 set :pty, true
 
 # Shared
-set :linked_files, %w{config/database.yml config/secrets.yml .env}
+set :linked_files, %w{config/database.yml config/secrets.yml config/settings.yml}
 set :linked_dirs, %w{log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
 # RVM
