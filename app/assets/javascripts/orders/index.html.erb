@@ -43,10 +43,14 @@
   <h2>Order Detail (#{{selectedId}})</h2>
 
   <div class="text-right">
-    <button class="btn btn-normal"  ng-click="updateStatus('in_process')" ng-class="{disabled : !management_in_process}">In Process</button>
-    <button class="btn btn-normal"  ng-click="updateStatus('reject')" ng-class="{disabled : !management_reject}">Reject</button>
-    <button class="btn btn-normal"  ng-click="updateStatus('canceled')" ng-class="{disabled : !management_cancel}">Cancel</button>
-    <button class="btn btn-primary" ng-click="updateStatus('done')" ng-class="{disabled : !management_done}">Done</button>
+    <button class="btn btn-normal"  ng-click="updateStatus('in_process')"
+      ng-disabled="!management_in_process" ng-class="{disabled : !management_in_process}">In Process</button>
+    <button class="btn btn-normal"  ng-click="updateStatus('reject')"
+      ng-disabled="!management_reject" ng-class="{disabled : !management_reject}">Reject</button>
+    <button class="btn btn-normal"  ng-click="updateStatus('canceled')"
+      ng-disabled="!management_cancel" ng-class="{disabled : !management_cancel}">Cancel</button>
+    <button class="btn btn-primary" ng-click="updateStatus('done')"
+      ng-disabled="!management_done" ng-class="{disabled : !management_done}">Done</button>
   </div>
 
   <form class="form-horizontal">
