@@ -2,7 +2,7 @@
 require 'rvm1/capistrano3'
 #require 'whenever/capistrano'
 
-lock '3.2.1'
+lock '3.4.1'
 
 set :application, 'eobackbone'
 set :repo_url, 'http://github.com/eosystems/eobackbone.git'

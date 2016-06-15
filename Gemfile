@@ -47,10 +47,10 @@ group :development do
   gem 'binding_of_caller'
   gem 'guard-livereload'
   gem 'letter_opener_web'
-  gem 'capistrano', '~> 3.2.0', require: false
+  gem 'capistrano', '~> 3.4.0', require: false
   gem 'capistrano3-unicorn', require: false
   gem 'capistrano-rails', require: false
-  gem 'rvm1-capistrano3', require: false
+  gem 'rvm1-capistrano3', require: nil
   gem 'capistrano-bundler', require: false
   gem 'capistrano-maintenance', github: 'capistrano/maintenance', require: false
 end
