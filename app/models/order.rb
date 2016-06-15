@@ -30,6 +30,7 @@ class Order < ActiveRecord::Base
   # Relations
   has_many :order_details
   belongs_to :corp, foreign_key: "corporation_id"
+  belongs_to :order_user, class_name: 'User', foreign_key: :order_by
 
   # Scopes
 
