@@ -31,6 +31,15 @@ class Order < ActiveRecord::Base
   has_many :order_details
   belongs_to :corp, foreign_key: "corporation_id"
 
+  # Scopes
+
+  # 指定したCorpに属している、または指定したユーザIDが出した注文であれば参照可能
+  scope :accessible_orders, -> (corporation_id, user_id) do
+    cid = arel_table[:corporation_id]
+    order_by = arel_table[:order_by]
+    where(cid.eq(corporation_id).or(order_by.eq(user_id)))
+  end
+
   def retrieval!
     self.order_details.each(&:retrieval!)
     self.total_volume = order_details.map(&:volume).sum
@@ -38,81 +47,35 @@ class Order < ActiveRecord::Base
     self.sell_price = order_details.map(&:sell_price).sum
   end
 
-  def self.available_orders(user)
-    if user.has_contract_management_authority?
-      all
-    else
-      all.where(order_by: user.id)
-    end
+  # In Processに変更可能か
+  # - ユーザが契約管理権限を持っていない場合は In Process には戻せない
+  # - ステータスがDone または Rejectの場合は In Processには変更不可
+  def can_change_to_in_process?(user)
+    return false unless user.has_contract_role?
+    (self.processing_status != ProcessingStatus::DONE.id &&
+     self.processing_status != ProcessingStatus::REJECT.id)
   end
 
-  # 未処理の注文
-  # - ユーザが契約管理権限を持っている場合は、Corp宛の未処理の注文を返す
-  # - ユーザが契約管理権限を持っていない場合は、自身の未処理注文を返す
-  def self.in_process_orders(user)
-    if user.has_contract_management_authority?
-      self
-        .available_orders(user)
-        .where(processing_status: ProcessingStatus::IN_PROCESS.id)
-    else
-      self
-        .available_orders(user)
-        .where(processing_status: ProcessingStatus::IN_PROCESS.id)
-        .where(order_by: user.id)
-    end
+  # Rejectに変更可能か
+  # - 契約管理権限を持っている場合は操作可能
+  def can_change_to_reject?(user)
+    user.has_contract_role?
   end
 
-  # order 操作権限判断
-  # 返却値 [in_process, reject, cancel, done]
-  def get_order_permit(user_id)
-    in_process = true
-    reject = false
-    cancel = false
-    done = false
-
-    # in_process
-    # ステータスがdone/reject かつ 契約管理権限を持っていない場合は操作不可
-    if ((self.processing_status == ProcessingStatus::DONE.id ||
-        self.processing_status == ProcessingStatus::REJECT.id) &&
-       !UserRole.has_contract_role(user_id))
-      in_process = false
-    end
-
-    # reject
-    # 契約管理権限を持っている場合は操作可能
-    if UserRole.has_contract_role(user_id)
-      reject = true
-    end
-
-    # cancel
-    # 自分のオーダー かつ in_process であれば操作可能
-    if my_order?(user_id) && self.processing_status == ProcessingStatus::IN_PROCESS.id
-      cancel = true
-    end
-
-    # done
-    # 契約管理権限を持っている場合は操作可能
-    if UserRole.has_contract_role(user_id)
-      done = true
-    end
-
-    # 全体操作
-    # 自分のオーダーではない かつ 契約管理権限を持っていない場合は操作不可
-    if !my_order?(user_id) && !UserRole.has_contract_role(user_id)
-      in_process = false
-      reject = false
-      cancel = false
-      done = false
-    end
-
-    [in_process, reject, cancel, done]
+  # Cancelに変更可能か
+  # - 自分のオーダー かつ in_process であれば操作可能
+  def can_change_to_cancel?(user)
+    my_order?(user) && self.processing_status == ProcessingStatus::IN_PROCESS.id
   end
 
-  def my_order?(user_id)
-   if user_id == self.order_by
-     true
-   else
-     false
-   end
+  # Doneに変更可能か
+  # - 契約管理権限を持っている場合は操作可能
+  def can_change_to_done?(user)
+    user.has_contract_role?
+  end
+
+  def my_order?(user)
+    return false unless user.present?
+    user.id == self.order_by
   end
 end

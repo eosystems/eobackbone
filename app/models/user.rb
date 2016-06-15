@@ -28,15 +28,17 @@ class User < ActiveRecord::Base
   has_one :user_detail
 
   def self.find_for_eve_online_oauth(auth)
-    user = User.where(provider: auth.provider, uid: auth.uid).first
+    user = User.find_by(provider: auth.provider, uid: auth.uid)
     unless user
-      user = User.create(name: auth.info.character_name,
-                         provider: auth.provider,
-                         uid: auth.uid,
-                         token: auth.credentials.token,
-                         password: Devise.friendly_token[0,20])
+      user = User.create(
+        name: auth.info.character_name,
+        provider: auth.provider,
+        uid: auth.uid,
+        token: auth.credentials.token,
+        password: Devise.friendly_token[0, 20]
+      )
     end
-    return user
+    user
   end
 
   def email_required?
@@ -45,19 +47,11 @@ class User < ActiveRecord::Base
 
   # 契約管理権限を持っているか
   def has_contract_management_authority?
-    true # TODO: FIXME
+    has_contract_role?
   end
 
-  def self.get_character_account_read(token, account_id)
-    account_info = token.get('https://api.eveonline.com/eve/CharacterInfo.xml.aspx?characterID=' + account_id)
-    result = Hash.from_xml(account_info.body)["eveapi"]["result"]
-    character = Character.new
-    character.character_id = result["characterID"]
-    character.character_name = result["characterName"]
-    character.corporation_id = result["corporationID"] if result["corporationID"].present?
-    character.corporation_name = result["corporation"] if result["corporation"].present?
-    character.alliance_id = result["allianceID"] if result["allianceID"].present?
-    character.alliance_name = result["alliance"] if result["alliance"].present?
-    character
+  # 契約管理権限を持っているか
+  def has_contract_role?
+    UserRole.exists?(user_id: self.id, role: OperationRole::CONTRACT.id)
   end
 end

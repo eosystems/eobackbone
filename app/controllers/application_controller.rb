@@ -25,12 +25,8 @@ class ApplicationController < ActionController::Base
     OAuth2::AccessToken.new(client, token)
   end
 
-  def get_current_user_id
-    session[:user_id]
-  end
-
-  def get_current_corporation_id
-    session[:character]["corporation_id"]
+  def current_character
+    Character.new(session[:character])
   end
 
   def refresh_token

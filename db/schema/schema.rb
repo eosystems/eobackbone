@@ -78,9 +78,11 @@ create_table :user_roles, collate: "utf8_bin" do |t|
   t.int :role, null: true
 end
 
-create_table :corps, collate: "utf8_bin" do |t|
+create_table :corporations, collate: "utf8_bin" do |t|
   t.int :corporation_id, primary_key: true
   t.varchar :corporation_name
+  t.datetime :created_at
+  t.datetime :updated_at
 end
 
 create_table :delayed_jobs, comment: 'Delayed Job' do |t|
