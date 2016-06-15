@@ -80,6 +80,7 @@ angular.module('eoApp')
       DetailApi.update({ id: $scope.selectedId, status: statusId }).$promise.then(function(data) {
         toastr.success("Change Status to " + statusId + " (#" + $scope.selectedId + ")", "Success");
         $scope.reload();
+        $scope.loadDetail();
       }, function(error) {
         toastr.error("Something wrong.", "Error");
       });
