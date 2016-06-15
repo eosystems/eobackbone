@@ -49,6 +49,53 @@
     <button class="btn btn-primary" ng-click="updateStatus('done')" ng-class="{disabled : !management_done}">Done</button>
   </div>
 
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Sell Price: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.sell_price | number }} ISK </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Total Price: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.total_price | number }} ISK </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Buy Price Percentage: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.sell_price / order.total_price * 100.0 || 0.0 }} % </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Total Volume: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.total_volume | number }} m3</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Contract Place:</label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.contract_station_name || "None" }} </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Orderer: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.order_user_name }} </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Note:</label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.note }} </p>
+      </div>
+    </div>
+
+  </form>
+
   <table class="table table-condensed table-responsive table-hover mt-10">
     <thead>
       <tr>

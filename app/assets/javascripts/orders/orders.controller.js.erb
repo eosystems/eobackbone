@@ -66,6 +66,7 @@ angular.module('eoApp')
     // 詳細取得
     $scope.loadDetail = function() {
       DetailApi.get({id: $scope.selectedId}).$promise.then(function(data) {
+        $scope.order = data.results;
         $scope.orderDetails = data.results.order_details;
         // 各種操作権限
         $scope.management_done = data.results.management_done;
