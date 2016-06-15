@@ -50,9 +50,9 @@ group :development do
   gem 'capistrano', '~> 3.2.0', require: false
   gem 'capistrano3-unicorn', require: false
   gem 'capistrano-rails', require: false
-  gem 'capistrano-rbenv', require: false
+  gem 'rvm1-capistrano3', require: false
   gem 'capistrano-bundler', require: false
-  gem 'capistrano-maintenance', github: "capistrano/maintenance", require: false
+  gem 'capistrano-maintenance', github: 'capistrano/maintenance', require: false
 end
 
 group :test do
