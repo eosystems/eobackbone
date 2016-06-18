@@ -32,6 +32,7 @@ gem 'faraday'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
 gem 'activerecord-import'
+gem 'daemons'
 
 #認証
 gem "omniauth-oauth2"
