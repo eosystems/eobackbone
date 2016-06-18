@@ -30,6 +30,11 @@ class Order < ActiveRecord::Base
   # Relations
   has_many :order_details
   belongs_to :corp, foreign_key: "corporation_id"
+  belongs_to :order_user, class_name: 'User', foreign_key: :order_by
+  belongs_to :station, class_name: "StaStation", primary_key: :station_id
+
+  # Delegates
+  delegate :station_name, to: :station, allow_nil: true, prefix: :contract
 
   # Scopes
 

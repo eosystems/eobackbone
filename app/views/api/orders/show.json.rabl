@@ -1,9 +1,12 @@
 object false
 
 child @order => :results do
-  attributes :total_price
-  attributes :sell_price
-  attributes :total_volume
+  attributes :id, :total_price, :sell_price, :total_volume,
+    :is_credit, :processing_status, :station_id, :order_by, :assigned_user_id,
+    :corporation_id, :note, :created_at, :updated_at
+
+  node(:order_user_name) { |v| v.order_user.try(:name) }
+  node(:contract_station_name) { |v| v.contract_station_name }
 
   child :order_details do
     attributes :item_id, :unit_price,

@@ -66,6 +66,7 @@ angular.module('eoApp')
     // 詳細取得
     $scope.loadDetail = function() {
       DetailApi.get({id: $scope.selectedId}).$promise.then(function(data) {
+        $scope.order = data.results;
         $scope.orderDetails = data.results.order_details;
         // 各種操作権限
         $scope.management_done = data.results.management_done;
@@ -80,6 +81,7 @@ angular.module('eoApp')
       DetailApi.update({ id: $scope.selectedId, status: statusId }).$promise.then(function(data) {
         toastr.success("Change Status to " + statusId + " (#" + $scope.selectedId + ")", "Success");
         $scope.reload();
+        $scope.loadDetail();
       }, function(error) {
         toastr.error("Something wrong.", "Error");
       });

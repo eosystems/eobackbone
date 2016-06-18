@@ -43,11 +43,62 @@
   <h2>Order Detail (#{{selectedId}})</h2>
 
   <div class="text-right">
-    <button class="btn btn-normal"  ng-click="updateStatus('in_process')" ng-class="{disabled : !management_in_process}">In Process</button>
-    <button class="btn btn-normal"  ng-click="updateStatus('reject')" ng-class="{disabled : !management_reject}">Reject</button>
-    <button class="btn btn-normal"  ng-click="updateStatus('canceled')" ng-class="{disabled : !management_cancel}">Cancel</button>
-    <button class="btn btn-primary" ng-click="updateStatus('done')" ng-class="{disabled : !management_done}">Done</button>
+    <button class="btn btn-normal"  ng-click="updateStatus('in_process')"
+      ng-disabled="!management_in_process" ng-class="{disabled : !management_in_process}">In Process</button>
+    <button class="btn btn-normal"  ng-click="updateStatus('reject')"
+      ng-disabled="!management_reject" ng-class="{disabled : !management_reject}">Reject</button>
+    <button class="btn btn-normal"  ng-click="updateStatus('canceled')"
+      ng-disabled="!management_cancel" ng-class="{disabled : !management_cancel}">Cancel</button>
+    <button class="btn btn-primary" ng-click="updateStatus('done')"
+      ng-disabled="!management_done" ng-class="{disabled : !management_done}">Done</button>
   </div>
+
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Sell Price: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.sell_price | number }} ISK </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Total Price: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.total_price | number }} ISK </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Buy Price Percentage: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.sell_price / order.total_price * 100.0 || 0.0 }} % </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Total Volume: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.total_volume | number }} m3</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Contract Place:</label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.contract_station_name || "None" }} </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Orderer: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.order_user_name }} </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Note:</label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.note }} </p>
+      </div>
+    </div>
+
+  </form>
 
   <table class="table table-condensed table-responsive table-hover mt-10">
     <thead>
