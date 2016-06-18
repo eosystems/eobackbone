@@ -7,7 +7,7 @@ set :branch, 'master'
 set :rails_env, 'production'
 
 role :app, %w{miner@library-miner-web-api}
-# role :web, %w{deploy@example.com}
+role :web, %w{miner@library-miner-web-api}
 role :db,  %w{miner@library-miner-web-api}
 
 set :ssh_options, {
