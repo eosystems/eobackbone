@@ -53,12 +53,12 @@ class Order < ActiveRecord::Base
   end
 
   # In Processに変更可能か
-  # - ユーザが契約管理権限を持っていない場合は In Process には戻せない
-  # - ステータスがDone または Rejectの場合は In Processには変更不可
+  # - 自分の契約の場合はキャンセルの場合に戻せる
+  # - ユーザが契約管理権限を持っていない場合は In Process に戻せる
   def can_change_to_in_process?(user)
-    return false unless user.has_contract_role?
-    (self.processing_status != ProcessingStatus::DONE.id &&
-     self.processing_status != ProcessingStatus::REJECT.id)
+    return true if my_order?(user) && self.processing_status == ProcessingStatus::CANCELED.id
+    return true if user.has_contract_role?
+    false
   end
 
   # Rejectに変更可能か
