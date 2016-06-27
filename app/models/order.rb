@@ -22,6 +22,9 @@ class Order < ActiveRecord::Base
 
   attr_accessor :management_done, :management_cancel, :management_reject, :management_in_process
 
+  # 買取価格係数 元の価格に一定係数かけたものを買取額とする
+  PURCHASE_FACTOR = 0.8
+
   RANSACK_FILTER_ATTRIBUTES = {
     id: :id_eq_any,
     processing_status: :processing_status_eq,
@@ -47,9 +50,9 @@ class Order < ActiveRecord::Base
 
   def retrieval!
     self.order_details.each(&:retrieval!)
-    self.total_volume = order_details.map(&:unit_sum_volume).sum
+    self.total_volume = order_details.map(&:volume).sum
     self.total_price = order_details.map(&:price).sum
-    self.sell_price = order_details.map(&:sell_price).sum
+    self.sell_price = order_details.map(&:sell_price).sum * PURCHASE_FACTOR
   end
 
   # In Processに変更可能か

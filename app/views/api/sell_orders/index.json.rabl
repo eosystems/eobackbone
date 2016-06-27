@@ -3,6 +3,7 @@ object false
 child(@order => :result) do
   attributes :total_price
   attributes :sell_price
+  attributes :total_price
   attributes :total_volume
 
   child :order_details do
