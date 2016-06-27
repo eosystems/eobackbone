@@ -47,7 +47,7 @@ class Order < ActiveRecord::Base
 
   def retrieval!
     self.order_details.each(&:retrieval!)
-    self.total_volume = order_details.map(&:volume).sum
+    self.total_volume = order_details.map(&:unit_sum_volume).sum
     self.total_price = order_details.map(&:price).sum
     self.sell_price = order_details.map(&:sell_price).sum
   end
