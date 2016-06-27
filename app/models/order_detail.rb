@@ -16,7 +16,7 @@
 class OrderDetail < ActiveRecord::Base
   IMAGE_SERVER_PATH = "https://image.eveonline.com/Type/%d_32.png".freeze
   # 買取価格係数 元の価格に一定係数かけたものを買取額とする
-  PURCHASE_FACTOR = 0.9
+  PURCHASE_FACTOR = 0.8
 
   attr_accessor :raw_item_name
 
@@ -34,7 +34,7 @@ class OrderDetail < ActiveRecord::Base
   end
 
   def sell_price
-    BigDecimal.new(unit_price) * BigDecimal.new(quantity || 0) * PURCHASE_FACTOR
+    BigDecimal.new(unit_price) * BigDecimal.new(quantity || 0)
   end
 
   def unit_sum_volume
@@ -48,6 +48,6 @@ class OrderDetail < ActiveRecord::Base
   def retrieval!
     self.item_id = InvType.find_by("type_name = ?", "#{self.raw_item_name.gsub("*", "")}").type_id
     self.unit_price = MarketOrder.jita_buy_price(self.item_id)
-    self.sell_unit_price = self.unit_price * PURCHASE_FACTOR
+    self.sell_unit_price = self.unit_price
   end
 end
