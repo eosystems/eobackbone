@@ -131,6 +131,25 @@ ActiveRecord::Schema.define(version: 0) do
     t.string  "verification_code", limit: 255
   end
 
+  create_table "user_market_orders", force: :cascade do |t|
+    t.integer  "order_id",       limit: 8,                            null: false
+    t.integer  "uid",            limit: 4,                            null: false
+    t.integer  "station_id",     limit: 4
+    t.integer  "volume_entered", limit: 4
+    t.integer  "volume_remain",  limit: 4
+    t.integer  "min_volume",     limit: 4
+    t.integer  "order_state",    limit: 4
+    t.integer  "type_id",        limit: 4,                            null: false
+    t.string   "range",          limit: 255
+    t.string   "account_key",    limit: 255
+    t.integer  "duration",       limit: 4
+    t.decimal  "price",                      precision: 20, scale: 4
+    t.boolean  "buy"
+    t.datetime "issued"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "user_roles", force: :cascade do |t|
     t.integer "user_id", limit: 4, null: false
     t.integer "role",    limit: 4
