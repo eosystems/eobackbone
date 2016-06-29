@@ -70,6 +70,8 @@ create_table :user_details, collate: "utf8_bin" do |t|
   t.int :user_id
   t.int :corporation_id, null: true
   t.int :alliance_id, null: true
+  t.varchar :key_id, null: true
+  t.varchar :verification_code, null: true
 end
 
 create_table :user_roles, collate: "utf8_bin" do |t|

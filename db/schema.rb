@@ -124,9 +124,11 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "sta_stations", ["station_id"], name: "index_station_id", using: :btree
 
   create_table "user_details", force: :cascade do |t|
-    t.integer "user_id",        limit: 4, null: false
-    t.integer "corporation_id", limit: 4
-    t.integer "alliance_id",    limit: 4
+    t.integer "user_id",           limit: 4,   null: false
+    t.integer "corporation_id",    limit: 4
+    t.integer "alliance_id",       limit: 4
+    t.string  "key_id",            limit: 255
+    t.string  "verification_code", limit: 255
   end
 
   create_table "user_roles", force: :cascade do |t|
