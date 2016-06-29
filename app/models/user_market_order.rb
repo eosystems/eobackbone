@@ -4,7 +4,7 @@
 #
 #  id             :integer          not null, primary key
 #  order_id       :integer          not null
-#  uid            :integer          not null
+#  user_id        :integer          not null
 #  station_id     :integer
 #  volume_entered :integer
 #  volume_remain  :integer
@@ -22,6 +22,6 @@
 #
 
 class UserMarketOrder < ActiveRecord::Base
-  belongs_to :order_user, class_name: 'User', foreign_key: :order_by
+  belongs_to :order_user, class_name: 'User', foreign_key: :user_id
   belongs_to :station, class_name: "StaStation", primary_key: :station_id
 end

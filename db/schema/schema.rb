@@ -128,7 +128,7 @@ end
 create_table :user_market_orders, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
   t.bigint :order_id
-  t.int :uid
+  t.int :user_id
   t.int :station_id, null: true
   t.int :volume_entered, null: true
   t.int :volume_remain, null: true
@@ -143,6 +143,36 @@ create_table :user_market_orders, collate: "utf8_bin" do |t|
   t.datetime :issued, null: true
   t.datetime :created_at, null: true
   t.datetime :updated_at, null: true
+end
+
+create_table :monitor_items, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.int :user_id
+  t.int :station_id, null: true
+  t.int :type_id
+  t.int :count
+  t.boolean :stop, null: true
+  t.datetime :created_at, null: true
+  t.datetime :updated_at, null: true
+end
+
+create_table :monitor_market_orders, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.bigint :order_id
+  t.int :type_id
+  t.boolean :buy, null: true
+  t.datetime :issued, null: true
+  t.decimal :price, null: true, precision: 20, scale: 4
+  t.int :volume_entered, null: true
+  t.int :station_id, null: true
+  t.int :volume, null: true
+  t.varchar :range, null: true
+  t.int :min_volume, null: true
+  t.int :duration, null: true
+  t.datetime :created_at, null: true
+  t.datetime :updated_at, null: true
+
+  t.index [:type_id, :buy, :station_id], name: "index_type_id_and_buy_and_station_id"
 end
 
 # master
