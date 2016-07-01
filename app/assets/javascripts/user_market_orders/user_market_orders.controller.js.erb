@@ -1,0 +1,47 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+  'userMarketOrdersController',
+  ['ngTableParams', '$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+    function(ngTableParams, $resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+
+    var RootApi = $resource("/api/user_market_orders");
+    var DetailApi = $resource("/api/user_market_orders/:id", { id: '@id' }, {
+      get: {
+        method: 'GET'
+      },
+      update: {
+        method: 'PUT'
+      }
+    });
+
+    $scope.setTotalCount = function(count) {
+      $scope.totalCount = count;
+    };
+    
+    $scope.tableParams = new ngTableParams({
+      filter: { },
+      count: 20,
+    }, {
+      counts: [10, 20, 50],
+      getData: function(params) {
+        var urlParams = params.url();
+
+        return RootApi.get(urlParams).$promise.then(function(data) {
+          params.total(data.totalCount);
+          $scope.setTotalCount(data.totalCount);
+          $scope.searchResults = data.results;
+          return data.results;
+        });
+      }
+    });
+
+    // 再読み込み
+    $scope.reload = function() {
+      $scope.tableParams.reload();
+    };
+
+  }]
+);

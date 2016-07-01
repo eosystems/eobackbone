@@ -22,10 +22,29 @@
 #
 
 class UserMarketOrder < ActiveRecord::Base
-  belongs_to :order_user, class_name: 'User', foreign_key: :user_id
-  belongs_to :station, class_name: "StaStation", primary_key: :station_id
+  include NgTableSearchable
+
 
   EVE_CHAR_API_PATH = "https://api.eveonline.com/char/MarketOrders.xml.aspx?"
+
+  # Relations
+  belongs_to :order
+  belongs_to :order_user, class_name: 'User', foreign_key: :user_id
+  belongs_to :item, foreign_key: :type_id, class_name: 'InvType'
+  belongs_to :station, class_name: "StaStation", primary_key: :station_id
+
+  # Delegates
+  delegate :type_name, to: :item, prefix: :item
+  delegate :station_name, to: :station, allow_nil: true, prefix: :order
+
+  # Scopes
+
+  # 参照範囲は自分のみ
+  scope :accessible_orders, -> (user_id) do
+    user = arel_table[:user_id]
+    where(user.eq(user_id))
+  end
+
 
   def self.url(key_id, v_code, character_id)
     EVE_CHAR_API_PATH + "keyID=" + key_id + "&vCode=" + v_code + "&characterID=" + character_id
