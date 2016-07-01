@@ -141,19 +141,30 @@ create_table :user_market_orders, collate: "utf8_bin" do |t|
   t.decimal :price, null: true, precision: 20, scale: 4
   t.boolean :buy, null: true
   t.datetime :issued, null: true
+  t.boolean :monitor, null: true
   t.datetime :created_at, null: true
   t.datetime :updated_at, null: true
 end
 
-create_table :monitor_items, collate: "utf8_bin" do |t|
+create_table :trades, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
-  t.int :user_id
-  t.int :station_id, null: true
   t.int :type_id
-  t.int :count
-  t.boolean :stop, null: true
+  t.int :user_id
+  t.decimal :revenue, null: true, precision: 20, scale: 4
+  t.decimal :expense, null: true, precision: 20, scale: 4
+  t.decimal :profit, null: true, precision: 20, scale: 4
   t.datetime :created_at, null: true
   t.datetime :updated_at, null: true
+end
+
+create_table :trade_details, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.int :trade_id
+  t.int :user_market_order_id, null: true
+  t.datetime :created_at, null: true
+  t.datetime :updated_at, null: true
+
+  t.foreign_key :trade_id, reference: :trades, reference_column: :id
 end
 
 create_table :monitor_market_orders, collate: "utf8_bin" do |t|

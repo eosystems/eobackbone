@@ -151,6 +151,25 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "sta_stations", ["solar_system_id"], name: "index_solar_system_id", using: :btree
   add_index "sta_stations", ["station_id"], name: "index_station_id", using: :btree
 
+  create_table "trade_details", force: :cascade do |t|
+    t.integer  "trade_id",             limit: 4, null: false
+    t.integer  "user_market_order_id", limit: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "trade_details", ["trade_id"], name: "trade_details_trade_id_fk", using: :btree
+
+  create_table "trades", force: :cascade do |t|
+    t.integer  "type_id",    limit: 4,                          null: false
+    t.integer  "user_id",    limit: 4,                          null: false
+    t.decimal  "revenue",              precision: 20, scale: 4
+    t.decimal  "expense",              precision: 20, scale: 4
+    t.decimal  "profit",               precision: 20, scale: 4
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "user_details", force: :cascade do |t|
     t.integer "user_id",           limit: 4,   null: false
     t.integer "corporation_id",    limit: 4
@@ -205,4 +224,5 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   add_foreign_key "order_details", "orders", name: "order_details_order_id_fk"
+  add_foreign_key "trade_details", "trades", name: "trade_details_trade_id_fk"
 end
