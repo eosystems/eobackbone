@@ -30,6 +30,9 @@ class CrawlMonitorMarketJob < ActiveJob::Base
           order.price = market.price
           order.volume_remain = market.volume
           order.save!
+        else
+          order.volume_remain = 0
+          order.save!
         end
       end
     end
