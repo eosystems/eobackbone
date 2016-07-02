@@ -27,6 +27,13 @@ class UserMarketOrder < ActiveRecord::Base
 
   EVE_CHAR_API_PATH = "https://api.eveonline.com/char/MarketOrders.xml.aspx?"
 
+  RANSACK_FILTER_ATTRIBUTES = {
+    id: :id_eq_any,
+    order_state: :order_state_eq,
+    item_type_name: :item_type_name_cont_any,
+    order_station_name: :order_station_name_cont_any
+  }.with_indifferent_access.freeze
+
   # Relations
   belongs_to :order
   belongs_to :order_user, class_name: 'User', foreign_key: :user_id

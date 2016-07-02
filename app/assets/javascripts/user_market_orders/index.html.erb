@@ -12,21 +12,25 @@
     <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
       show-filter="true">
       <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
-        <td data-title="'Status'" sortable="'processing_status'" width="100px"
-          filter="{processing_status: 'select'}" filter-data="statuses" class="text-center">
-          <label ng-show="row.processing_status == 'in_process'" class="label label-primary">In Process</label>
-          <label ng-show="row.processing_status == 'done'" class="label label-success">Done</label>
+        <td data-title="'Status'" sortable="'order_state'" width="100px"
+          filter="{order_state: 'select'}" filter-data="statuses" class="text-center">
+          <label ng-show="row.order_state == '0'" class="label label-primary">Active</label>
+          <label ng-show="row.order_state == '1'" class="label label-default">Closed</label>
+          <label ng-show="row.order_state == '2'" class="label label-success">Fulfilled</label>
+          <label ng-show="row.order_state == '3'" class="label label-default">Canceled</label>
+          <label ng-show="row.order_state == '4'" class="label label-default">Pending</label>
+          <label ng-show="row.order_state == '5'" class="label label-default">Deleted</label>
         </td>
-        <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="100px" class="deletable">
+        <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="70px" class="deletable">
           {{row.id}}
         </td>
-        <td data-title="'Item'" sortable="'sell_price'">
+        <td data-title="'Item'" filter="{item_type_name: 'text'}" sortable="'item_type_name'">
           {{row.item_name}}
         </td>
-        <td data-title="'Station'" sortable="'total_volume'">
+        <td data-title="'Station'" filter="{order_station_name: 'text'}" sortable="'order_station_name'">
           {{row.order_station_name}}
         </td>
-        <td data-title="'Updated'" sortable="'created_at'">
+        <td data-title="'Updated'" sortable="'updated_at'">
           {{row.updated_at}}
         </td>
       </tr>

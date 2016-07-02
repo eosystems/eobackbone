@@ -5,7 +5,7 @@ angular.module('eoApp')
 .controller(
   'userMarketOrdersController',
   ['ngTableParams', '$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
-    function(ngTableParams, $resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+  function(ngTableParams, $resource, $scope, $state, $uibModal, $loading, toastr, $location) {
 
     var RootApi = $resource("/api/user_market_orders");
     var DetailApi = $resource("/api/user_market_orders/:id", { id: '@id' }, {
@@ -17,10 +17,20 @@ angular.module('eoApp')
       }
     });
 
+    $scope.statuses = [
+      { id: "", title: "" },
+      { id: '0', title: "Active" },
+      { id: '1', title: "Closed" },
+      { id: '2', title: "Fulfilled" },
+      { id: '3', title: "Canceled" },
+      { id: '4', title: "Pending" },
+      { id: '5', title: "Deleted" }
+    ];
+
     $scope.setTotalCount = function(count) {
       $scope.totalCount = count;
     };
-    
+
     $scope.tableParams = new ngTableParams({
       filter: { },
       count: 20,
