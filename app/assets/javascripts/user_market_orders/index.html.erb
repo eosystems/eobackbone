@@ -12,7 +12,7 @@
     <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
       show-filter="true">
       <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
-        <td data-title="'Status'" sortable="'order_state'" width="80px"
+        <td data-title="'Status'" sortable="'order_state'" width="100px"
           filter="{order_state: 'select'}" filter-data="statuses" class="text-center">
           <label ng-show="row.order_state == '0'" class="label label-primary">Active</label>
           <label ng-show="row.order_state == '1'" class="label label-default">Closed</label>
@@ -21,23 +21,25 @@
           <label ng-show="row.order_state == '4'" class="label label-default">Pending</label>
           <label ng-show="row.order_state == '5'" class="label label-default">Deleted</label>
         </td>
-        <td data-title="'Buy'" sortable="'buy'" width="40px"
+        <td data-title="'Buy'" sortable="'buy'" width="100px"
           filter="{buy: 'select'}" filter-data="buyFilter" class="text-center">
           <label ng-show="row.buy == '0'" class="label label-success">Sell</label>
           <label ng-show="row.buy == '1'" class="label label-primary">Buy</label>
         </td>
-        <td data-title="'Judge'" sortable="'buy'" width="50px"
-          filter="{lose_or_win: 'select'}" filter-data="judgeFilter" class="text-center">
+        <td data-title="'Judge'" width="50px">
           <label ng-show="row.lose_or_win == 'lose'" class="label label-danger">Lose</label>
           <label ng-show="row.lose_or_win == 'win'" class="label label-primary">Win</label>
         </td>
-        <td data-title="'Monitor'" sortable="'monitor'" width="50px"
+        <td data-title="'Monitor'" sortable="'monitor'" width="100px"
           filter="{monitor: 'select'}" filter-data="monitorFilter" class="text-center">
           <label ng-show="row.monitor == '0'" class="label label-default">OFF</label>
           <label ng-show="row.monitor == '1'" class="label label-primary">ON</label>
         </td>
         <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="60px" class="deletable">
           {{row.id}}
+        </td>
+        <td data-title="''" width="32px" class="deletable">
+          <img ng-src="{{ row.image_path }}" class="img-responsive"/>
         </td>
         <td data-title="'Item'" filter="{item_type_name: 'text'}" sortable="'item_type_name'">
           {{row.item_name}}

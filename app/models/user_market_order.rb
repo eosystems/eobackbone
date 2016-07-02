@@ -24,7 +24,7 @@
 class UserMarketOrder < ActiveRecord::Base
   include NgTableSearchable
 
-
+  IMAGE_SERVER_PATH = "https://image.eveonline.com/Type/%d_32.png".freeze
   EVE_CHAR_API_PATH = "https://api.eveonline.com/char/MarketOrders.xml.aspx?"
 
   RANSACK_FILTER_ATTRIBUTES = {
@@ -54,6 +54,9 @@ class UserMarketOrder < ActiveRecord::Base
     where(user.eq(user_id))
   end
 
+  def image_path
+    IMAGE_SERVER_PATH % [self.type_id || 0]
+  end
 
   def self.url(key_id, v_code, character_id)
     EVE_CHAR_API_PATH + "keyID=" + key_id + "&vCode=" + v_code + "&characterID=" + character_id
