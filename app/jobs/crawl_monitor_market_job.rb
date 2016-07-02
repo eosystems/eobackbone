@@ -9,12 +9,18 @@ class CrawlMonitorMarketJob < ActiveJob::Base
       region_id = monitor_item.station.region_id
       type_id = monitor_item.type_id
 
-      is_success, items = fetch_market_orders(region_id, type_id)
-      if is_success
-        save_market_orders(items, region_id, type_id)
+      # 直近で取得していた場合は飛ばす
+      j = MonitorMarketOrder.where(station_id: monitor_item.station.station_id, type_id: type_id).first
+      if j.nil? || j.updated_at < Time.zone.now - 5.minute
+        is_success, items = fetch_market_orders(region_id, type_id)
+        if is_success
+          save_market_orders(items, region_id, type_id)
 
-        # Userオーダー更新
-        update_user_orders(region_id, type_id)
+          # Userオーダー更新
+          update_user_orders(region_id, type_id)
+        end
+      else
+        Rails.logger.warn("skip crawl because " + type_id.to_s + " has updated within 5 minute")
       end
     end
 
