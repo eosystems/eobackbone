@@ -1,0 +1,113 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+  'userMarketOrdersController',
+  ['ngTableParams', '$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+  function(ngTableParams, $resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+
+    var RootApi = $resource("/api/user_market_orders");
+    var DetailApi = $resource("/api/user_market_orders/:id", { id: '@id' }, {
+      get: {
+        method: 'GET'
+      },
+      update: {
+        method: 'PUT'
+      }
+    });
+
+    $scope.statuses = [
+      { id: "", title: "" },
+      { id: '0', title: "Active" },
+      { id: '1', title: "Closed" },
+      { id: '2', title: "Fulfilled" },
+      { id: '3', title: "Canceled" },
+      { id: '4', title: "Pending" },
+      { id: '5', title: "Deleted" }
+    ];
+
+    $scope.buyFilter = [
+      { id: "", title: "" },
+      { id: '0', title: "Sell" },
+      { id: '1', title: "Buy" }
+    ];
+
+    $scope.judgeFilter = [
+      { id: "", title: "" },
+      { id: 'lose', title: "Lose" },
+      { id: 'win', title: "Win" }
+    ];
+
+    $scope.monitorFilter = [
+      { id: "", title: "" },
+      { id: '0', title: "OFF" },
+      { id: '1', title: "ON" }
+    ];
+
+    $scope.setTotalCount = function(count) {
+      $scope.totalCount = count;
+    };
+
+    $scope.tableParams = new ngTableParams({
+      filter: { },
+      count: 20,
+    }, {
+      counts: [10, 20, 50],
+      getData: function(params) {
+        var urlParams = params.url();
+
+        return RootApi.get(urlParams).$promise.then(function(data) {
+          params.total(data.totalCount);
+          $scope.setTotalCount(data.totalCount);
+          $scope.searchResults = data.results;
+          return data.results;
+        });
+      }
+    });
+
+    // Order Grid押下時
+    $scope.selectRow = function(id) {
+      var results = $scope.searchResults;
+      _.each($scope.searchResults, function(v) { v.selected = false; });
+      var row = $scope.searchResults.find(function(v) { return v.id == id })
+      if (row) {
+        row.selected = !row.selected;
+      }
+      $scope.selectedId = id;
+      $scope.loadDetail();
+    };
+
+    // 再読み込み
+    $scope.reload = function() {
+      $scope.tableParams.reload();
+    };
+
+    // 詳細取得
+    $scope.loadDetail = function() {
+      DetailApi.get({id: $scope.selectedId}).$promise.then(function(data) {
+        $scope.order = data.results;
+        $scope.marketDetails = data.results.monitor_market_orders;
+      });
+    }
+
+    // 監視更新
+    $scope.updateMonitor = function(monitorStatus) {
+      DetailApi.update({ id: $scope.selectedId, monitor: monitorStatus }).$promise.then(function(data) {
+        var m = ""
+        if (monitorStatus == "0"){
+          m = "OFF"
+        }
+        else {
+          m = "ON"
+        }
+        toastr.success("Change Status to " + m + " (#" + $scope.selectedId + ")", "Success");
+        $scope.reload();
+        $scope.loadDetail();
+      }, function(error) {
+        toastr.error("Something wrong.", "Error");
+      });
+    }
+
+  }]
+);

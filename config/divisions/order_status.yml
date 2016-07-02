@@ -1,0 +1,19 @@
+- id: 0
+  type: open
+  name: Open or Active
+- id: 1
+  type: closed
+  name: closed
+- id: 2
+  type: fulfilled
+  name: expired or fulfilled
+- id: 3
+  type: cancel
+  name: cancelled
+- id: 4
+  type: pending
+  name: pending
+- id: 5
+  type: delete
+  name: character deleted
+

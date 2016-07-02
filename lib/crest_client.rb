@@ -13,6 +13,12 @@ class CrestClient
     MarketOrderResponse.parse(get_request_to(path), current_page: page)
   end
 
+  def fetch_market_order_by_type_id(region_id, type_id, page)
+    path = CREST_API_BASE_URL + market_individual_order_url(region_id, type_id, page)
+    Rails.logger.info("CrestClient Access to #{path}")
+
+    MarketOrderResponse.parse(get_request_to(path), current_page: page)
+  end
 
   private
 
@@ -34,8 +40,8 @@ class CrestClient
     '/market/' + region_id.to_s + MARKET_ORDER_URL + "?page=#{page}"
   end
 
-  def market_buy_order_url(region_id, type_id)
-    '/market/' + region_id.to_s + '/orders/buy/?type=https://public-crest.eveonline.com/types/' + type_id.to_s + '/'
+  def market_individual_order_url(region_id, type_id, page)
+    '/market/' + region_id.to_s + '/orders/?type=https://crest-tq.eveonline.com/inventory/types/' + type_id.to_s + '/'
   end
 
 end
