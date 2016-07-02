@@ -1,21 +1,17 @@
 object false
 
 child @order => :results do
-  attributes :id, :total_price, :sell_price, :total_volume,
-    :is_credit, :processing_status, :station_id, :order_by, :assigned_user_id,
-    :corporation_id, :note, :created_at, :updated_at
+  attributes :id, :order_id, :user_id, :station_id, :type_id, :price, :buy, :issued, :order_state,
+     :volume_remain, :volume_entered, :duration,
+     :created_at, :updated_at
 
-  node(:order_user_name) { |v| v.order_user.try(:name) }
-  node(:contract_station_name) { |v| v.contract_station_name }
+  node(:item_name) { |v| v.item_type_name }
+  node(:order_station_name) { |v| v.order_station_name }
 
-  child :order_details do
-    attributes :item_id, :unit_price,
-      :sell_unit_price, :quantity, :image_path, :price, :volume, :sell_price
-    node(:item_name) { |o| o.item_type_name }
+  child :monitor_market_orders do
+    node(:price) { |v| v.price }
+    node(:quantity) { |v| v.volume }
+    node(:order_id) { |v| v.order_id }
   end
 
-  node(:management_done) { |o| o.can_change_to_done?(current_user) }
-  node(:management_cancel) { |o| o.can_change_to_cancel?(current_user) }
-  node(:management_reject) { |o| o.can_change_to_reject?(current_user) }
-  node(:management_in_process) { |o| o.can_change_to_in_process?(current_user) }
 end

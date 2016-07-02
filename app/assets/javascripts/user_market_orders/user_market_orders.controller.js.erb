@@ -27,6 +27,18 @@ angular.module('eoApp')
       { id: '5', title: "Deleted" }
     ];
 
+    $scope.buyFilter = [
+      { id: "", title: "" },
+      { id: '0', title: "Sell" },
+      { id: '1', title: "Buy" }
+    ];
+
+    $scope.judgeFilter = [
+      { id: "", title: "" },
+      { id: 'lose', title: "Lose" },
+      { id: 'win', title: "Win" }
+    ];
+
     $scope.setTotalCount = function(count) {
       $scope.totalCount = count;
     };
@@ -48,10 +60,30 @@ angular.module('eoApp')
       }
     });
 
+    // Order Grid押下時
+    $scope.selectRow = function(id) {
+      var results = $scope.searchResults;
+      _.each($scope.searchResults, function(v) { v.selected = false; });
+      var row = $scope.searchResults.find(function(v) { return v.id == id })
+      if (row) {
+        row.selected = !row.selected;
+      }
+      $scope.selectedId = id;
+      $scope.loadDetail();
+    };
+
     // 再読み込み
     $scope.reload = function() {
       $scope.tableParams.reload();
     };
+
+    // 詳細取得
+    $scope.loadDetail = function() {
+      DetailApi.get({id: $scope.selectedId}).$promise.then(function(data) {
+        $scope.order = data.results;
+        $scope.marketDetails = data.results.monitor_market_orders;
+      });
+    }
 
   }]
 );

@@ -10,4 +10,5 @@ child @orders => :results do
 
   node(:item_name) { |o| o.item_type_name }
   node(:order_station_name) { |v| v.order_station_name }
+  node(:lose_or_win) { |o| o.lose_or_win }
 end

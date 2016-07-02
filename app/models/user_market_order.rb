@@ -30,6 +30,7 @@ class UserMarketOrder < ActiveRecord::Base
   RANSACK_FILTER_ATTRIBUTES = {
     id: :id_eq_any,
     order_state: :order_state_eq,
+    buy: :buy_eq,
     item_type_name: :item_type_name_cont_any,
     order_station_name: :order_station_name_cont_any
   }.with_indifferent_access.freeze
@@ -80,6 +81,41 @@ class UserMarketOrder < ActiveRecord::Base
         issued: r["issued"]
       }
       u.save!
+    end
+  end
+
+  def monitor_market_orders
+    if self.buy
+      MonitorMarketOrder.where(type_id: self.type_id, station_id: self.station_id).order(price: :desc).limit(15)
+    else
+      MonitorMarketOrder.where(type_id: self.type_id, station_id: self.station_id).order(price: :asc).limit(15)
+    end
+  end
+
+  # 勝ち負け
+  def lose_or_win
+    if self.order_state == OrderStatus::OPEN
+      top_order = nil
+      if self.buy
+        top_order = MonitorMarketOrder.
+          where(type_id: self.type_id, station_id: self.station_id)
+          .order(price: :desc).limit(1)
+      else
+        top_order = MonitorMarketOrder.
+          where(type_id: self.type_id, station_id: self.station_id)
+          .order(price: :asc).limit(1)
+      end
+
+      if top_order == nil
+        return ""
+      end
+      if top_order.order_id == self.order_id
+        return "win"
+      else
+        return "lose"
+      end
+    else
+      ""
     end
   end
 

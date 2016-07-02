@@ -6,4 +6,7 @@ class Api::UserMarketOrdersController < ApiController
       .order(id: :desc)
   end
 
+  def show
+    @order = UserMarketOrder.find(params[:id])
+  end
 end
