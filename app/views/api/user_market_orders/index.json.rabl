@@ -5,7 +5,7 @@ end
 child @orders => :results do
   collection @orders
 
-  attributes :id, :order_id, :user_id, :station_id, :type_id, :price, :buy, :issued, :order_state,
+  attributes :id, :order_id, :user_id, :station_id, :type_id, :price, :buy, :issued, :order_state, :monitor,
      :created_at, :updated_at
 
   node(:item_name) { |o| o.item_type_name }

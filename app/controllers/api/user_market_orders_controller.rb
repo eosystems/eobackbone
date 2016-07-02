@@ -9,4 +9,14 @@ class Api::UserMarketOrdersController < ApiController
   def show
     @order = UserMarketOrder.find(params[:id])
   end
+
+  def update
+    @order = UserMarketOrder.find(params[:id])
+    @order.monitor = params[:monitor]
+    if @order.save
+      render json: { }
+    else
+      render json: { error: "something wrong"}
+    end
+  end
 end

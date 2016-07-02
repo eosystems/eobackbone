@@ -26,12 +26,17 @@
           <label ng-show="row.buy == '0'" class="label label-success">Sell</label>
           <label ng-show="row.buy == '1'" class="label label-primary">Buy</label>
         </td>
-        <td data-title="'Judge'" sortable="'buy'" width="40px"
+        <td data-title="'Judge'" sortable="'buy'" width="50px"
           filter="{lose_or_win: 'select'}" filter-data="judgeFilter" class="text-center">
           <label ng-show="row.lose_or_win == 'lose'" class="label label-danger">Lose</label>
           <label ng-show="row.lose_or_win == 'win'" class="label label-primary">Win</label>
         </td>
-        <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="70px" class="deletable">
+        <td data-title="'Monitor'" sortable="'monitor'" width="50px"
+          filter="{monitor: 'select'}" filter-data="monitorFilter" class="text-center">
+          <label ng-show="row.monitor == '0'" class="label label-default">OFF</label>
+          <label ng-show="row.monitor == '1'" class="label label-primary">ON</label>
+        </td>
+        <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="60px" class="deletable">
           {{row.id}}
         </td>
         <td data-title="'Item'" filter="{item_type_name: 'text'}" sortable="'item_type_name'">
@@ -53,6 +58,12 @@
   <!-- メモ: 何故かloadingで囲うとng-modelが動かなくなることがある。何かあったら削除 -->
 
   <h2>Order Detail (#{{selectedId}})</h2>
+
+  <div class="text-right">
+    Monitor :
+    <button class="btn btn-normal"  ng-click="updateMonitor('1')">ON</button>
+    <button class="btn btn-normal"  ng-click="updateMonitor('0')">OFF</button>
+  </div>
 
   <form class="form-horizontal">
     <div class="form-group">

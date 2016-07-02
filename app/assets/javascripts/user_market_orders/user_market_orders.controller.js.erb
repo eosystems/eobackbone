@@ -39,6 +39,12 @@ angular.module('eoApp')
       { id: 'win', title: "Win" }
     ];
 
+    $scope.monitorFilter = [
+      { id: "", title: "" },
+      { id: '0', title: "OFF" },
+      { id: '1', title: "ON" }
+    ];
+
     $scope.setTotalCount = function(count) {
       $scope.totalCount = count;
     };
@@ -82,6 +88,24 @@ angular.module('eoApp')
       DetailApi.get({id: $scope.selectedId}).$promise.then(function(data) {
         $scope.order = data.results;
         $scope.marketDetails = data.results.monitor_market_orders;
+      });
+    }
+
+    // 監視更新
+    $scope.updateMonitor = function(monitorStatus) {
+      DetailApi.update({ id: $scope.selectedId, monitor: monitorStatus }).$promise.then(function(data) {
+        var m = ""
+        if (monitorStatus == "0"){
+          m = "OFF"
+        }
+        else {
+          m = "ON"
+        }
+        toastr.success("Change Status to " + m + " (#" + $scope.selectedId + ")", "Success");
+        $scope.reload();
+        $scope.loadDetail();
+      }, function(error) {
+        toastr.error("Something wrong.", "Error");
       });
     }
 
