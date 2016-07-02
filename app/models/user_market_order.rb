@@ -87,24 +87,30 @@ class UserMarketOrder < ActiveRecord::Base
 
   def monitor_market_orders
     if self.buy
-      MonitorMarketOrder.where(type_id: self.type_id, station_id: self.station_id).order(price: :desc).limit(15)
+      MonitorMarketOrder
+        .where(type_id: self.type_id, station_id: self.station_id, buy: true)
+        .order(price: :desc).limit(15)
     else
-      MonitorMarketOrder.where(type_id: self.type_id, station_id: self.station_id).order(price: :asc).limit(15)
+      MonitorMarketOrder
+        .where(type_id: self.type_id, station_id: self.station_id, buy: false)
+        .order(price: :asc).limit(15)
     end
   end
 
   # 勝ち負け
   def lose_or_win
-    if self.order_state == OrderStatus::OPEN
+    if self.order_state == OrderStatus::OPEN.id
       top_order = nil
       if self.buy
         top_order = MonitorMarketOrder.
-          where(type_id: self.type_id, station_id: self.station_id)
-          .order(price: :desc).limit(1)
+          where(type_id: self.type_id, station_id: self.station_id, buy: true)
+          .order(price: :desc)
+          .first
       else
         top_order = MonitorMarketOrder.
-          where(type_id: self.type_id, station_id: self.station_id)
-          .order(price: :asc).limit(1)
+          where(type_id: self.type_id, station_id: self.station_id, buy: false)
+          .order(price: :asc)
+          .first
       end
 
       if top_order == nil
