@@ -4,7 +4,7 @@ class CrawlMonitorMarketJob < ActiveJob::Base
   def perform(*args)
     Rails.logger.info("start crawl monitor market orders")
 
-    monitor_items = MonitorItem.all
+    monitor_items = UserMarketOrder.where(monitor: 1).select(:station_id, :type_id).uniq
     monitor_items.each do | monitor_item |
       region_id = monitor_item.station.region_id
       type_id = monitor_item.type_id
@@ -12,10 +12,27 @@ class CrawlMonitorMarketJob < ActiveJob::Base
       is_success, items = fetch_market_orders(region_id, type_id)
       if is_success
         save_market_orders(items, region_id, type_id)
+
+        # Userオーダー更新
+        update_user_orders(region_id, type_id)
       end
     end
 
     Rails.logger.info("end crawl monitor market orders")
+  end
+
+  def update_user_orders(region_id, type_id)
+     StaStation.where(region_id: region_id).each do | station |
+      orders = UserMarketOrder.where(station_id: station.station_id, type_id: type_id)
+      orders.each do |order|
+        market = MonitorMarketOrder.where(order_id: order.order_id).first
+        if market.present?
+          order.price = market.price
+          order.volume_remain = market.volume
+          order.save!
+        end
+      end
+    end
   end
 
   # リポジトリの結果結果を保存
