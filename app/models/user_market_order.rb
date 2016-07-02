@@ -38,7 +38,7 @@ class UserMarketOrder < ActiveRecord::Base
   belongs_to :order
   belongs_to :order_user, class_name: 'User', foreign_key: :user_id
   belongs_to :item, foreign_key: :type_id, class_name: 'InvType'
-  belongs_to :station, class_name: "StaStation", primary_key: :station_id
+  belongs_to :station, foreign_key: :station_id, class_name: "StaStation"
 
   # Delegates
   delegate :type_name, to: :item, prefix: :item
