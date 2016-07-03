@@ -2,7 +2,7 @@ object false
 
 child @order => :results do
   attributes :id, :total_price, :sell_price, :total_volume,
-    :is_credit, :processing_status, :station_id, :order_by, :assigned_user_id,
+    :is_credit, :is_paid, :processing_status, :station_id, :order_by, :assigned_user_id,
     :corporation_id, :note, :created_at, :updated_at
 
   node(:order_user_name) { |v| v.order_user.try(:name) }

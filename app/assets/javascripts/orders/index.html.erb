@@ -42,15 +42,33 @@
 
   <h2>Order Detail (#{{selectedId}})</h2>
 
-  <div class="text-right">
-    <button class="btn btn-normal"  ng-click="updateStatus('in_process')"
-      ng-disabled="!management_in_process" ng-class="{disabled : !management_in_process}">In Process</button>
-    <button class="btn btn-normal"  ng-click="updateStatus('reject')"
-      ng-disabled="!management_reject" ng-class="{disabled : !management_reject}">Reject</button>
-    <button class="btn btn-normal"  ng-click="updateStatus('canceled')"
-      ng-disabled="!management_cancel" ng-class="{disabled : !management_cancel}">Cancel</button>
-    <button class="btn btn-primary" ng-click="updateStatus('done')"
-      ng-disabled="!management_done" ng-class="{disabled : !management_done}">Done</button>
+  <div class="row">
+    <p class="ml-10" ng-show="!order.is_paid" ng-hide="order == null">
+      <i class="fa fa-info-circle"></i>
+      支払いが完了していないため、ステータスをDoneに変更できません。
+    </p>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-4">
+    <div class="text-left">
+      <a href="" class="btn btn-default" ng-disabled="order == null || order.is_paid"
+        ng-class="{disabled: order == null || order.is_paid}" ng-click="pay(true)">Pay</a>
+    </div>
+    </div>
+
+    <div class="col-xs-8">
+    <div class="text-right">
+      <button class="btn btn-normal"  ng-click="updateStatus('in_process')"
+        ng-disabled="!management_in_process" ng-class="{disabled : !management_in_process}">In Process</button>
+      <button class="btn btn-normal"  ng-click="updateStatus('reject')"
+        ng-disabled="!management_reject" ng-class="{disabled : !management_reject}">Reject</button>
+      <button class="btn btn-normal"  ng-click="updateStatus('canceled')"
+        ng-disabled="!management_cancel" ng-class="{disabled : !management_cancel}">Cancel</button>
+      <button class="btn btn-primary" ng-click="updateStatus('done')"
+        ng-disabled="!management_done" ng-class="{disabled : !management_done}">Done</button>
+    </div>
+    </div>
   </div>
 
   <form class="form-horizontal">
@@ -66,6 +84,20 @@
         <p class="form-control-static"> {{ order.total_price | number }} ISK </p>
       </div>
     </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Payment Method (Status): </label>
+      <div class="col-sm-3">
+        <p class="form-control-static">
+          <label ng-show="order.is_credit" class="mr-10">掛売</label>
+          <label ng-show="!order.is_credit" class="mr-10">即時</label>
+          <label ng-show="order.is_paid" class="label label-success">Paid</label>
+          <label ng-show="!order.is_paid" class="label label-default">Unpaid</label>
+        </p>
+      </div>
+      <div class="col-sm-6">
+      </div>
+    </div>
+
     <div class="form-group">
       <label class="col-sm-3 control-label">Price Percentage (Jita Buy): </label>
       <div class="col-sm-9">
