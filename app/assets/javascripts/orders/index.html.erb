@@ -22,6 +22,10 @@
         <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="100px" class="deletable">
           {{row.id}}
         </td>
+        <td data-title="'Payment'" sortable="'is_paid'" width="100px" class="deletable">
+          <label ng-show="row.is_paid" class="">Paid</label>
+          <label ng-show="!row.is_paid" class="">Unpaid</label>
+        </td>
         <td data-title="'Price'" sortable="'sell_price'">
           {{row.sell_price | number}} isk
         </td>
@@ -41,13 +45,6 @@
   <!-- メモ: 何故かloadingで囲うとng-modelが動かなくなることがある。何かあったら削除 -->
 
   <h2>Order Detail (#{{selectedId}})</h2>
-
-  <div class="row">
-    <p class="ml-10" ng-show="!order.is_paid" ng-hide="order == null">
-      <i class="fa fa-info-circle"></i>
-      支払いが完了していないため、ステータスをDoneに変更できません。
-    </p>
-  </div>
 
   <div class="row">
     <div class="col-xs-4">

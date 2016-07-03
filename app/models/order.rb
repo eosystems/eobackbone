@@ -81,10 +81,8 @@ class Order < ActiveRecord::Base
   end
 
   # Doneに変更可能か
-  # - 支払済の場合はdoneに変更可能
   # - 契約管理権限を持っている場合は操作可能
   def can_change_to_done?(user)
-    return false unless self.is_paid
     user.has_contract_role?
   end
 
