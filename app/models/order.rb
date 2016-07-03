@@ -7,6 +7,7 @@
 #  sell_price        :decimal(20, 4)   default(0.0), not null
 #  total_volume      :decimal(20, 4)   default(0.0), not null
 #  is_credit         :boolean          default(FALSE), not null
+#  is_paid           :boolean          default(FALSE), not null
 #  processing_status :string(255)      default("in_process"), not null
 #  station_id        :integer
 #  order_by          :integer          not null

@@ -17,6 +17,7 @@
 #  price          :decimal(20, 4)
 #  buy            :boolean
 #  issued         :datetime
+#  monitor        :boolean
 #  created_at     :datetime
 #  updated_at     :datetime
 #
