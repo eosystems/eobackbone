@@ -215,6 +215,47 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at",                                      null: false
   end
 
+  create_table "wallet_journals", force: :cascade do |t|
+    t.datetime "transaction_date"
+    t.integer  "ref_id",           limit: 8
+    t.integer  "ref_type_id",      limit: 4
+    t.string   "owner_name_1",     limit: 255
+    t.integer  "owner_id_1",       limit: 8
+    t.string   "owner_name_2",     limit: 255
+    t.integer  "owner_id_2",       limit: 8
+    t.string   "arg_name_1",       limit: 255
+    t.integer  "arg_id",           limit: 4
+    t.decimal  "amount",                       precision: 20, scale: 4
+    t.decimal  "balance",                      precision: 20, scale: 4
+    t.string   "reason",           limit: 255,                          null: false
+    t.integer  "tax_receiver_id",  limit: 8
+    t.decimal  "tax_amount",                   precision: 20, scale: 4
+    t.integer  "user_id",          limit: 4,                            null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "wallet_transactions", force: :cascade do |t|
+    t.datetime "transaction_date"
+    t.integer  "transaction_id",         limit: 8,                            null: false
+    t.integer  "quantity",               limit: 4
+    t.string   "type_name",              limit: 255
+    t.integer  "type_id",                limit: 4
+    t.decimal  "price",                              precision: 20, scale: 4
+    t.integer  "client_id",              limit: 8
+    t.string   "client_name",            limit: 255
+    t.integer  "station_id",             limit: 8
+    t.string   "station_name",           limit: 255
+    t.string   "transation_type",        limit: 255
+    t.string   "transaction_type",       limit: 255
+    t.string   "transaction_for",        limit: 255
+    t.integer  "journal_transaction_id", limit: 8
+    t.integer  "client_type_id",         limit: 8
+    t.integer  "user_id",                limit: 4,                            null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   add_foreign_key "order_details", "orders", name: "order_details_order_id_fk"
   add_foreign_key "trade_details", "trades", name: "trade_details_trade_id_fk"
 end

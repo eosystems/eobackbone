@@ -187,6 +187,55 @@ create_table :monitor_market_orders, collate: "utf8_bin" do |t|
   t.index [:type_id, :buy, :station_id], name: "index_type_id_and_buy_and_station_id"
 end
 
+create_table :wallet_journals, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+
+  t.datetime :transaction_date, null: true
+  t.bigint :ref_id, null: true
+  t.int :ref_type_id, null: true
+  t.varchar :owner_name_1, null: true
+  t.bigint :owner_id_1, null: true
+  t.varchar :owner_name_2, null: true
+  t.bigint :owner_id_2, null: true
+  t.varchar :arg_name_1, null: true
+  t.int :arg_id, null: true
+  t.decimal :amount, null: true, precision: 20, scale: 4
+  t.decimal :balance, null: true, precision: 20, scale: 4
+  t.varchar :reason
+  t.bigint :tax_receiver_id, null: true
+  t.decimal :tax_amount, null: true, precision: 20, scale: 4
+
+  t.int :user_id
+  t.datetime :created_at, null: true
+  t.datetime :updated_at, null: true
+
+end
+
+create_table :wallet_transactions, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+
+  t.datetime :transaction_date, null: true
+  t.bigint :transaction_id
+  t.int :quantity, null: true
+  t.varchar :type_name, null: true
+  t.int :type_id, null: true
+  t.decimal :price, null: true, precision: 20, scale: 4
+  t.bigint :client_id, null: true
+  t.varchar :client_name, null: true
+  t.bigint :station_id, null: true
+  t.varchar :station_name, null: true
+  t.varchar :transation_type, null: true
+  t.varchar :transaction_type, null: true
+  t.varchar :transaction_for, null: true
+  t.bigint :journal_transaction_id, null: true
+  t.bigint :client_type_id, null: true
+
+  t.int :user_id
+  t.datetime :created_at, null: true
+  t.datetime :updated_at, null: true
+
+end
+
 # master
 create_table :inv_types, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
