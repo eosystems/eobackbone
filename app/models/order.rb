@@ -37,6 +37,9 @@ class Order < ActiveRecord::Base
   belongs_to :order_user, class_name: 'User', foreign_key: :order_by
   belongs_to :station, class_name: "StaStation", primary_key: :station_id
 
+  # Hooks
+  before_create :set_default_paid_status
+
   # Delegates
   delegate :station_name, to: :station, allow_nil: true, prefix: :contract
 
@@ -86,5 +89,14 @@ class Order < ActiveRecord::Base
   def my_order?(user)
     return false unless user.present?
     user.id == self.order_by
+  end
+
+  def set_default_paid_status
+    self.is_paid = if is_credit
+                     false
+                   else
+                     true
+                   end
+    true
   end
 end
