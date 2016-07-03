@@ -121,6 +121,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.decimal  "sell_price",                      precision: 20, scale: 4, default: 0.0,          null: false
     t.decimal  "total_volume",                    precision: 20, scale: 4, default: 0.0,          null: false
     t.boolean  "is_credit",                                                default: false,        null: false
+    t.boolean  "is_paid",                                                  default: false,        null: false
     t.string   "processing_status", limit: 255,                            default: "in_process", null: false
     t.integer  "station_id",        limit: 4
     t.integer  "order_by",          limit: 4,                                                     null: false

@@ -10,6 +10,7 @@ create_table :orders, collate: "utf8_bin", comment: "注文" do |t|
   t.decimal :sell_price, default: "0.0000", precision: 20, scale: 4, comment: "買取合計額\t実際に買取を行う価格"
   t.decimal :total_volume, default: "0.0000", precision: 20, scale: 4, comment: "注文合計容量"
   t.boolean :is_credit, default: false, comment: "掛払フラグ\tfalseの場合は即時払い"
+  t.boolean :is_paid, default: false, comment: "支払済フラグ"
   t.varchar :processing_status, default: "in_process", comment: "処理ステータス"
   t.int :station_id, null: true, comment: "契約場所"
   t.int :order_by, comment: "申請ユーザId"

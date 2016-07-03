@@ -86,5 +86,17 @@ angular.module('eoApp')
         toastr.error("Something wrong.", "Error");
       });
     }
+
+    // 支払
+    $scope.pay = function(paidStatus) {
+      DetailApi.update({ id: $scope.selectedId, is_paid: paidStatus}).$promise.then(function(data) {
+        toastr.success("Success");
+        $scope.reload();
+        $scope.loadDetail();
+      }, function(error) {
+        toastr.error("Something wrong.", "Error");
+      });
+    }
+
   }]
 );

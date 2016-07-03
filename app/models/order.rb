@@ -7,6 +7,7 @@
 #  sell_price        :decimal(20, 4)   default(0.0), not null
 #  total_volume      :decimal(20, 4)   default(0.0), not null
 #  is_credit         :boolean          default(FALSE), not null
+#  is_paid           :boolean          default(FALSE), not null
 #  processing_status :string(255)      default("in_process"), not null
 #  station_id        :integer
 #  order_by          :integer          not null
@@ -35,6 +36,9 @@ class Order < ActiveRecord::Base
   belongs_to :corp, foreign_key: "corporation_id"
   belongs_to :order_user, class_name: 'User', foreign_key: :order_by
   belongs_to :station, class_name: "StaStation", primary_key: :station_id
+
+  # Hooks
+  before_create :set_default_paid_status
 
   # Delegates
   delegate :station_name, to: :station, allow_nil: true, prefix: :contract
@@ -85,5 +89,14 @@ class Order < ActiveRecord::Base
   def my_order?(user)
     return false unless user.present?
     user.id == self.order_by
+  end
+
+  def set_default_paid_status
+    self.is_paid = if is_credit
+                     false
+                   else
+                     true
+                   end
+    true
   end
 end
