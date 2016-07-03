@@ -32,7 +32,7 @@ class UserMarketOrder < ActiveRecord::Base
     order_state: :order_state_eq,
     buy: :buy_eq,
     item_type_name: :item_type_name_cont_any,
-    order_station_name: :order_station_name_cont_any,
+    order_station_name: :station_station_name_cont_any,
     monitor: :monitor_eq
   }.with_indifferent_access.freeze
 
