@@ -13,7 +13,8 @@ class Api::OrdersController < ApiController
   def update
     @order = Order.find(params[:id])
     # TODO: POSTされたステータスをそのままいれてはいけない
-    @order.processing_status = params[:status]
+    @order.is_paid = params[:is_paid] if params[:is_paid].present?
+    @order.processing_status = params[:status] if params[:status].present?
     if @order.save
       render json: { }
     else

@@ -43,9 +43,17 @@
   <h2>Order Detail (#{{selectedId}})</h2>
 
   <div class="row">
+    <p class="ml-10" ng-show="!order.is_paid" ng-hide="order == null">
+      <i class="fa fa-info-circle"></i>
+      支払いが完了していないため、ステータスをDoneに変更できません。
+    </p>
+  </div>
+
+  <div class="row">
     <div class="col-xs-4">
     <div class="text-left">
-      <a href="" class="btn btn-default" ng-disabled="order.is_paid">Pay</a>
+      <a href="" class="btn btn-default" ng-disabled="order == null || order.is_paid"
+        ng-class="{disabled: order == null || order.is_paid}" ng-click="pay(true)">Pay</a>
     </div>
     </div>
 
