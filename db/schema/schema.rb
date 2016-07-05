@@ -152,16 +152,16 @@ create_table :trades, collate: "utf8_bin" do |t|
   t.datetime :trade_date, null: true
   t.int :type_id
   t.int :user_id
-  t.int :sales_quantity
-  t.int :sales_average_price
-  t.int :purchase_quantity
-  t.int :purchase_average_price
-  t.decimal :sales, null: true, precision: 20, scale: 4, comment: "売上"
-  t.decimal :cost, null: true, precision: 20, scale:4, comment: "原価"
-  t.decimal :tax, null: true, precision: 20, scale: 4, comment: "税金"
-  t.decimal :expense, null: true, precision: 20, scale: 4, comment: "総原価"
-  t.decimal :profit, null: true, precision: 20, scale: 4, comment: "利益"
-  t.decimal :inventory_valuation, null: true, precision:20, scale: 4, comment: "在庫評価額"
+  t.int :sales_quantity, default: 0
+  t.int :sales_average_price, default: 0
+  t.int :purchase_quantity, default: 0
+  t.int :purchase_average_price, default: 0
+  t.decimal :sales, null: true, precision: 20, scale: 4, comment: "売上", default: 0
+  t.decimal :cost, null: true, precision: 20, scale:4, comment: "原価", default: 0
+  t.decimal :tax, null: true, precision: 20, scale: 4, comment: "税金", default: 0
+  t.decimal :expense, null: true, precision: 20, scale: 4, comment: "総原価", default: 0
+  t.decimal :profit, null: true, precision: 20, scale: 4, comment: "利益", default: 0
+  t.decimal :inventory_valuation, null: true, precision:20, scale: 4, comment: "在庫評価額", default: 0
   t.datetime :created_at, null: true
   t.datetime :updated_at, null: true
 end
@@ -232,7 +232,6 @@ create_table :wallet_transactions, collate: "utf8_bin" do |t|
   t.varchar :client_name, null: true
   t.bigint :station_id, null: true
   t.varchar :station_name, null: true
-  t.varchar :transation_type, null: true
   t.varchar :transaction_type, null: true
   t.varchar :transaction_for, null: true
   t.bigint :journal_transaction_id, null: true

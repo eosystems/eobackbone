@@ -53,7 +53,6 @@ class WalletTransaction < ActiveRecord::Base
         client_name: r["clientName"],
         station_id: r["stationID"],
         station_name: r["stationName"],
-        transation_type: r["transactionType"],
         transaction_type: r["transactionType"],
         transaction_for: r["transactionFor"],
         journal_transaction_id: r["journalTransactionID"],
