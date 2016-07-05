@@ -149,11 +149,19 @@ end
 
 create_table :trades, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
+  t.datetime :trade_date, null: true
   t.int :type_id
   t.int :user_id
-  t.decimal :revenue, null: true, precision: 20, scale: 4
-  t.decimal :expense, null: true, precision: 20, scale: 4
-  t.decimal :profit, null: true, precision: 20, scale: 4
+  t.int :sales_quantity
+  t.int :sales_average_price
+  t.int :purchase_quantity
+  t.int :purchase_average_price
+  t.decimal :sales, null: true, precision: 20, scale: 4, comment: "売上"
+  t.decimal :cost, null: true, precision: 20, scale:4, comment: "原価"
+  t.decimal :tax, null: true, precision: 20, scale: 4, comment: "税金"
+  t.decimal :expense, null: true, precision: 20, scale: 4, comment: "総原価"
+  t.decimal :profit, null: true, precision: 20, scale: 4, comment: "利益"
+  t.decimal :inventory_valuation, null: true, precision:20, scale: 4, comment: "在庫評価額"
   t.datetime :created_at, null: true
   t.datetime :updated_at, null: true
 end

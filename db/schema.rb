@@ -152,11 +152,19 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "trade_details", ["trade_id"], name: "trade_details_trade_id_fk", using: :btree
 
   create_table "trades", force: :cascade do |t|
-    t.integer  "type_id",    limit: 4,                          null: false
-    t.integer  "user_id",    limit: 4,                          null: false
-    t.decimal  "revenue",              precision: 20, scale: 4
-    t.decimal  "expense",              precision: 20, scale: 4
-    t.decimal  "profit",               precision: 20, scale: 4
+    t.datetime "trade_date"
+    t.integer  "type_id",                limit: 4,                          null: false
+    t.integer  "user_id",                limit: 4,                          null: false
+    t.integer  "sales_quantity",         limit: 4,                          null: false
+    t.integer  "sales_average_price",    limit: 4,                          null: false
+    t.integer  "purchase_quantity",      limit: 4,                          null: false
+    t.integer  "purchase_average_price", limit: 4,                          null: false
+    t.decimal  "sales",                            precision: 20, scale: 4
+    t.decimal  "cost",                             precision: 20, scale: 4
+    t.decimal  "tax",                              precision: 20, scale: 4
+    t.decimal  "expense",                          precision: 20, scale: 4
+    t.decimal  "profit",                           precision: 20, scale: 4
+    t.decimal  "inventory_valuation",              precision: 20, scale: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end
