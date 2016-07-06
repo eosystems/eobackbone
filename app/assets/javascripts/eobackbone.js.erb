@@ -43,6 +43,11 @@ angular.module('eoApp', [
     templateUrl: '<%= asset_path 'user_market_orders/index.html' %>',
     controller: 'userMarketOrdersController'
   })
+  .state('walletTransactions',{
+    url: '/wallet_transactions',
+    templateUrl: '<%= asset_path 'wallet_transactions/index.html' %>',
+    controller: 'walletTransactionsController'
+  })
   ;
 
 }])
