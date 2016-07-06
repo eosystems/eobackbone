@@ -245,7 +245,7 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "wallet_transactions", force: :cascade do |t|
     t.datetime "transaction_date"
-    t.integer  "transaction_id",         limit: 8,                            null: false
+    t.integer  "transaction_id",         limit: 8,                                            null: false
     t.integer  "quantity",               limit: 4
     t.string   "type_name",              limit: 255
     t.integer  "type_id",                limit: 4
@@ -258,7 +258,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "transaction_for",        limit: 255
     t.integer  "journal_transaction_id", limit: 8
     t.integer  "client_type_id",         limit: 8
-    t.integer  "user_id",                limit: 4,                            null: false
+    t.boolean  "trade",                                                       default: false, null: false
+    t.integer  "user_id",                limit: 4,                                            null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -236,6 +236,7 @@ create_table :wallet_transactions, collate: "utf8_bin" do |t|
   t.varchar :transaction_for, null: true
   t.bigint :journal_transaction_id, null: true
   t.bigint :client_type_id, null: true
+  t.boolean :trade, default: false
 
   t.int :user_id
   t.datetime :created_at, null: true

@@ -13,11 +13,11 @@
 #  client_name            :string(255)
 #  station_id             :integer
 #  station_name           :string(255)
-#  transation_type        :string(255)
 #  transaction_type       :string(255)
 #  transaction_for        :string(255)
 #  journal_transaction_id :integer
 #  client_type_id         :integer
+#  trade                  :boolean          default(FALSE), not null
 #  user_id                :integer          not null
 #  created_at             :datetime
 #  updated_at             :datetime
