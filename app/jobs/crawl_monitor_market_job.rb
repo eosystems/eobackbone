@@ -69,7 +69,7 @@ class CrawlMonitorMarketJob < ActiveJob::Base
       }
       save_results << r
       if count % 1000 == 0
-        MarketOrder.import save_results
+        MonitorMarketOrder.import save_results
         save_results = []
       end
       count = count + 1

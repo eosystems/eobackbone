@@ -12,7 +12,7 @@ create_table :orders, collate: "utf8_bin", comment: "注文" do |t|
   t.boolean :is_credit, default: false, comment: "掛払フラグ\tfalseの場合は即時払い"
   t.boolean :is_paid, default: false, comment: "支払済フラグ"
   t.varchar :processing_status, default: "in_process", comment: "処理ステータス"
-  t.int :station_id, null: true, comment: "契約場所"
+  t.bigint :station_id, null: true, comment: "契約場所"
   t.int :order_by, comment: "申請ユーザId"
   t.int :assigned_user_id, null: true, comment: "注文処理ユーザId"
   t.int :corporation_id, null: true, comment: "参照範囲用コープId"
@@ -114,7 +114,7 @@ create_table :market_orders, collate: "utf8_bin" do |t|
   t.datetime :issued, null: true
   t.decimal :price, null: true, precision: 20, scale: 4
   t.int :volume_entered, null: true
-  t.int :station_id, null: true
+  t.bigint :station_id, null: true
   t.int :volume, null: true
   t.varchar :range, null: true
   t.int :min_volume, null: true
@@ -130,7 +130,7 @@ create_table :user_market_orders, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
   t.bigint :order_id
   t.int :user_id
-  t.int :station_id, null: true
+  t.bigint :station_id, null: true
   t.int :volume_entered, null: true
   t.int :volume_remain, null: true
   t.int :min_volume, null: true
@@ -185,7 +185,7 @@ create_table :monitor_market_orders, collate: "utf8_bin" do |t|
   t.datetime :issued, null: true
   t.decimal :price, null: true, precision: 20, scale: 4
   t.int :volume_entered, null: true
-  t.int :station_id, null: true
+  t.bigint :station_id, null: true
   t.int :volume, null: true
   t.varchar :range, null: true
   t.int :min_volume, null: true
@@ -282,7 +282,7 @@ end
 
 create_table :sta_stations, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
-  t.int :station_id
+  t.bigint :station_id
   t.int :region_id
   t.int :solar_system_id
   t.varchar :station_name
