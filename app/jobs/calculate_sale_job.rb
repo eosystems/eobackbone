@@ -62,6 +62,33 @@ class CalculateSaleJob < ActiveJob::Base
         trade.expense = tax + trade.cost
         trade.profit = trade.sales - trade.expense
         trade.save!
+
+        # ２週間の結果
+        summary =
+          Trade
+          .select('type_id, sum(sales_quantity) as sales_quantity,avg(sales_average_price) as sales_average_price,
+          sum(purchase_quantity) as purchase_quantity, avg(purchase_average_price) as purchase_average_price,
+          sum(sales) as sales, sum(cost) as cost, sum(tax) as tax, sum(expense) as expense, sum(profit) as profit' )
+          .where(Trade.arel_table[:trade_date].gteq (date_from - 2.weeks))
+          .where(Trade.arel_table[:trade_date].lteq date_to)
+          .where(type_id: item)
+
+        summary_trade = Trade.new
+        summary_trade.type_id = summary[0].type_id
+        summary_trade.sales_quantity = summary[0].sales_quantity
+        summary_trade.sales_average_price = summary[0].sales_average_price
+        summary_trade.purchase_quantity = summary[0].purchase_quantity
+        summary_trade.purchase_average_price = summary[0].purchase_average_price
+        summary_trade.sales = summary[0].sales
+        summary_trade.cost = summary[0].cost
+        summary_trade.tax = summary[0].tax
+        summary_trade.expense = summary[0].expense
+        summary_trade.profit = summary[0].profit
+        summary_trade.summary = true
+        summary_trade.trade_date = date_to
+        summary_trade.user_id = user
+        summary_trade.save!
+
       end
     end
 
