@@ -52,6 +52,10 @@ class WalletTransaction < ActiveRecord::Base
     where(user.eq(user_id))
   end
 
+  scope :trade_target, -> () do
+    where(trade: true)
+  end
+
   def image_path
     IMAGE_SERVER_PATH % [self.type_id || 0]
   end

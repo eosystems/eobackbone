@@ -20,6 +20,7 @@ class CalculateSaleJob < ActiveJob::Base
         .where(WalletTransaction.arel_table[:transaction_date].gteq date_from)
         .where(WalletTransaction.arel_table[:transaction_date].lteq date_to)
         .where(user_id: user.id)
+        .trade_target
         .pluck(:type_id)
         .uniq
 
@@ -31,6 +32,7 @@ class CalculateSaleJob < ActiveJob::Base
           .where(user_id: user.id)
           .where(transaction_type: 'sell')
           .where(type_id: item)
+          .trade_target
 
         sum_buys = WalletTransaction
           .select('type_id, sum(quantity) as quantity, sum(price * quantity) as t_price, avg(price) as t_average')
@@ -39,6 +41,7 @@ class CalculateSaleJob < ActiveJob::Base
           .where(user_id: user.id)
           .where(transaction_type: 'buy')
           .where(type_id: item)
+          .trade_target
 
         trade = Trade.new
         trade.trade_date = date_to
