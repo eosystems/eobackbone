@@ -68,9 +68,9 @@ class CalculateSaleJob < ActiveJob::Base
 
       end
 
-      # ２週間の結果
+      # 30日の結果
       items = Trade
-        .where(Trade.arel_table[:trade_date].gteq (date_from - 2.weeks))
+        .where(Trade.arel_table[:trade_date].gteq (date_from - 30.days))
         .where(Trade.arel_table[:trade_date].lt date_to)
         .where(user_id: user.id)
         .where(summary: false)
