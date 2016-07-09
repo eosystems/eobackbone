@@ -1,15 +1,50 @@
 <div class="container-fluid">
-<div class="row">
+  <div class="row">
 
-<div class="col-md-12">
-  <h2>Trades</h2>
 
-  <div class="text-left">
-    <button class="btn btn-normal" ng-click="reload()">Reload</button>
+    <div class="col-md-12">
+      <h2>Trades Summary</h2>
+
+      <div class="text-left">
+        <button class="btn btn-normal" ng-click="reload()">Reload</button>
+      </div>
+
+      <section class="content table-responsive">
+        <table ng-table="tableSummaryParams" class="table table-condensed table-responsive table-hover mt-10"
+        show-filter="true">
+        <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
+          <td data-title="'Date'" filter="{trade_date: 'text'}" sortable="'trade_date'">
+            {{row.trade_date |  date: 'medium'}}
+          </td>
+          <td data-title="'Sales'" sortable="'sales'">
+            {{row.sales | number}}
+          </td>
+          <td data-title="'Expense'" sortable="'expense'">
+            {{row.expense | number}}
+          </td>
+          <td data-title="'Cost'" sortable="'cost'">
+            {{row.cost | number}}
+          </td>
+          <td data-title="'Tax'" sortable="'tax'">
+            {{row.tax | number}}
+          </td>
+          <td data-title="'Profit'" sortable="'profit'">
+            {{row.profit | number}}
+          </td>
+        </tr>
+      </table>
+    </section>
   </div>
 
-  <section class="content table-responsive">
-    <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
+  <div class="col-md-12">
+    <h2>Trades</h2>
+
+    <div class="text-left">
+      <button class="btn btn-normal" ng-click="reload()">Reload</button>
+    </div>
+
+    <section class="content table-responsive">
+      <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
       show-filter="true">
       <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
         <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="60px" class="deletable">

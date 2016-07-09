@@ -52,4 +52,13 @@ class Trade < ActiveRecord::Base
     IMAGE_SERVER_PATH % [self.type_id || 0]
   end
 
+  def self.summary(user_id)
+    Trade
+      .select('trade_date,
+          sum(sales) as sales, sum(cost) as cost, sum(tax) as tax, sum(expense) as expense, sum(profit) as profit,
+          sum(inventory_valuation) as inventory_valuation' )
+      .where(summary: true)
+      .where(user_id: user_id)
+      .group(:trade_date)
+  end
 end
