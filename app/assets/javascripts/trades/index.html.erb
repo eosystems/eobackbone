@@ -5,6 +5,11 @@
     <div class="col-md-12">
       <h2>Trades Summary</h2>
 
+      <p>
+        <i class="fa fa-info-circle"></i>
+        対象日から30日前までの売上、費用、利益を表示します。
+      </p>
+
       <div class="text-left">
         <button class="btn btn-normal" ng-click="reload()">Reload</button>
       </div>
@@ -17,19 +22,22 @@
             {{row.trade_date |  date: 'medium'}}
           </td>
           <td data-title="'Sales'" sortable="'sales'">
-            {{row.sales | number}}
+            {{row.sales | number:0}}
           </td>
           <td data-title="'Expense'" sortable="'expense'">
-            {{row.expense | number}}
+            {{row.expense | number:0}}
           </td>
           <td data-title="'Cost'" sortable="'cost'">
-            {{row.cost | number}}
+            {{row.cost | number:0}}
           </td>
           <td data-title="'Tax'" sortable="'tax'">
-            {{row.tax | number}}
+            {{row.tax | number:0}}
           </td>
           <td data-title="'Profit'" sortable="'profit'">
-            {{row.profit | number}}
+            {{row.profit | number:0}}
+          </td>
+          <td data-title="'Inventory'" sortable="'profit'">
+            {{row.inventory_valuation | number:0}}
           </td>
         </tr>
       </table>
@@ -37,8 +45,11 @@
   </div>
 
   <div class="col-md-12">
-    <h2>Trades</h2>
-
+    <h2>Trades Items</h2>
+    <p>
+      <i class="fa fa-info-circle"></i>
+      対象日から30日前までの売上、費用、利益を表示します。
+    </p>
     <div class="text-left">
       <button class="btn btn-normal" ng-click="reload()">Reload</button>
     </div>
@@ -60,22 +71,22 @@
           {{row.item_name}}
         </td>
         <td data-title="'Sales'" sortable="'sales'">
-          {{row.sales | number}}
+          {{row.sales | number:0}}
         </td>
         <td data-title="'Expense'" sortable="'expense'">
-          {{row.expense | number}}
+          {{row.expense | number:0}}
         </td>
         <td data-title="'Cost'" sortable="'cost'">
-          {{row.cost | number}}
+          {{row.cost | number:0}}
         </td>
         <td data-title="'Tax'" sortable="'tax'">
-          {{row.tax | number}}
+          {{row.tax | number:0}}
         </td>
         <td data-title="'Profit'" sortable="'profit'">
-          {{row.profit | number}}
+          {{row.profit | number:0}}
         </td>
         <td data-title="'Inventory'" sortable="'profit'">
-          {{row.inventory_valuation | number}}
+          {{row.inventory_valuation | number:0}}
         </td>
         <td data-title="'Sales Quantity'" sortable="'sales_quantity'">
           {{row.sales_quantity | number}}

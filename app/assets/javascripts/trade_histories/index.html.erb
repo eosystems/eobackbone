@@ -25,20 +25,22 @@
           {{row.item_name}}
         </td>
         <td data-title="'Sales'" sortable="'sales'">
-          {{row.sales | number}}
+          {{row.sales | number:0}}
         </td>
         <td data-title="'Expense'" sortable="'expense'">
-          {{row.expense | number}}
+          {{row.expense | number:0}}
         </td>
         <td data-title="'Cost'" sortable="'cost'">
-          {{row.cost | number}}
+          {{row.cost | number:0}}
         </td>
         <td data-title="'Tax'" sortable="'tax'">
-          {{row.tax | number}}
+          {{row.tax | number:0}}
         </td>
-
         <td data-title="'Profit'" sortable="'profit'">
-          {{row.profit | number}}
+          {{row.profit | number:0}}
+        </td>
+        <td data-title="'Inventory'" sortable="'profit'">
+          {{row.inventory_valuation | number:0}}
         </td>
         <td data-title="'Sales Quantity'" sortable="'sales_quantity'">
           {{row.sales_quantity | number}}
