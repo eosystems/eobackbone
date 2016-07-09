@@ -80,8 +80,9 @@ class CalculateSaleJob < ActiveJob::Base
       items.each do |item|
         summary =
           Trade
-          .select('type_id, sum(sales_quantity) as sales_quantity,avg(sales_average_price) as sales_average_price,
-          sum(purchase_quantity) as purchase_quantity, avg(purchase_average_price) as purchase_average_price,
+          .select('type_id, sum(sales_quantity) as sales_quantity,(sum(sales) / sum(sales_quantity)) as sales_average_price,
+          sum(purchase_quantity) as purchase_quantity,
+          (sum(cost) / sum(purchase_quantity)) as purchase_average_price,
           sum(sales) as sales, sum(cost) as cost, sum(tax) as tax, sum(expense) as expense, sum(profit) as profit' )
           .where(Trade.arel_table[:trade_date].gteq (date_from - 2.weeks))
           .where(Trade.arel_table[:trade_date].lt date_to)
@@ -92,9 +93,9 @@ class CalculateSaleJob < ActiveJob::Base
         summary_trade = Trade.new
         summary_trade.type_id = summary[0].type_id
         summary_trade.sales_quantity = summary[0].sales_quantity
-        summary_trade.sales_average_price = summary[0].sales_average_price
+        summary_trade.sales_average_price = summary[0].sales_average_price if summary[0].sales_average_price != nil
         summary_trade.purchase_quantity = summary[0].purchase_quantity
-        summary_trade.purchase_average_price = summary[0].purchase_average_price
+        summary_trade.purchase_average_price = summary[0].purchase_average_price if summary[0].purchase_average_price != nil
         summary_trade.sales = summary[0].sales
         summary_trade.cost = summary[0].cost
         summary_trade.tax = summary[0].tax
