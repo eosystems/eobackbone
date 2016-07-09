@@ -162,6 +162,7 @@ create_table :trades, collate: "utf8_bin" do |t|
   t.decimal :expense, null: true, precision: 20, scale: 4, comment: "総原価", default: 0
   t.decimal :profit, null: true, precision: 20, scale: 4, comment: "利益", default: 0
   t.decimal :inventory_valuation, null: true, precision:20, scale: 4, comment: "在庫評価額", default: 0
+  t.boolean :summary, default: 0
   t.datetime :created_at, null: true
   t.datetime :updated_at, null: true
 end

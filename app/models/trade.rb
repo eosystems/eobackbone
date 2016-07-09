@@ -16,6 +16,7 @@
 #  expense                :decimal(20, 4)   default(0.0)
 #  profit                 :decimal(20, 4)   default(0.0)
 #  inventory_valuation    :decimal(20, 4)   default(0.0)
+#  summary                :boolean          default(FALSE), not null
 #  created_at             :datetime
 #  updated_at             :datetime
 #
