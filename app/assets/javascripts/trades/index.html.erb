@@ -1,0 +1,60 @@
+<div class="container-fluid">
+<div class="row">
+
+<div class="col-md-12">
+  <h2>Trades</h2>
+
+  <div class="text-left">
+    <button class="btn btn-normal" ng-click="reload()">Reload</button>
+  </div>
+
+  <section class="content table-responsive">
+    <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
+      show-filter="true">
+      <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
+        <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="60px" class="deletable">
+          {{row.id}}
+        </td>
+        <td data-title="'Date'" sortable="'trade_date'">
+          {{row.trade_date}}
+        </td>
+        <td data-title="''" width="32px" class="deletable">
+          <img ng-src="{{ row.image_path }}" class="img-responsive"/>
+        </td>
+        <td data-title="'Item'" filter="{item_type_name: 'text'}" sortable="'item_type_name'">
+          {{row.item_name}}
+        </td>
+        <td data-title="'Sales'" sortable="'sales'">
+          {{row.sales | number}}
+        </td>
+        <td data-title="'Cost'" sortable="'cost'">
+          {{row.cost | number}}
+        </td>
+        <td data-title="'Tax'" sortable="'tax'">
+          {{row.tax | number}}
+        </td>
+        <td data-title="'Expense'" sortable="'expense'">
+          {{row.expense | number}}
+        </td>
+        <td data-title="'Profit'" sortable="'profit'">
+          {{row.profit | number}}
+        </td>
+        <td data-title="'Sales Quantity'" sortable="'sales_quantity'">
+          {{row.sales_quantity | number}}
+        </td>
+        <td data-title="'Purchase Quantity'" sortable="'purchase_quantity'">
+          {{row.purchase_quantity | number}}
+        </td>
+        <td data-title="'Sales Average'" sortable="'sales_average_price'">
+          {{row.sales_average_price | number}}
+        </td>
+        <td data-title="'Purchase Average'" sortable="'purchase_average_price'">
+          {{row.purchase_average_price | number}}
+        </td>
+      </tr>
+    </table>
+  </section>
+</div>
+
+</div>
+</div>
