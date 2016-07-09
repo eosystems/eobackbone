@@ -10,15 +10,15 @@ class CalculateSaleJob < ActiveJob::Base
     date_to = DateTime.parse(date_to)
 
     Trade
-        .where(Trade.arel_table[:trade_date].gteq date_from)
-        .where(Trade.arel_table[:trade_date].lteq date_to)
-        .delete_all
+      .where(Trade.arel_table[:trade_date].gteq date_from)
+      .where(Trade.arel_table[:trade_date].lt date_to)
+      .delete_all
 
     users = User.all
     users.each do |user|
       items = WalletTransaction
         .where(WalletTransaction.arel_table[:transaction_date].gteq date_from)
-        .where(WalletTransaction.arel_table[:transaction_date].lteq date_to)
+        .where(WalletTransaction.arel_table[:transaction_date].lt date_to)
         .where(user_id: user.id)
         .trade_target
         .pluck(:type_id)
@@ -28,7 +28,7 @@ class CalculateSaleJob < ActiveJob::Base
         sum_sells = WalletTransaction
           .select('type_id, sum(quantity) as quantity, sum(price * quantity) as t_price, avg(price) as t_average')
           .where(WalletTransaction.arel_table[:transaction_date].gteq date_from)
-          .where(WalletTransaction.arel_table[:transaction_date].lteq date_to)
+          .where(WalletTransaction.arel_table[:transaction_date].lt date_to)
           .where(user_id: user.id)
           .where(transaction_type: 'sell')
           .where(type_id: item)
@@ -37,14 +37,14 @@ class CalculateSaleJob < ActiveJob::Base
         sum_buys = WalletTransaction
           .select('type_id, sum(quantity) as quantity, sum(price * quantity) as t_price, avg(price) as t_average')
           .where(WalletTransaction.arel_table[:transaction_date].gteq date_from)
-          .where(WalletTransaction.arel_table[:transaction_date].lteq date_to)
+          .where(WalletTransaction.arel_table[:transaction_date].lt date_to)
           .where(user_id: user.id)
           .where(transaction_type: 'buy')
           .where(type_id: item)
           .trade_target
 
         trade = Trade.new
-        trade.trade_date = date_to
+        trade.trade_date = date_from
         trade.type_id = item
         trade.user_id = user
         tax = 0.0
@@ -66,14 +66,27 @@ class CalculateSaleJob < ActiveJob::Base
         trade.profit = trade.sales - trade.expense
         trade.save!
 
-        # ２週間の結果
+      end
+
+      # ２週間の結果
+      items = Trade
+        .where(Trade.arel_table[:trade_date].gteq (date_from - 2.weeks))
+        .where(Trade.arel_table[:trade_date].lt date_to)
+        .where(user_id: user.id)
+        .where(summary: false)
+        .pluck(:type_id)
+        .uniq
+
+      items.each do |item|
         summary =
           Trade
           .select('type_id, sum(sales_quantity) as sales_quantity,avg(sales_average_price) as sales_average_price,
           sum(purchase_quantity) as purchase_quantity, avg(purchase_average_price) as purchase_average_price,
           sum(sales) as sales, sum(cost) as cost, sum(tax) as tax, sum(expense) as expense, sum(profit) as profit' )
           .where(Trade.arel_table[:trade_date].gteq (date_from - 2.weeks))
-          .where(Trade.arel_table[:trade_date].lteq date_to)
+          .where(Trade.arel_table[:trade_date].lt date_to)
+          .where(summary: false)
+          .where(user_id: user.id)
           .where(type_id: item)
 
         summary_trade = Trade.new
@@ -88,11 +101,11 @@ class CalculateSaleJob < ActiveJob::Base
         summary_trade.expense = summary[0].expense
         summary_trade.profit = summary[0].profit
         summary_trade.summary = true
-        summary_trade.trade_date = date_to
+        summary_trade.trade_date = date_from
         summary_trade.user_id = user
         summary_trade.save!
-
       end
+
     end
 
     Rails.logger.info("end calculate sale job")
