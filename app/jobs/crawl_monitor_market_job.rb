@@ -41,6 +41,7 @@ class CrawlMonitorMarketJob < ActiveJob::Base
           order.save!
         else
           order.volume_remain = 0
+          order_state = OrderStatus::FULFILLED.id
           order.save!
         end
       end
