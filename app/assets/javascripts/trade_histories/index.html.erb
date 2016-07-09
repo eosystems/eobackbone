@@ -2,7 +2,7 @@
 <div class="row">
 
 <div class="col-md-12">
-  <h2>Trades</h2>
+  <h2>Trade History</h2>
 
   <div class="text-left">
     <button class="btn btn-normal" ng-click="reload()">Reload</button>
@@ -15,8 +15,8 @@
         <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="60px" class="deletable">
           {{row.id}}
         </td>
-        <td data-title="'Date'" filter="{trade_date: 'text'}" sortable="'trade_date'">
-          {{row.trade_date |  date: 'medium'}}
+        <td data-title="'Date'" sortable="'trade_date'">
+          {{row.trade_date}}
         </td>
         <td data-title="''" width="32px" class="deletable">
           <img ng-src="{{ row.image_path }}" class="img-responsive"/>

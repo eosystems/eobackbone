@@ -28,6 +28,7 @@ class Trade < ActiveRecord::Base
 
   RANSACK_FILTER_ATTRIBUTES = {
     id: :id_eq_any,
+    trade_date: :trade_date_cont_any,
     item_type_name: :item_type_name_cont_any
   }.with_indifferent_access.freeze
 

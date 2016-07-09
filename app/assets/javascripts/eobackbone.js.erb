@@ -53,6 +53,11 @@ angular.module('eoApp', [
     templateUrl: '<%= asset_path 'trades/index.html' %>',
     controller: 'tradesController'
   })
+  .state('trade_histories',{
+    url: '/trade_histories',
+    templateUrl: '<%= asset_path 'trade_histories/index.html' %>',
+    controller: 'tradeHistoriesController'
+  })
   ;
 
 }])

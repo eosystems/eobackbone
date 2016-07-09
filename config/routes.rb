@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :wallet_transactions, only: [:index, :update]
     resources :orders, only: [:index, :show, :update]
     resources :trades, only: [:index]
+    resources :trade_histories, only: [:index]
     resources :locations, only: [:index]
   end
 end
