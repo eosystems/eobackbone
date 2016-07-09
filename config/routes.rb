@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     resources :trades, only: [:index]
     resources :trade_summaries, only: [:index]
     resources :trade_histories, only: [:index]
+    resources :trade_history_summaries, only: [:index]
     resources :locations, only: [:index]
   end
 end

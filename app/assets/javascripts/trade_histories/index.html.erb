@@ -1,9 +1,51 @@
 <div class="container-fluid">
-<div class="row">
+  <div class="row">
+
+  <div class="col-md-12">
+    <h2>Trades History Summary</h2>
+
+    <p>
+      <i class="fa fa-info-circle"></i>
+      対象日の売上、費用、利益を表示します。
+    </p>
+
+    <div class="text-left">
+      <button class="btn btn-normal" ng-click="reload()">Reload</button>
+    </div>
+
+    <section class="content table-responsive">
+      <table ng-table="tableSummaryParams" class="table table-condensed table-responsive table-hover mt-10"
+      show-filter="true">
+      <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
+        <td data-title="'Date'" filter="{trade_date: 'text'}" sortable="'trade_date'">
+          {{row.trade_date |  date: 'medium'}}
+        </td>
+        <td data-title="'Sales'" sortable="'sales'">
+          {{row.sales | number:0}}
+        </td>
+        <td data-title="'Expense'" sortable="'expense'">
+          {{row.expense | number:0}}
+        </td>
+        <td data-title="'Cost'" sortable="'cost'">
+          {{row.cost | number:0}}
+        </td>
+        <td data-title="'Tax'" sortable="'tax'">
+          {{row.tax | number:0}}
+        </td>
+        <td data-title="'Profit'" sortable="'profit'">
+          {{row.profit | number:0}}
+        </td>
+      </tr>
+    </table>
+  </section>
+</div>
 
 <div class="col-md-12">
   <h2>Trade History</h2>
-
+  <p>
+    <i class="fa fa-info-circle"></i>
+    対象日の売上、費用、利益を表示します。
+  </p>
   <div class="text-left">
     <button class="btn btn-normal" ng-click="reload()">Reload</button>
   </div>

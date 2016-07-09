@@ -52,12 +52,24 @@ class Trade < ActiveRecord::Base
     IMAGE_SERVER_PATH % [self.type_id || 0]
   end
 
+  # 過去30日の累計
   def self.summary(user_id)
     Trade
       .select('trade_date,
           sum(sales) as sales, sum(cost) as cost, sum(tax) as tax, sum(expense) as expense, sum(profit) as profit,
           sum(inventory_valuation) as inventory_valuation' )
       .where(summary: true)
+      .where(user_id: user_id)
+      .group(:trade_date)
+  end
+
+  # 過去を考慮しない1日の売上
+  def self.summary_one_day(user_id)
+    Trade
+      .select('trade_date,
+          sum(sales) as sales, sum(cost) as cost, sum(tax) as tax, sum(expense) as expense, sum(profit) as profit,
+          sum(inventory_valuation) as inventory_valuation' )
+      .where(summary: false)
       .where(user_id: user_id)
       .group(:trade_date)
   end
