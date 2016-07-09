@@ -87,7 +87,7 @@ class UserMarketOrder < ActiveRecord::Base
       }
 
       if u.volume_remain == 0
-        u.order_state = OrderStatus::FULFILLED
+        u.order_state = OrderStatus::FULFILLED.id
       end
       u.save!
     end
