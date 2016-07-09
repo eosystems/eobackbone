@@ -85,6 +85,10 @@ class UserMarketOrder < ActiveRecord::Base
         buy: r["bid"],
         issued: r["issued"]
       }
+
+      if u.volume_remain == 0
+        u.order_state = OrderStatus::FULFILLED
+      end
       u.save!
     end
   end

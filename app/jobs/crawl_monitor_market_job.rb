@@ -4,7 +4,10 @@ class CrawlMonitorMarketJob < ActiveJob::Base
   def perform(*args)
     Rails.logger.info("start crawl monitor market orders")
 
-    monitor_items = UserMarketOrder.where(monitor: 1).select(:station_id, :type_id).uniq
+    monitor_items = UserMarketOrder
+      .where(monitor: 1)
+      .where(order_state: OrderStatus::OPEN)
+      .select(:station_id, :type_id).uniq
     monitor_items.each do | monitor_item |
       region_id = monitor_item.station.region_id
       type_id = monitor_item.type_id
@@ -69,7 +72,7 @@ class CrawlMonitorMarketJob < ActiveJob::Base
       }
       save_results << r
       if count % 1000 == 0
-        MarketOrder.import save_results
+        MonitorMarketOrder.import save_results
         save_results = []
       end
       count = count + 1
