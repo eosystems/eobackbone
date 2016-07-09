@@ -1,0 +1,59 @@
+<div class="container-fluid">
+<div class="row">
+
+<div class="col-md-12">
+  <h2>Wallet Transaction</h2>
+
+  <div class="text-left">
+    <button class="btn btn-normal" ng-click="reload()">Reload</button>
+  </div>
+
+  <section class="content table-responsive">
+    <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
+      show-filter="true">
+      <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
+        <td data-title="'Trade'" sortable="'trade'" width="100px"
+          filter="{trade: 'select'}" filter-data="tradeFilter" class="text-center">
+          <label ng-show="row.trade == '0'" class="label label-danger">No</label>
+          <label ng-show="row.trade == '1'" class="label label-primary">Yes</label>
+        </td>
+        <td data-title="'Buy'" sortable="'buy'" width="100px"
+          filter="{transaction_type: 'select'}" filter-data="buyFilter" class="text-center">
+          <label ng-show="row.transaction_type == 'sell'" class="label label-success">Sell</label>
+          <label ng-show="row.transaction_type == 'buy'" class="label label-primary">Buy</label>
+        </td>
+        <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="60px" class="deletable">
+          {{row.id}}
+        </td>
+        <td data-title="''" width="32px" class="deletable">
+          <img ng-src="{{ row.image_path }}" class="img-responsive"/>
+        </td>
+        <td data-title="'Item'" filter="{item_type_name: 'text'}" sortable="'item_type_name'">
+          {{row.item_name}}
+        </td>
+        <td data-title="'Price'" sortable="'price'">
+          {{row.price | number}} isk
+        </td>
+        <td data-title="'Quantity'" sortable="'quantity'">
+          {{row.quantity | number}}
+        </td>
+        <td data-title="'Station'" filter="{station_name: 'text'}" sortable="'station_name'">
+          {{row.station_name}}
+        </td>
+        <td data-title="'Client'" filter="{client_name: 'text'}" sortable="'client_name'">
+          {{row.client_name}}
+        </td>
+        <td data-title="'Date'" sortable="'transaction_date'">
+          {{row.transaction_date}}
+        </td>
+        <td data-title="'Action'" width="150px">
+          <button class="btn btn-normal"  ng-click="updateTrade('1')">ON</button>
+          <button class="btn btn-normal"  ng-click="updateTrade('0')">OFF</button>
+        </td>
+      </tr>
+    </table>
+  </section>
+</div>
+
+</div>
+</div>

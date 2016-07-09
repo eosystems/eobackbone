@@ -9,7 +9,12 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resources :sell_orders, only: [:index, :create]
     resources :user_market_orders, only: [:index, :show, :update]
+    resources :wallet_transactions, only: [:index, :update]
     resources :orders, only: [:index, :show, :update]
+    resources :trades, only: [:index]
+    resources :trade_summaries, only: [:index]
+    resources :trade_histories, only: [:index]
+    resources :trade_history_summaries, only: [:index]
     resources :locations, only: [:index]
   end
 end

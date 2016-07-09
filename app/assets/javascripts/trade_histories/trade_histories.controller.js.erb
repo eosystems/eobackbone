@@ -1,0 +1,78 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+  'tradeHistoriesController',
+  ['ngTableParams', '$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+  function(ngTableParams, $resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+
+    var RootApi = $resource("/api/trade_histories");
+    var RootApi2 = $resource("/api/trade_history_summaries");
+
+    $scope.setTotalCount = function(count) {
+      $scope.totalCount = count;
+    };
+
+    $scope.setTotalCount2 = function(count) {
+      $scope.totalCount2 = count;
+    };
+
+    $scope.tableParams = new ngTableParams({
+      filter: { },
+      count: 25,
+    }, {
+      counts: [25, 50, 100],
+      getData: function(params) {
+        var urlParams = params.url();
+
+        return RootApi.get(urlParams).$promise.then(function(data) {
+          params.total(data.totalCount);
+          $scope.setTotalCount(data.totalCount);
+          $scope.searchResults = data.results;
+          return data.results;
+        });
+      }
+    });
+
+    // summary
+    $scope.tableSummaryParams = new ngTableParams({
+      filter: { },
+      count: 7,
+    }, {
+      counts: [7, 14, 30],
+      getData: function(params) {
+        var urlParams = params.url();
+
+        return RootApi2.get(urlParams).$promise.then(function(data) {
+          params.total(data.totalCount);
+          $scope.setTotalCount2(data.totalCount);
+          $scope.searchSummaryResults = data.results;
+          return data.results;
+        });
+      }
+    });
+
+    // Order Grid押下時
+    $scope.selectRow = function(id) {
+      var results = $scope.searchResults;
+      _.each($scope.searchResults, function(v) { v.selected = false; });
+      var row = $scope.searchResults.find(function(v) { return v.id == id })
+      if (row) {
+        row.selected = !row.selected;
+      }
+      $scope.selectedId = id;
+    };
+
+    // 再読み込み
+    $scope.reload = function() {
+      $scope.tableParams.reload();
+    };
+
+    // 再読み込み
+    $scope.summaryReload = function() {
+      $scope.tableSummaryParams.reload();
+    };
+
+  }]
+);
