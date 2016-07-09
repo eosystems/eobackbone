@@ -97,9 +97,9 @@ while [ "$end" != "$current" ]
 do
   # 起動処理
   arg=$(date -d "$current" +%Y%m%d)
-  bundle exec rails runner "CalculateSaleJob.perform_later(\"$arg\",\"$arg\")" -e $ARG_ENV
-  echo "enqueue calculateSaleJob $arg"
   current=$( date -d "$current +1 days" +%Y%m%d)
+  bundle exec rails runner "CalculateSaleJob.perform_later(\"$arg\",\"$current\")" -e $ARG_ENV
+  echo "enqueue calculateSaleJob $arg"
 done
 
 
