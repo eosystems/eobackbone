@@ -93,14 +93,24 @@ class CalculateSaleJob < ActiveJob::Base
         summary_trade = Trade.new
         summary_trade.type_id = summary[0].type_id
         summary_trade.sales_quantity = summary[0].sales_quantity
-        summary_trade.sales_average_price = summary[0].sales_average_price if summary[0].sales_average_price != nil
+        if summary[0].sales_average_price != nil
+          summary_trade.sales_average_price = summary[0].sales_average_price
+        else
+          summary_trade.sales_average_price = 0
+        end
         summary_trade.purchase_quantity = summary[0].purchase_quantity
-        summary_trade.purchase_average_price = summary[0].purchase_average_price if summary[0].purchase_average_price != nil
+        if summary[0].purchase_average_price
+          summary_trade.purchase_average_price = summary[0].purchase_average_price
+        else
+          summary_trade.purchase_average_price = 0
+        end
         summary_trade.sales = summary[0].sales
         summary_trade.cost = summary[0].cost
         summary_trade.tax = summary[0].tax
         summary_trade.expense = summary[0].expense
         summary_trade.profit = summary[0].profit
+        # 在庫評価
+        summary_trade.inventory_valuation = (summary_trade.purchase_quantity - summary_trade.sales_quantity) * summary_trade.purchase_average_price
         summary_trade.summary = true
         summary_trade.trade_date = date_from
         summary_trade.user_id = user
