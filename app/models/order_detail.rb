@@ -42,7 +42,11 @@ class OrderDetail < ActiveRecord::Base
   end
 
   def retrieval!
-    self.item_id = InvType.find_by("type_name = ?", "#{self.raw_item_name.gsub("*", "")}").type_id
+    begin
+      self.item_id = InvType.find_by("type_name = ?", "#{self.raw_item_name.gsub("*", "")}").type_id
+    rescue => e
+      self.item_id = TrnTranslation.find_by("text = ? and tc_id = 8", "#{self.raw_item_name.gsub("*", "")}").key_id
+    end
     self.unit_price = MarketOrder.jita_buy_price(self.item_id)
     self.sell_unit_price = self.unit_price
   end

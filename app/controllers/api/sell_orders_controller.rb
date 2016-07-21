@@ -27,6 +27,6 @@ class Api::SellOrdersController < ApiController
   def permitted_attributes
     params
       .require(:order)
-      .permit(:sell_price, :is_credit, :station_id, :note)
+      .permit(:sell_price, :is_credit, :station_i, :note)
   end
 end
