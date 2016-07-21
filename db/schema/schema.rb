@@ -245,6 +245,13 @@ create_table :wallet_transactions, collate: "utf8_bin" do |t|
 
 end
 
+create_table :systems, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.boolean :flag
+  t.datetime :created_at, null: true
+  t.datetime :updated_at, null: true
+end
+
 # master
 create_table :inv_types, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment

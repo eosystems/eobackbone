@@ -1,5 +1,10 @@
 class Api::SellOrdersController < ApiController
   def index
+    # 暫定対応 #45
+    s = System.all
+    if s.count > 0
+      render json: {error: "データ入れ替え中のため使用できません 5分程度お待ちください"}, status: 500
+    end
     @order = InventoryParseService.new.parse(params[:form])
     if @order.present?
       begin
@@ -13,6 +18,11 @@ class Api::SellOrdersController < ApiController
   end
 
   def create
+    # 暫定対応 #45
+    s = System.all
+    if s.count > 0
+      render json: {error: "データ入れ替え中のため使用できません 5分程度お待ちください"}, status: 500
+    end
     @order = InventoryParseService.new.parse(params[:form])
     @order.retrieval!
     @order.attributes = permitted_attributes
