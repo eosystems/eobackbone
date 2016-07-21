@@ -31,7 +31,7 @@ angular.module('eoApp')
           toastr.success("Retrieval Success", "Success");
         }
       }, function(error) {
-          toastr.error("Something Wrong.", "Error");
+          toastr.error(error.data.error, "Error");
       });
     };
 

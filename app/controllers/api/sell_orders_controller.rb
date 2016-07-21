@@ -2,7 +2,11 @@ class Api::SellOrdersController < ApiController
   def index
     @order = InventoryParseService.new.parse(params[:form])
     if @order.present?
-      @order.retrieval!
+      begin
+        @order.retrieval!
+      rescue => e
+        render json: {error: e.message}, status: 500
+      end
     else
       render json: { error: "Cannot parse" }, status: 500
     end
