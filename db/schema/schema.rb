@@ -245,6 +245,13 @@ create_table :wallet_transactions, collate: "utf8_bin" do |t|
 
 end
 
+create_table :systems, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.boolean :flag
+  t.datetime :created_at, null: true
+  t.datetime :updated_at, null: true
+end
+
 # master
 create_table :inv_types, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
@@ -290,3 +297,12 @@ create_table :sta_stations, collate: "utf8_bin" do |t|
   t.index ["station_id"], name: "index_station_id"
   t.index ["solar_system_id"], name: "index_solar_system_id"
 end
+
+create_table :trn_translations, collate: "utf8_bin", comment: "翻訳" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.varchar :tc_id, null: true
+  t.int :key_id, null: true
+  t.varchar :language_id, null: true
+  t.text :text, null: true
+end
+

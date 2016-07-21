@@ -6,7 +6,13 @@ class CrawlMarketJob < ActiveJob::Base
     region = "10000002"
     is_success, items = fetch_market_orders(region)
     if is_success
+      # 暫定対応
+      System.delete_all
+      s = System.new
+      s.flag = false
+      s.save!
       save_market_orders(items, region)
+      System.delete_all
     end
     Rails.logger.info("end crawl market orders")
   end
