@@ -170,6 +170,13 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at"
   end
 
+  create_table "trn_translations", force: :cascade do |t|
+    t.string  "tc_id",       limit: 255
+    t.integer "key_id",      limit: 4
+    t.string  "language_id", limit: 255
+    t.text    "text",        limit: 65535
+  end
+
   create_table "user_details", force: :cascade do |t|
     t.integer "user_id",           limit: 4,   null: false
     t.integer "corporation_id",    limit: 4

@@ -70,3 +70,19 @@ insert into sta_stations
   from EveDB.StaStations
 
 );
+
+insert into trn_translations 
+(
+	tc_id,
+	key_id,
+	language_id,
+	text
+)
+(
+	select
+	tcID,
+	keyID,
+	languageID,
+	text
+	from EveDB.trnTranslations
+)
