@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 0) do
   create_table "departments", force: :cascade do |t|
     t.string   "department_name", limit: 255,                 null: false
     t.boolean  "delete_flag",                 default: false, null: false
+    t.integer  "corporation_id",  limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
   end

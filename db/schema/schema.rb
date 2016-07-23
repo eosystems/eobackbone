@@ -257,6 +257,7 @@ create_table :departments, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
   t.varchar :department_name
   t.boolean :delete_flag, default: false
+  t.int :corporation_id, null: true
   t.datetime :created_at, null: true
   t.datetime :updated_at, null: true
 end
