@@ -14,6 +14,7 @@
 #  assigned_user_id  :integer
 #  corporation_id    :integer
 #  note              :text(65535)
+#  department_id     :integer
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #
@@ -21,6 +22,7 @@
 class Order < ActiveRecord::Base
   include NgTableSearchable
 
+  belongs_to :department
   attr_accessor :management_done, :management_cancel, :management_reject, :management_in_process
 
   # 買取価格係数 元の価格に一定係数かけたものを買取額とする

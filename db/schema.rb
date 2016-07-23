@@ -35,6 +35,13 @@ ActiveRecord::Schema.define(version: 0) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
+  create_table "departments", force: :cascade do |t|
+    t.string   "department_name", limit: 255,                 null: false
+    t.boolean  "delete_flag",                 default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "inv_types", force: :cascade do |t|
     t.integer "type_id",         limit: 4,                              null: false
     t.integer "group_id",        limit: 4
@@ -128,6 +135,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer  "assigned_user_id",  limit: 4
     t.integer  "corporation_id",    limit: 4
     t.text     "note",              limit: 65535
+    t.integer  "department_id",     limit: 4
     t.datetime "created_at",                                                                      null: false
     t.datetime "updated_at",                                                                      null: false
   end
