@@ -22,6 +22,9 @@
         <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="100px" class="deletable">
           {{row.id}}
         </td>
+        <td data-title="'Department'" filter="{contract_department_name: 'text'}" sortable="'department_department_name'">
+          {{row.department_name}}
+        </td>
         <td data-title="'Payment'" sortable="'is_paid'" width="100px" class="deletable">
           <label ng-show="row.is_paid" class="">Paid</label>
           <label ng-show="!row.is_paid" class="">Unpaid</label>

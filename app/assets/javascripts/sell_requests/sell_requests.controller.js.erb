@@ -13,8 +13,19 @@ angular.module('eoApp')
       }
     });
     var LocationApi = $resource("/api/locations", {});
+    var DepartmentApi = $resource("/api/departments", {});
 
     var that = this;
+
+    // 初期化
+    var initialize = function() {
+      // 部門
+      DepartmentApi.get({}).$promise.then(function(data) {
+        $scope.departments = data.results;
+      });
+    };
+
+    initialize();
 
     // Retrieval
     $scope.totalPrice = 0.0;
@@ -71,6 +82,7 @@ angular.module('eoApp')
             sell_price: $scope.sellPrice,
             is_credit: $scope.paymentMethod == "credit",
             station_id: that.contractLocation != null ? that.contractLocation.station_id : null,
+            department_id: $scope.selectedDepartment != null ? $scope.selectedDepartment.id : null,
             note: $scope.note
           };
           Api.create({ form: $scope.retrievalForm, order: orderForm }).$promise.then(function(data) {

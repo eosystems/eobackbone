@@ -22,7 +22,6 @@
 class Order < ActiveRecord::Base
   include NgTableSearchable
 
-  belongs_to :department
   attr_accessor :management_done, :management_cancel, :management_reject, :management_in_process
 
   # 買取価格係数 元の価格に一定係数かけたものを買取額とする
@@ -31,6 +30,7 @@ class Order < ActiveRecord::Base
   RANSACK_FILTER_ATTRIBUTES = {
     id: :id_eq_any,
     processing_status: :processing_status_eq,
+    contract_department_name: :department_department_name_cont_any
   }.with_indifferent_access.freeze
 
   # Relations
@@ -38,13 +38,14 @@ class Order < ActiveRecord::Base
   belongs_to :corp, foreign_key: "corporation_id"
   belongs_to :order_user, class_name: 'User', foreign_key: :order_by
   belongs_to :station, class_name: "StaStation", primary_key: :station_id
+  belongs_to :department
 
   # Hooks
   before_create :set_default_paid_status
 
   # Delegates
   delegate :station_name, to: :station, allow_nil: true, prefix: :contract
-
+  delegate :department_name, to: :department, allow_nil: true, prefix: :contract
   # Scopes
 
   # 指定したCorpに属している、または指定したユーザIDが出した注文であれば参照可能
