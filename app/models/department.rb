@@ -13,4 +13,11 @@
 class Department < ActiveRecord::Base
   has_many :orders
   belongs_to :corporation
+
+  # 指定したCorpに属している
+  scope :accessible_departments, -> (corporation_id) do
+    cid = arel_table[:corporation_id]
+    where(cid.eq(corporation_id))
+  end
+
 end
