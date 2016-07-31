@@ -17,6 +17,7 @@ create_table :orders, collate: "utf8_bin", comment: "注文" do |t|
   t.int :assigned_user_id, null: true, comment: "注文処理ユーザId"
   t.int :corporation_id, null: true, comment: "参照範囲用コープId"
   t.text :note, null: true, comment: "メモ"
+  t.int :department_id, null: true, comment: "部門"
 
   t.datetime :created_at
   t.datetime :updated_at
@@ -248,6 +249,15 @@ end
 create_table :systems, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
   t.boolean :flag
+  t.datetime :created_at, null: true
+  t.datetime :updated_at, null: true
+end
+
+create_table :departments, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.varchar :department_name
+  t.boolean :delete_flag, default: false
+  t.int :corporation_id, null: true
   t.datetime :created_at, null: true
   t.datetime :updated_at, null: true
 end

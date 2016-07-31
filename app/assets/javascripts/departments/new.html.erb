@@ -1,0 +1,49 @@
+<div class="container-fluid">
+<div class="row">
+
+    <div class="col-md-6">
+      <h2>Departments</h2>
+      <hr>
+
+      New department: <input class="form-control" ng-model="newDepartment"></input>
+
+      <button id="get-inventory-info" class="btn btn-default" ng-click="createDepartment()">Create</button>
+
+      <br/>
+
+      </table>
+
+      <section class="content table-responsive">
+        <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
+          show-filter="true">
+          <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
+            <td data-title="'Name'" sortable="'department_name'">
+              {{ row.department_name }}
+            </td>
+            <td data-title="'Created'" sortable="'created_at'">
+               {{ row.created_at | date }}
+            </td>
+            <td data-title="'Updated'" sortable="'updated_at'">
+              {{ row.updated_at | date }}
+            </td>
+          </tr>
+        </table>
+      </section>
+    </div>
+
+    <div class="col-md-6">
+      <h2>Department Detail</h2>
+
+      <div class="text-right">
+        <button id="get-inventory-info" class="btn btn-primary" ng-click="updateDepartment()">Update</button>
+        <button id="get-inventory-info" class="btn btn-primary" ng-click="deleteDepartment()">Delete</button>
+      </div>
+
+      <div class="form-group">
+        Name:
+        <input class="form-control" ng-model="department.department_name"></input>
+      </div>
+    </div>
+
+</div>
+</div>

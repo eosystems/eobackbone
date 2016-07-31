@@ -14,6 +14,7 @@
 #  assigned_user_id  :integer
 #  corporation_id    :integer
 #  note              :text(65535)
+#  department_id     :integer
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #
@@ -29,6 +30,7 @@ class Order < ActiveRecord::Base
   RANSACK_FILTER_ATTRIBUTES = {
     id: :id_eq_any,
     processing_status: :processing_status_eq,
+    contract_department_name: :department_department_name_cont_any
   }.with_indifferent_access.freeze
 
   # Relations
@@ -36,13 +38,14 @@ class Order < ActiveRecord::Base
   belongs_to :corp, foreign_key: "corporation_id"
   belongs_to :order_user, class_name: 'User', foreign_key: :order_by
   belongs_to :station, class_name: "StaStation", primary_key: :station_id
+  belongs_to :department
 
   # Hooks
   before_create :set_default_paid_status
 
   # Delegates
   delegate :station_name, to: :station, allow_nil: true, prefix: :contract
-
+  delegate :department_name, to: :department, allow_nil: true, prefix: :contract
   # Scopes
 
   # 指定したCorpに属している、または指定したユーザIDが出した注文であれば参照可能

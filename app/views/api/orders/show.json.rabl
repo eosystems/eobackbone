@@ -7,6 +7,7 @@ child @order => :results do
 
   node(:order_user_name) { |v| v.order_user.try(:name) }
   node(:contract_station_name) { |v| v.contract_station_name }
+  node(:department_name) { |v| v.department.try(:department_name) }
 
   child :order_details do
     attributes :item_id, :unit_price,

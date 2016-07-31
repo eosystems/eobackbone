@@ -22,6 +22,9 @@
         <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="100px" class="deletable">
           {{row.id}}
         </td>
+        <td data-title="'Department'" filter="{contract_department_name: 'text'}" sortable="'department_department_name'">
+          {{row.department_name}}
+        </td>
         <td data-title="'Payment'" sortable="'is_paid'" width="100px" class="deletable">
           <label ng-show="row.is_paid" class="">Paid</label>
           <label ng-show="!row.is_paid" class="">Unpaid</label>
@@ -118,6 +121,12 @@
       <label class="col-sm-3 control-label">Orderer: </label>
       <div class="col-sm-9">
         <p class="form-control-static"> {{ order.order_user_name }} </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Department: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.department_name }} </p>
       </div>
     </div>
     <div class="form-group">

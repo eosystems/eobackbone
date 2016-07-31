@@ -4,3 +4,6 @@
 - id: 1
   type: contract
   name: Contracting Officer
+- id: 2
+  type: manager
+  name: Manager

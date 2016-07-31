@@ -54,4 +54,9 @@ class User < ActiveRecord::Base
   def has_contract_role?
     UserRole.exists?(user_id: self.id, role: OperationRole::CONTRACT.id)
   end
+
+  def has_manager_role?
+    UserRole.exists?(user_id: self.id, role: OperationRole::MANAGER.id)
+  end
+
 end
