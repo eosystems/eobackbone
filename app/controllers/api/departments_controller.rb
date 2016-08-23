@@ -1,11 +1,9 @@
 class Api::DepartmentsController < ApiController
   def index
     @departments = nil
-    if current_user.has_manager_role?
-      @departments = Department
-        .accessible_departments(current_character.corporation_id)
-        .order(id: :desc)
-    end
+    @departments = Department
+      .accessible_departments(current_character.corporation_id)
+      .order(id: :desc)
   end
 
   def show
@@ -27,20 +25,29 @@ class Api::DepartmentsController < ApiController
   end
 
   def update
-    @department = Department.find(params[:id])
-    @department.department_name = params[:department_name]
-    if @department.save
-      render json: {}
+    if current_user.has_manager_role? == false
+      render json: { error: "You don't have manager role" }, status: 500
     else
-      render json: { error: "something wrong" }
+      @department = Department.find(params[:id])
+      @department.department_name = params[:department_name]
+      if @department.save
+        render json: {}
+      else
+        render json: { error: "something wrong" }
+      end
     end
   end
 
   def destroy
-    @department = Department.find(params[:id])
-    @department.destroy
-    render json: {}
+    if current_user.has_manager_role? == false
+      render json: { error: "You don't have manager role" }, status: 500
+    else
+      @department = Department.find(params[:id])
+      @department.destroy
+      render json: {}
+    end
   end
+
   private
 
   def department_params

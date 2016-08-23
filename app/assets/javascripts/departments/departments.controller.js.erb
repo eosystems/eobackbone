@@ -110,7 +110,7 @@ angular.module('eoApp')
         $scope.reload();
         $scope.loadDetail();
       }, function(error) {
-        toastr.error("Something wrong.", "Error");
+        toastr.error(error.data.error, "Error");
       });
     }
 
@@ -142,7 +142,7 @@ angular.module('eoApp')
             toastr.success("Success", "Success");
             $scope.reload();
           }, function(error) {
-            toastr.error("Something wrong.", "Error");
+            toastr.error(error.data.error, "Error");
           });
 
         }
