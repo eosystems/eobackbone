@@ -59,7 +59,7 @@ class Order < ActiveRecord::Base
     self.order_details.each(&:retrieval!)
     self.total_volume = order_details.map(&:volume).sum
     self.total_price = order_details.map(&:price).sum
-    self.sell_price = order_details.map(&:sell_price).sum * PURCHASE_FACTOR
+    self.sell_price = (order_details.map(&:sell_price).sum * PURCHASE_FACTOR).round(2)
   end
 
   # In Processに変更可能か

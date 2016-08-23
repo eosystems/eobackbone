@@ -42,13 +42,13 @@
     <div class="form-group">
       <label class="col-sm-3 control-label">Total Price (Jita Buy): </label>
       <div class="col-sm-9">
-        <p class="form-control-static"> {{ totalPrice | number }} ISK </p>
+        <p class="form-control-static"> {{ totalPrice | number:2 }} ISK </p>
       </div>
     </div>
     <div class="form-group">
       <label class="col-sm-3 control-label">Price Percentage (Jita Buy): </label>
       <div class="col-sm-9">
-        <p class="form-control-static"> {{ sellPrice / totalPrice * 100.0 || 0.0 }} % </p>
+        <p class="form-control-static"> {{ (sellPrice / totalPrice * 100.0 || 0.0) | number:1 }} % </p>
       </div>
     </div>
     <div class="form-group form-inline">
