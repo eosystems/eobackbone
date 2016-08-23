@@ -30,7 +30,7 @@
           <label ng-show="!row.is_paid" class="">Unpaid</label>
         </td>
         <td data-title="'Price'" sortable="'sell_price'">
-          {{row.sell_price | number}} isk
+          {{row.sell_price | number:2}} isk
         </td>
         <td data-title="'Volume'" sortable="'total_volume'">
           {{row.total_volume | number}} m3
@@ -75,13 +75,13 @@
     <div class="form-group">
       <label class="col-sm-3 control-label">Sell Price: </label>
       <div class="col-sm-9">
-        <p class="form-control-static"> {{ order.sell_price | number }} ISK </p>
+        <p class="form-control-static"> {{ order.sell_price | number:2 }} ISK </p>
       </div>
     </div>
     <div class="form-group">
       <label class="col-sm-3 control-label">Total Price: </label>
       <div class="col-sm-9">
-        <p class="form-control-static"> {{ order.total_price | number }} ISK </p>
+        <p class="form-control-static"> {{ order.total_price | number:2 }} ISK </p>
       </div>
     </div>
     <div class="form-group">
@@ -101,7 +101,7 @@
     <div class="form-group">
       <label class="col-sm-3 control-label">Price Percentage (Jita Buy): </label>
       <div class="col-sm-9">
-        <p class="form-control-static"> {{ order.sell_price / order.total_price * 100.0 || 0.0 }} % </p>
+        <p class="form-control-static"> {{ (order.sell_price / order.total_price * 100.0 || 0.0) | number:1 }} % </p>
       </div>
     </div>
 
@@ -155,8 +155,8 @@
         <td> {{ row.item_name }} </td>
         <td> {{ row.quantity | number }} </td>
         <td> {{ row.volume | number }} </td>
-        <td> {{ row.sell_unit_price | number }} </td>
-        <td> {{ row.sell_price | number }} </td>
+        <td> {{ row.sell_unit_price | number:2 }} </td>
+        <td> {{ row.sell_price | number:2 }} </td>
       </tr>
     </tbody>
   </table>

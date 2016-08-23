@@ -57,7 +57,7 @@ angular.module('eoApp')
     // Change Department
     $scope.changeDepartment = function() {
         if($scope.selectedDepartment != null ){
-            $scope.sellPrice = $scope.totalPrice / 100 * $scope.selectedDepartment.buy_percentage;
+            $scope.sellPrice = Math.round($scope.totalPrice / 100 * $scope.selectedDepartment.buy_percentage);
         }
     };
 
