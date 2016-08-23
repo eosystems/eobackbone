@@ -258,6 +258,7 @@ create_table :departments, collate: "utf8_bin" do |t|
   t.varchar :department_name
   t.boolean :delete_flag, default: false
   t.int :corporation_id, null: true
+  t.int :buy_percentage, default: 90, comment: "買取利率"
   t.datetime :created_at, null: true
   t.datetime :updated_at, null: true
 end

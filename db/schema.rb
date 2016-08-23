@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "department_name", limit: 255,                 null: false
     t.boolean  "delete_flag",                 default: false, null: false
     t.integer  "corporation_id",  limit: 4
+    t.integer  "buy_percentage",  limit: 4,   default: 90,    null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
