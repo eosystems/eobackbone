@@ -6,6 +6,7 @@
 #  department_name :string(255)      not null
 #  delete_flag     :boolean          default(FALSE), not null
 #  corporation_id  :integer
+#  buy_percentage  :integer          default(90), not null
 #  created_at      :datetime
 #  updated_at      :datetime
 #

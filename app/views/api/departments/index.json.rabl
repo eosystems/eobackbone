@@ -5,5 +5,5 @@ end
 child @departments => :results do
   collection @departments
 
-  attributes :id, :department_name, :created_at, :updated_at
+  attributes :id, :department_name, :buy_percentage, :created_at, :updated_at
 end
