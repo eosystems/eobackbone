@@ -45,11 +45,11 @@ create_table :api_managements, collate: "utf8_bin" do |t|
   t.varchar :uid, comment: "メインユーザー"
   t.varchar :character_id, comment: "ユーザー"
   t.varchar :corporation_id
-  t.varchar :alliance_id
-  t.varchar :access_mask
+  t.varchar :alliance_id, null: true
+  t.int :access_mask
   t.boolean :alpha
   t.boolean :full_api
-  t.datetime :expires
+  t.datetime :expires, null: true
 
   t.varchar :api_manage_corporation_id, comment: "申請先コープ"
   t.datetime :created_at
