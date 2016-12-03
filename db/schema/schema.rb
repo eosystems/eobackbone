@@ -51,6 +51,7 @@ create_table :api_managements, collate: "utf8_bin" do |t|
   t.boolean :full_api
   t.datetime :expires
 
+  t.varchar :api_manage_corporation_id, comment: "申請先コープ"
   t.datetime :created_at
   t.datetime :updated_at
 end
