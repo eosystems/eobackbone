@@ -1,4 +1,4 @@
-class ApiKeyInfoResponse
+class XmlApiResponse
   include ActiveModel::Model
   include ActiveModel::Validations::Callbacks
 

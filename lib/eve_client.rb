@@ -8,7 +8,7 @@ class EveClient
   end
 
   def fetch_api_key_info
-    ApiKeyInfoResponse.parse(get_request_to(API_KEY_INFO_URL))
+    XmlApiResponse.parse(get_request_to(API_KEY_INFO_URL))
   end
 
   private
