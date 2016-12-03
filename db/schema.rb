@@ -13,6 +13,21 @@
 
 ActiveRecord::Schema.define(version: 0) do
 
+  create_table "api_managements", force: :cascade do |t|
+    t.string   "key_id",         limit: 255, null: false
+    t.string   "v_code",         limit: 255, null: false
+    t.string   "uid",            limit: 255, null: false
+    t.string   "character_id",   limit: 255, null: false
+    t.string   "corporation_id", limit: 255, null: false
+    t.string   "alliance_id",    limit: 255, null: false
+    t.string   "access_mask",    limit: 255, null: false
+    t.boolean  "alpha",                      null: false
+    t.boolean  "full_api",                   null: false
+    t.datetime "expires",                    null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
   create_table "corporations", primary_key: "corporation_id", force: :cascade do |t|
     t.string   "corporation_name", limit: 255, null: false
     t.datetime "created_at",                   null: false
