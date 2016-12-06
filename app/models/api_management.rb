@@ -19,8 +19,17 @@
 #
 
 class ApiManagement < ActiveRecord::Base
-
+  belongs_to :corporation
   belongs_to :user, class_name: 'User', foreign_key: :uid
+
+  # Scope
+  # 指定したCorpに属している
+  scope :accessible_api_management, -> (corporation_id) do
+    cid = arel_table[:corporation_id]
+    where(cid.eq(corporation_id))
+  end
+
+  # Methods
 
   def full_api?
     false if !character_wallet_read
