@@ -1,0 +1,27 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+  'apiApplicationsController',
+  ['$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+    function($resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+
+    var RootApi = $resource("/api/api_checks", {}, {
+      get: {
+        method: 'GET'
+      },
+      create: {
+        method: 'POST'
+      }
+    });
+
+    // APICheckボタン
+    $scope.checkApi = function() {
+      RootApi.get({key_id: $scope.keyId, v_code: $scope.vCode}).$promise.then(function(data) {
+        $scope.results = data.results;
+      });
+    };
+
+  }]
+);

@@ -41,25 +41,25 @@ class ApiManagement < ActiveRecord::Base
   end
 
   def full_api?
-    false if !character_wallet_read
-    false if !character_assets_read
-    false if !character_calendar_read
-    false if !character_contacts_read
-    false if !character_factional_warfare_read
-    false if !character_industry_jobs_read
-    false if !character_kills_read
-    false if !character_mail_read
-    false if !character_market_orders_read
-    false if !character_medals_read
-    false if !character_notifications_read
-    false if !character_research_read
-    false if !character_skills_read
-    false if !character_account_read
-    false if !character_contracts_read
-    false if !character_bookmarks_read
-    false if !character_chat_channels_read
-    false if !character_clones_read
-    true
+    return false if !character_wallet_read
+    return false if !character_assets_read
+    return false if !character_calendar_read
+    return false if !character_contacts_read
+    return false if !character_factional_warfare_read
+    return false if !character_industry_jobs_read
+    return false if !character_kills_read
+    return false if !character_mail_read
+    return false if !character_market_orders_read
+    return false if !character_medals_read
+    return false if !character_notifications_read
+    return false if !character_research_read
+    return false if !character_skills_read
+    return false if !character_account_read
+    return false if !character_contracts_read
+    return false if !character_bookmarks_read
+    return false if !character_chat_channels_read
+    return false if !character_clones_read
+    return true
   end
 
   def character_wallet_read
