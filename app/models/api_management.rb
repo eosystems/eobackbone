@@ -22,6 +22,8 @@ class ApiManagement < ActiveRecord::Base
   belongs_to :corporation
   belongs_to :user, class_name: 'User', foreign_key: :uid
 
+  attr_accessor :check_lists # APICheck結果
+
   # Scope
   # 指定したCorpに属している
   scope :accessible_api_management, -> (corporation_id) do
@@ -30,6 +32,13 @@ class ApiManagement < ActiveRecord::Base
   end
 
   # Methods
+
+  def api_check(key_id, v_code)
+    response = EveClient.new(key_id, v_code).fetch_api_key_info
+    item = response.items[0].key
+    self.access_mask = item.accessMask
+    self.full_api = self.full_api?
+  end
 
   def full_api?
     false if !character_wallet_read
@@ -42,7 +51,6 @@ class ApiManagement < ActiveRecord::Base
     false if !character_mail_read
     false if !character_market_orders_read
     false if !character_medals_read
-    false if !character_notifications_read
     false if !character_notifications_read
     false if !character_research_read
     false if !character_skills_read
