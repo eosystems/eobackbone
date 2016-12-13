@@ -12,6 +12,8 @@ class Api::ApiManagementsController < ApiController
 
   def create
     @management = ApiManagement.new(api_management_params)
+    @management.uid = current_user.id
+    @management.api_manage_corporation_id = 1
     if @management.save
       render json: { message: "success"}
     else
@@ -36,7 +38,7 @@ class Api::ApiManagementsController < ApiController
 
   private
 
-  def department_params
+  def api_management_params
     params
       .require(:management)
       .permit(:id, :key_id, :v_code, :uid, :character_id,

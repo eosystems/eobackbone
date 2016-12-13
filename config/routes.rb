@@ -18,5 +18,6 @@ Rails.application.routes.draw do
     resources :locations, only: [:index]
     resources :departments, only: [:index, :show,:create, :update, :destroy]
     resources :api_checks, only: [:index]
+    resources :api_managements
   end
 end

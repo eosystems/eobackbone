@@ -7,10 +7,13 @@ angular.module('eoApp')
   ['$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
     function($resource, $scope, $state, $uibModal, $loading, toastr, $location) {
 
-    var RootApi = $resource("/api/api_checks", {}, {
+    var CheckApi = $resource("/api/api_checks", {}, {
       get: {
         method: 'GET'
-      },
+      }
+    });
+
+    var ManagementApi = $resource("/api/api_managements", {}, {
       create: {
         method: 'POST'
       }
@@ -18,10 +21,55 @@ angular.module('eoApp')
 
     // APICheckボタン
     $scope.checkApi = function() {
-      RootApi.get({key_id: $scope.keyId, v_code: $scope.vCode}).$promise.then(function(data) {
+      CheckApi.get({key_id: $scope.keyId, v_code: $scope.vCode}).$promise.then(function(data) {
         $scope.results = data.results;
       });
     };
+
+    // Applicationボタン
+    $scope.applyApi = function() {
+      var modalInstance = $uibModal.open({
+        templateUrl: "<%= asset_path 'shared/simple_dialog.html' %>",
+        controller: 'SimpleDialogController',
+        backdrop: true,
+        scope: $scope,
+        resolve: {
+          params: function() {
+            return {
+              title: 'API Application',
+              message: 'Are you sure?'
+            };
+          }
+        }
+      });
+      modalInstance.result.then(
+        // cancel
+        function(result) {
+        },
+        // request
+        function(result) {
+          toastr.info("Send Api Request", "Request");
+          var apiForm = {
+            key_id: $scope.keyId,
+            v_code: $scope.vCode,
+            character_id: $scope.results.characters[0].character_id,
+            corporation_id: $scope.results.characters[0].corporation_id,
+            alliance_id: $scope.results.characters[0].alliance_id,
+            access_mask: $scope.results.access_mask,
+            alpha: $scope.results.alpha,
+            full_api: $scope.results.full_api,
+            expires: $scope.results.expires
+          };
+          ManagementApi.create({ management: apiForm }).$promise.then(function(data) {
+            toastr.success("Request Accepted", "Success");
+
+            $location.path("/api_applications");
+          }, function(error) {
+            toastr.error("Something wrong.", "Error");
+          });
+        }
+      );
+    }
 
   }]
 );

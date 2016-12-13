@@ -24,4 +24,6 @@ child @check => :results do
     node(:character_clones_read) { @check.character_clones_read }
   end
 
+  attributes :characters
+
 end

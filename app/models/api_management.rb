@@ -23,6 +23,7 @@ class ApiManagement < ActiveRecord::Base
   belongs_to :user, class_name: 'User', foreign_key: :uid
 
   attr_accessor :check_lists # APICheck結果
+  attr_accessor :characters # Character一覧
 
   # Scope
   # 指定したCorpに属している
@@ -43,6 +44,7 @@ class ApiManagement < ActiveRecord::Base
     self.expires = item.expires
     self.alpha = self.alpha_check(response_account_status.items[0].paidUntil)
     self.full_api = self.full_api?
+    self.characters = get_characters_from_api_key_info(item.rowset.row)
   end
 
   def alpha_check(expires)
@@ -51,6 +53,21 @@ class ApiManagement < ActiveRecord::Base
     else
       false
     end
+  end
+
+  def get_characters_from_api_key_info(character_infos)
+    characters = []
+    character_infos.each do |info|
+      c = Character.new
+      c.character_id = info["characterID"]
+      c.character_name = info["characterName"]
+      c.corporation_id = info["corporationID"]
+      c.corporation_name = info["corporationName"]
+      c.alliance_id = info["allianceID"]
+      c.alliance_name = info["allianceName"]
+      characters << c
+    end
+    characters
   end
 
   def full_api?
