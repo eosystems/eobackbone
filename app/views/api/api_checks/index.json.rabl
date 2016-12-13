@@ -1,7 +1,7 @@
 object false
 
 child @check => :results do
-  attributes :access_mask, :full_api
+  attributes :access_mask, :full_api, :expires, :alpha
 
   child :check_detail do
     node(:character_wallet_read) { @check.character_wallet_read }

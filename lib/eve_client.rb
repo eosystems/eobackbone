@@ -1,6 +1,7 @@
 class EveClient
   XML_API_BASE_URL = 'https://api.eveonline.com/eve'.freeze
   API_KEY_INFO_URL = '/account/APIKeyInfo.xml.aspx'.freeze
+  ACCOUNT_STATUS_URL = '/account/AccountStatus.xml.aspx'.freeze
 
   def initialize(key_id, v_code)
     @key_id = key_id
@@ -9,6 +10,10 @@ class EveClient
 
   def fetch_api_key_info
     XmlApiResponse.parse(get_request_to(API_KEY_INFO_URL))
+  end
+
+  def fetch_account_status
+    XmlApiResponse.parse(get_request_to(ACCOUNT_STATUS_URL))
   end
 
   private

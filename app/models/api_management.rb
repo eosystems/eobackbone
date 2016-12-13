@@ -34,10 +34,23 @@ class ApiManagement < ActiveRecord::Base
   # Methods
 
   def api_check(key_id, v_code)
-    response = EveClient.new(key_id, v_code).fetch_api_key_info
+    # TODO 失敗時の考慮
+    client = EveClient.new(key_id, v_code)
+    response = client.fetch_api_key_info
+    response_account_status = client.fetch_account_status
     item = response.items[0].key
     self.access_mask = item.accessMask
+    self.expires = item.expires
+    self.alpha = self.alpha_check(response_account_status.items[0].paidUntil)
     self.full_api = self.full_api?
+  end
+
+  def alpha_check(expires)
+    if expires < Time.now.utc
+      true
+    else
+      false
+    end
   end
 
   def full_api?
