@@ -46,7 +46,7 @@ create_table :api_managements, collate: "utf8_bin" do |t|
   t.varchar :character_id, comment: "ユーザー"
   t.varchar :corporation_id
   t.varchar :alliance_id, null: true
-  t.int :access_mask
+  t.bigint :access_mask
   t.boolean :alpha
   t.boolean :full_api
   t.datetime :expires, null: true

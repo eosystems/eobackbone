@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "character_id",              limit: 255, null: false
     t.string   "corporation_id",            limit: 255, null: false
     t.string   "alliance_id",               limit: 255
-    t.integer  "access_mask",               limit: 4,   null: false
+    t.integer  "access_mask",               limit: 8,   null: false
     t.boolean  "alpha",                                 null: false
     t.boolean  "full_api",                              null: false
     t.datetime "expires"
