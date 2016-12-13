@@ -1,11 +1,11 @@
 class Api::CorporationsController < ApiController
   def index
     if params[:keyword].present?
-      @locations = StaStation
-        .search({ station_name_cont_all: params[:keyword].split(" ") })
+      @corporations = Corporation
+        .search({ corporation_name_cont_all: params[:keyword].split(" ") })
         .result
-        .limit(10)
-      render json: { results: @locations }
+        .limit(5)
+      render json: { results: @corporations }
     else
       render json: { results: [] }
     end

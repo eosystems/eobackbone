@@ -19,6 +19,16 @@ angular.module('eoApp')
       }
     });
 
+    var CorporationApi = $resource("/api/corporations", {});
+
+    // Corporation Suggest
+    this.corporation = null;
+    $scope.searchCorporation = function(corporationName) {
+      CorporationApi.get({ keyword: corporationName }).$promise.then(function(data) {
+        $scope.corporations = data.results;
+      });
+    };
+
     // APICheckボタン
     $scope.checkApi = function() {
       CheckApi.get({key_id: $scope.keyId, v_code: $scope.vCode}).$promise.then(function(data) {
@@ -58,7 +68,8 @@ angular.module('eoApp')
             access_mask: $scope.results.access_mask,
             alpha: $scope.results.alpha,
             full_api: $scope.results.full_api,
-            expires: $scope.results.expires
+            expires: $scope.results.expires,
+            api_management_corp_id: $scope.corporation
           };
           ManagementApi.create({ management: apiForm }).$promise.then(function(data) {
             toastr.success("Request Accepted", "Success");

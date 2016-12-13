@@ -1,94 +1,109 @@
 <div class="container-fluid">
 <div class="row">
 
-    <div class="col-md-6">
-      <h2>API Application</h2>
-      <hr>
+ <div class="col-md-6">
+    <h2>API Application</h2>
+    <hr>
 
-      Key: <input class="form-control" id="key" ng-model="keyId"></input>
-      VCode: <input class="form-control" id="vcode" ng-model="vCode"></input>
+    Key: <input class="form-control" id="key" ng-model="keyId"></input>
+    VCode: <input class="form-control" id="vcode" ng-model="vCode"></input>
 
-      <button id="check" class="btn btn-default" ng-click="checkApi()">Check</button>
+    Corporation:
+    <ui-select ng-model="src.corporation">
+      <ui-select-match placeholder="Select Corporation ...">
+        <span>{{ src.corporation.corporation_name }}</span>
+      </ui-select-match>
 
-      <br/>
+      <ui-select-choices repeat="corporation in corporations"
+      refresh="searchCorporation($select.search)"
+      refresh-delay="0">
+      <span>{{ corporation.corporation_name }}</span>
+    </ui-select-choices>
+  </ui-select>
+  <br/>
 
-    </div>
 
-    <div class="col-md-6">
-      <h2>API Details</h2>
+  <button id="check" class="btn btn-default" ng-click="checkApi()">Check</button>
 
-      <div class="text-right">
-        <button id="get-inventory-info" class="btn btn-primary" ng-click="applyApi()">Application</button>
-      </div>
+  <br/>
 
-      <div class="form-group">
-        <h3>API Status</h3>
-        <p>
-          Full: {{results.full_api}}
-        </p>
-        <p>
-          expires: {{results.expires}}
-        </p>
-        <p>
-          alpha: {{results.alpha}}
-        </p>
-        <p>
-          characterWalletRead: {{ results.check_detail.character_wallet_read }}
-        </p>
-        <p>
-          characterAssetsRead: {{ results.check_detail.character_assets_read }}
-        </p>
-        <p>
-          characterCalendarRead: {{ results.check_detail.character_calendar_read }}
-        </p>
-        <p>
-          characterContactsRead: {{ results.check_detail.character_contacts_read }}
-        </p>
-        <p>
-          characterFactionalWarfareRead: {{ results.check_details.character_factional_warfare_read }}
-        </p>
-        <p>
-          characterIndustryJobsRead: {{ results.check_detail.character_industry_jobs_read }}
-        </p>
-        <p>
-          characterKillsRead: {{ results.check_detail.character_kills_read }}
-        </p>
-        <p>
-          characterMailRead: {{ results.check_detail.character_mail_read }}
-        </p>
-        <p>
-          characterMarketOrdersRead: {{ results.check_detail.character_market_orders_read }}
-        </p>
-        <p>
-          characterMedalsRead: {{ results.check_detail.character_medals_read }}
-        </p>
-        <p>
-          characterNotificationsRead: {{ results.check_detail.character_notifications_read }}
-        </p>
-        <p>
-          characterResearchRead: {{ results.check_detail.character_research_read }}
-        </p>
-        <p>
-          characterSkillsRead: {{ results.check_detail.character_skills_read }}
-        </p>
-        <p>
-          characterAccountRead: {{ results.check_detail.character_account_read }}
-        </p>
-        <p>
-          characterContractsRead: {{ results.check_detail.character_contracts_read }}
-        </p>
-        <p>
-          characterBookmarksRead: {{ results.check_detail.character_bookmarks_read }}
-        </p>
-        <p>
-          characterChatChannelsRead: {{ results.check_detail.character_chat_channels_read }}
-        </p>
-        <p>
-          characterClonesRead: {{ results.check_detail.character_clones_read }}
-        </p>
+</div>
 
-      </div>
-    </div>
+<div class="col-md-6">
+  <h2>API Details</h2>
+
+  <div class="text-right">
+    <button id="get-inventory-info" class="btn btn-primary" ng-click="applyApi()" ng-disabled="!full_api" ng-class="{disabled : !full_api}">Application</button>
+  </div>
+
+  <div class="form-group">
+    <h3>API Status</h3>
+    <p>
+      Full: {{results.full_api}}
+    </p>
+    <p>
+      expires: {{results.expires}}
+    </p>
+    <p>
+      alpha: {{results.alpha}}
+    </p>
+    <p>
+      characterWalletRead: {{ results.check_detail.character_wallet_read }}
+    </p>
+    <p>
+      characterAssetsRead: {{ results.check_detail.character_assets_read }}
+    </p>
+    <p>
+      characterCalendarRead: {{ results.check_detail.character_calendar_read }}
+    </p>
+    <p>
+      characterContactsRead: {{ results.check_detail.character_contacts_read }}
+    </p>
+    <p>
+      characterFactionalWarfareRead: {{ results.check_details.character_factional_warfare_read }}
+    </p>
+    <p>
+      characterIndustryJobsRead: {{ results.check_detail.character_industry_jobs_read }}
+    </p>
+    <p>
+      characterKillsRead: {{ results.check_detail.character_kills_read }}
+    </p>
+    <p>
+      characterMailRead: {{ results.check_detail.character_mail_read }}
+    </p>
+    <p>
+      characterMarketOrdersRead: {{ results.check_detail.character_market_orders_read }}
+    </p>
+    <p>
+      characterMedalsRead: {{ results.check_detail.character_medals_read }}
+    </p>
+    <p>
+      characterNotificationsRead: {{ results.check_detail.character_notifications_read }}
+    </p>
+    <p>
+      characterResearchRead: {{ results.check_detail.character_research_read }}
+    </p>
+    <p>
+      characterSkillsRead: {{ results.check_detail.character_skills_read }}
+    </p>
+    <p>
+      characterAccountRead: {{ results.check_detail.character_account_read }}
+    </p>
+    <p>
+      characterContractsRead: {{ results.check_detail.character_contracts_read }}
+    </p>
+    <p>
+      characterBookmarksRead: {{ results.check_detail.character_bookmarks_read }}
+    </p>
+    <p>
+      characterChatChannelsRead: {{ results.check_detail.character_chat_channels_read }}
+    </p>
+    <p>
+      characterClonesRead: {{ results.check_detail.character_clones_read }}
+    </p>
+
+  </div>
+</div>
 
 </div>
 </div>
