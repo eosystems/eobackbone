@@ -7,6 +7,8 @@ angular.module('eoApp')
   ['$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
     function($resource, $scope, $state, $uibModal, $loading, toastr, $location) {
 
+    var that = this;
+
     var CheckApi = $resource("/api/api_checks", {}, {
       get: {
         method: 'GET'
@@ -69,7 +71,7 @@ angular.module('eoApp')
             alpha: $scope.results.alpha,
             full_api: $scope.results.full_api,
             expires: $scope.results.expires,
-            api_management_corp_id: $scope.corporation
+            api_manage_corporation_id: that.corporation.corporation_id
           };
           ManagementApi.create({ management: apiForm }).$promise.then(function(data) {
             toastr.success("Request Accepted", "Success");

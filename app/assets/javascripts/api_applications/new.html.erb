@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="apiApplicationsController as src">
 <div class="row">
 
  <div class="col-md-6">
@@ -14,10 +14,10 @@
         <span>{{ src.corporation.corporation_name }}</span>
       </ui-select-match>
 
-      <ui-select-choices repeat="corporation in corporations"
+      <ui-select-choices repeat="c in corporations"
       refresh="searchCorporation($select.search)"
       refresh-delay="0">
-      <span>{{ corporation.corporation_name }}</span>
+      <span>{{ c.corporation_name }}</span>
     </ui-select-choices>
   </ui-select>
   <br/>
@@ -33,7 +33,7 @@
   <h2>API Details</h2>
 
   <div class="text-right">
-    <button id="get-inventory-info" class="btn btn-primary" ng-click="applyApi()" ng-disabled="!full_api" ng-class="{disabled : !full_api}">Application</button>
+    <button id="get-inventory-info" class="btn btn-primary" ng-click="applyApi()" ng-disabled="!results.full_api" ng-class="{disabled : !results.full_api}">Application</button>
   </div>
 
   <div class="form-group">
