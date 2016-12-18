@@ -4,6 +4,9 @@ class Api::ApiManagementsController < ApiController
     @managements = ApiManagement
       .accessible_api_management(current_character.corporation_id)
       .order(id: :desc)
+
+    # 管理権限を持っていない場合はMaskをかける
+    api_mask(@managements)
   end
 
   def show
@@ -44,4 +47,11 @@ class Api::ApiManagementsController < ApiController
              :corporation_id, :alliance_id, :access_mask, :alpha, :full_api,
              :expires, :api_manage_corporation_id)
   end
+
+  def api_mask(targets)
+    @managements.each do |m|
+      m.api_mask
+    end
+  end
+
 end

@@ -170,7 +170,24 @@ class ApiManagement < ActiveRecord::Base
     check_mask(2147483648)
   end
 
+  def api_mask
+    self.key_id = id_mask(self.key_id)
+    self.v_code = id_mask(self.v_code)
+  end
+
   private
+
+  def id_mask(target)
+    result = ""
+    for i in 0..target.size
+     if i < 3
+       result += target[i]
+     else
+       result += "*"
+     end
+    end
+    result
+  end
 
   def check_mask(mask)
     ( self.access_mask | mask == self.access_mask)
