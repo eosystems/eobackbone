@@ -29,6 +29,16 @@ class ApiManagement < ActiveRecord::Base
   attr_accessor :check_lists # APICheck結果
   attr_accessor :characters # Character一覧
 
+  RANSACK_FILTER_ATTRIBUTES = {
+    id: :id_eq_any,
+    key_id: :key_id_cont_any,
+    character_name: :character_name_cont_any,
+    corporation_name: :corporation_corporation_name_cont_any
+  }.with_indifferent_access.freeze
+
+  # Delegates
+  delegate :corporation_name, to: :corporation, allow_nil: true
+
   # Scope
   # 指定したCorpに属している
   scope :accessible_api_management, -> (corporation_id) do
