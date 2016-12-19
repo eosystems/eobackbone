@@ -68,6 +68,11 @@ angular.module('eoApp', [
     templateUrl: '<%= asset_path 'api_applications/new.html' %>',
     controller: 'apiApplicationsController'
   })
+  .state('apiManagements',{
+    url: '/api_managements',
+    templateUrl: '<%= asset_path 'api_managements/index.html' %>',
+    controller: 'apiManagementsController'
+  })
   ;
 
 }])

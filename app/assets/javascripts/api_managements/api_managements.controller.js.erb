@@ -1,0 +1,71 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+  'apiManagementsController',
+  ['ngTableParams', '$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+  function(ngTableParams, $resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+
+    var RootApi = $resource("/api/api_managements");
+    var DetailApi = $resource("/api/api_managements/:id", { id: '@id' }, {
+      get: {
+        method: 'GET'
+      },
+      update: {
+        method: 'PUT'
+      },
+      delete: {
+        method: 'DELETE'
+      }
+    });
+
+    $scope.setTotalCount = function(count) {
+      $scope.totalCount = count;
+    };
+
+    $scope.tableParams = new ngTableParams({
+      filter: { },
+      count: 100,
+    }, {
+      counts: [100, 50, 25],
+      getData: function(params) {
+        var urlParams = params.url();
+
+        return RootApi.get(urlParams).$promise.then(function(data) {
+          params.total(data.totalCount);
+          $scope.setTotalCount(data.totalCount);
+          $scope.searchResults = data.results;
+          return data.results;
+        });
+      }
+    });
+
+    // Order Grid押下時
+    $scope.selectRow = function(id) {
+      var results = $scope.searchResults;
+      _.each($scope.searchResults, function(v) { v.selected = false; });
+      var row = $scope.searchResults.find(function(v) { return v.id == id })
+      if (row) {
+        row.selected = !row.selected;
+      }
+      $scope.selectedId = id;
+    };
+
+    // 再読み込み
+    $scope.reload = function() {
+      $scope.tableParams.reload();
+    };
+
+    // 削除
+    $scope.deleteApi = function() {
+      DetailApi.update({ id: $scope.selectedId}).$promise.then(function(data) {
+        toastr.success("Delete Api" + " (#" + $scope.selectedId + ")", "Success");
+        $scope.reload();
+      }, function(error) {
+        toastr.error("Something wrong.", "Error");
+      });
+    };
+
+  }]
+);

@@ -2,6 +2,7 @@ class Api::ApiManagementsController < ApiController
   def index
     @manegements = nil
     @managements = ApiManagement
+      .search_with(params[:filter], params[:sorting], params[:page], params[:count])
       .accessible_api_management(current_character.corporation_id)
       .order(id: :desc)
 
