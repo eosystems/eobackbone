@@ -5,7 +5,8 @@ end
 child @managements => :results do
   collection @managements
 
-  attributes :id, :key_id, :v_code, :character_id, :corporation_id, :alliance_id, :access_mask, :alpha, :full_api,
+  attributes :id, :key_id, :v_code, :character_id, :character_name,
+    :corporation_id, :alliance_id, :access_mask, :alpha, :full_api,
     :expires, :api_manage_corporation_id, :created_at, :updated_at
 
   child :user do

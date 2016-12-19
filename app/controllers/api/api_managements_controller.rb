@@ -44,7 +44,7 @@ class Api::ApiManagementsController < ApiController
   def api_management_params
     params
       .require(:management)
-      .permit(:id, :key_id, :v_code, :uid, :character_id,
+      .permit(:id, :key_id, :v_code, :uid, :character_id, :character_name,
              :corporation_id, :alliance_id, :access_mask, :alpha, :full_api,
              :expires, :api_manage_corporation_id)
   end
