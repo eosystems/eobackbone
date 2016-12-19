@@ -23,7 +23,7 @@ class ApiManagement < ActiveRecord::Base
   include NgTableSearchable
 
   belongs_to :corporation
-  belongs_to :user, class_name: 'User', foreign_key: :uid
+  belongs_to :main_user, class_name: 'User', foreign_key: :uid
 
   attr_accessor :all_check
   attr_accessor :check_lists # APICheck結果

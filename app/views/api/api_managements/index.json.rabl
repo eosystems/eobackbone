@@ -9,11 +9,7 @@ child @managements => :results do
     :corporation_id, :alliance_id, :access_mask, :alpha, :full_api,
     :expires, :api_manage_corporation_id, :created_at, :updated_at
 
-  child :user do
-    attribute :uid, :name
-  end
-
-  child :main_user do
+  child :main_user => :main_user do
     attribute :uid, :name
   end
 
