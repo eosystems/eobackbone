@@ -7,6 +7,7 @@
 #  v_code                    :string(255)      not null
 #  uid                       :string(255)      not null
 #  character_id              :string(255)      not null
+#  character_name            :string(255)      not null
 #  corporation_id            :string(255)      not null
 #  alliance_id               :string(255)
 #  access_mask               :integer          not null

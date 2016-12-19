@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "v_code",                    limit: 255, null: false
     t.string   "uid",                       limit: 255, null: false
     t.string   "character_id",              limit: 255, null: false
+    t.string   "character_name",            limit: 255, null: false
     t.string   "corporation_id",            limit: 255, null: false
     t.string   "alliance_id",               limit: 255
     t.integer  "access_mask",               limit: 8,   null: false

@@ -44,6 +44,7 @@ create_table :api_managements, collate: "utf8_bin" do |t|
   t.varchar :v_code
   t.varchar :uid, comment: "メインユーザー"
   t.varchar :character_id, comment: "ユーザー"
+  t.varchar :character_name, comment: "キャラクター名"
   t.varchar :corporation_id
   t.varchar :alliance_id, null: true
   t.bigint :access_mask

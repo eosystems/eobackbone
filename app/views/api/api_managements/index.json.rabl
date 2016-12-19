@@ -12,6 +12,10 @@ child @managements => :results do
     attribute :uid, :name
   end
 
+  child :main_user do
+    attribute :uid, :name
+  end
+
   child :corporation do
     attribute :corporation_id, :corporation_name
   end
