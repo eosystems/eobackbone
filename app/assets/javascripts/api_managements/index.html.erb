@@ -6,49 +6,42 @@
 
   <div class="text-left">
     <button class="btn btn-normal" ng-click="reload()">Reload</button>
+    <button class="btn btn-normal" ng-click="showDetail()"  ng-disabled="selectedId == null" ng-class="{disabled : selectedId == null}" >API Detail</button>
   </div>
 
   <section class="content table-responsive">
     <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
       show-filter="true">
       <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
-        <td data-title="'Trade'" sortable="'trade'" width="100px"
-          filter="{trade: 'select'}" filter-data="tradeFilter" class="text-center">
-          <label ng-show="row.trade == '0'" class="label label-danger">No</label>
-          <label ng-show="row.trade == '1'" class="label label-primary">Yes</label>
-        </td>
-        <td data-title="'Buy'" sortable="'buy'" width="100px"
-          filter="{transaction_type: 'select'}" filter-data="buyFilter" class="text-center">
-          <label ng-show="row.transaction_type == 'sell'" class="label label-success">Sell</label>
-          <label ng-show="row.transaction_type == 'buy'" class="label label-primary">Buy</label>
-        </td>
         <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="60px" class="deletable">
           {{row.id}}
         </td>
-        <td data-title="''" width="32px" class="deletable">
-          <img ng-src="{{ row.image_path }}" class="img-responsive"/>
+        <td data-title="'KeyId'" filter="{key_id: 'text'}" sortable="'key_id'">
+          {{row.key_id}}
         </td>
-        <td data-title="'Item'" filter="{item_type_name: 'text'}" sortable="'item_type_name'">
-          {{row.item_name}}
+        <td data-title="'Name'" filter="{key_id: 'text'}" sortable="'user_name'">
+          {{row.user.name}}
         </td>
-        <td data-title="'Price'" sortable="'price'">
-          {{row.price | number}} isk
+        <td data-title="'Main'" filter="{key_id: 'text'}" sortable="'user_name'">
+          {{row.user.name}}
         </td>
-        <td data-title="'Quantity'" sortable="'quantity'">
-          {{row.quantity | number}}
+        <td data-title="'Corporation'" filter="{key_id: 'text'}" sortable="'corporation_corporation_name'">
+          {{row.corporation.corporation_name}}
         </td>
-        <td data-title="'Station'" filter="{station_name: 'text'}" sortable="'station_name'">
-          {{row.station_name}}
+        <td data-title="'Alpha'" filter="{key_id: 'text'}" sortable="'alpha'">
+          {{row.alpha}}
         </td>
-        <td data-title="'Client'" filter="{client_name: 'text'}" sortable="'client_name'">
-          {{row.client_name}}
+        <td data-title="'Expires'" filter="{key_id: 'text'}" sortable="'expires'">
+          {{row.expires}}
         </td>
-        <td data-title="'Date'" sortable="'transaction_date'">
-          {{row.transaction_date}}
+        <td data-title="'FullApi'" filter="{key_id: 'text'}" sortable="'full_api'">
+          {{row.full_api}}
         </td>
-        <td data-title="'Action'" width="150px">
-          <button class="btn btn-normal"  ng-click="updateTrade('1')">ON</button>
-          <button class="btn btn-normal"  ng-click="updateTrade('0')">OFF</button>
+        <td data-title="'Created'" sortable="'created_at'">
+           {{ row.created_at | date }}
+        </td>
+        <td data-title="'Updated'" sortable="'updated_at'">
+          {{ row.updated_at | date }}
         </td>
       </tr>
     </table>
