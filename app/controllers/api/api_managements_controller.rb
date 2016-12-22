@@ -1,13 +1,27 @@
 class Api::ApiManagementsController < ApiController
   def index
     @manegements = nil
-    @managements = ApiManagement
-      .search_with(params[:filter], params[:sorting], params[:page], params[:count])
-      .accessible_api_management(current_character.corporation_id)
-      .order(id: :desc)
+    # リクルーター以上のAPI権限を持っている場合は会社の全てを参照できる
+    # そうでない場合は自分の権限を参照できる
+    if current_user.has_api_manager_role? || current_user.has_recruit_role?
+      @managements = ApiManagement
+        .search_with(params[:filter], params[:sorting], params[:page], params[:count])
+        .accessible_corp_api_management(
+          current_user.id,
+          current_user.uid,
+          current_user.corporation_id)
+        .order(id: :desc)
+    else
+      @managements = ApiManagement
+        .search_with(params[:filter], params[:sorting], params[:page], params[:count])
+        .accessible_self_api_management(current_user.id, current_user.uid)
+        .order(id: :desc)
+    end
 
     # 管理権限を持っていない場合はMaskをかける
-    api_mask(@managements)
+    if !current_user.has_api_manager_role?
+      api_mask(@managements)
+    end
   end
 
   def show
@@ -35,8 +49,14 @@ class Api::ApiManagementsController < ApiController
 
   def destroy
     @management = ApiManagement.find(params[:id])
-    @management.destroy
-    render json: {}
+    if @management.uid == current_user.id ||
+        @management.character_id == current_user.uid ||
+        current_user.has_api_manager_role
+      @management.destroy
+      render json: {}
+    else
+      render json: { error: "You have not corrent auth"}
+    end
   end
 
   private

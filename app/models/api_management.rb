@@ -48,10 +48,22 @@ class ApiManagement < ActiveRecord::Base
 
   # Scope
   # 指定したCorpに属している
-  scope :accessible_api_management, -> (corporation_id) do
-    cid = arel_table[:corporation_id]
-    where(cid.eq(corporation_id))
+  scope :accessible_corp_api_management, -> (user_id, character_id, corporation_id) do
+    c_cid = arel_table[:api_manage_corporation_id]
+    c_uid = arel_table[:uid]
+    c_character_id = arel_table[:character_id]
+
+    where(c_cid.eq(corporation_id).or(c_uid.eq(user_id).or(c_character_id.eq(character_id))))
   end
+
+  # 自分
+  scope :accessible_self_api_management, -> (user_id, character_id) do
+    c_uid = arel_table[:uid]
+    c_character_id = arel_table[:character_id]
+
+    where(c_uid.eq(user_id).or(c_character_id.eq(character_id)))
+  end
+
 
   # Methods
 

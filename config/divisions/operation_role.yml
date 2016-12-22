@@ -7,3 +7,9 @@
 - id: 2
   type: manager
   name: Manager
+- id: 3
+  type: api_manager
+  name: ApiManager
+- id: 4
+  type: recruit
+  name: recruit
