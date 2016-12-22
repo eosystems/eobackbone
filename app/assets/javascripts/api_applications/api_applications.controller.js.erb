@@ -5,7 +5,7 @@ angular.module('eoApp')
 .controller(
   'apiApplicationsController',
   ['$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
-    function($resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+  function($resource, $scope, $state, $uibModal, $loading, toastr, $location) {
 
     var that = this;
 
@@ -54,6 +54,7 @@ angular.module('eoApp')
           }
         }
       });
+
       modalInstance.result.then(
         // cancel
         function(result) {
@@ -61,29 +62,34 @@ angular.module('eoApp')
         // request
         function(result) {
           toastr.info("Send Api Request", "Request");
-          var apiForm = {
-            key_id: $scope.keyId,
-            v_code: $scope.vCode,
-            character_id: $scope.results.characters[0].character_id,
-            character_name: $scope.results.characters[0].character_name,
-            corporation_id: $scope.results.characters[0].corporation_id,
-            alliance_id: $scope.results.characters[0].alliance_id,
-            access_mask: $scope.results.access_mask,
-            alpha: $scope.results.alpha,
-            full_api: $scope.results.full_api,
-            expires: $scope.results.expires,
-            api_manage_corporation_id: that.corporation.corporation_id
+          for (var i = 0; i < $scope.results.characters.length; i++){
+            var apiForm = {
+              key_id: $scope.keyId,
+              v_code: $scope.vCode,
+              character_id: $scope.results.characters[i].character_id,
+              character_name: $scope.results.characters[i].character_name,
+              corporation_id: $scope.results.characters[i].corporation_id,
+              alliance_id: $scope.results.characters[i].alliance_id,
+              access_mask: $scope.results.access_mask,
+              alpha: $scope.results.alpha,
+              full_api: $scope.results.full_api,
+              expires: $scope.results.expires,
+              api_manage_corporation_id: that.corporation != null ? that.corporation.corporation_id : null
+            };
+            ManagementApi.create({ management: apiForm }).$promise.then(function(data) {
+              toastr.success("Request Accepted", "Success");
+              $location.path("/api_managements");
+            }, function(error) {
+              toastr.error("Something wrong.", "Error");
+              $location.path("/api_applications");
+            });
           };
-          ManagementApi.create({ management: apiForm }).$promise.then(function(data) {
-            toastr.success("Request Accepted", "Success");
 
-            $location.path("/api_applications");
-          }, function(error) {
-            toastr.error("Something wrong.", "Error");
-          });
         }
       );
-    }
+
+
+    };
 
   }]
 );
