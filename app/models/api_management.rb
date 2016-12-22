@@ -95,15 +95,27 @@ class ApiManagement < ActiveRecord::Base
 
   def get_characters_from_api_key_info(character_infos)
     characters = []
-    character_infos.each do |info|
-      c = Character.new
-      c.character_id = info["characterID"]
-      c.character_name = info["characterName"]
-      c.corporation_id = info["corporationID"]
-      c.corporation_name = info["corporationName"]
-      c.alliance_id = info["allianceID"]
-      c.alliance_name = info["allianceName"]
-      characters << c
+    if !character_infos.kind_of?(Array)
+        info = character_infos
+        c = Character.new
+        c.character_id = info.characterID
+        c.character_name = info.characterName
+        c.corporation_id = info.corporationID
+        c.corporation_name = info.corporationName
+        c.alliance_id = info.allianceID
+        c.alliance_name = info.allianceName
+        characters << c
+    else
+      character_infos.each do |info|
+        c = Character.new
+        c.character_id = info["characterID"]
+        c.character_name = info["characterName"]
+        c.corporation_id = info["corporationID"]
+        c.corporation_name = info["corporationName"]
+        c.alliance_id = info["allianceID"]
+        c.alliance_name = info["allianceName"]
+        characters << c
+      end
     end
     characters
   end
