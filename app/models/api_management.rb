@@ -23,6 +23,7 @@ class ApiManagement < ActiveRecord::Base
   include NgTableSearchable
 
   belongs_to :corporation
+  belongs_to :api_management_corporation, class_name: 'Corporation', foreign_key: :api_manage_corporation_id
   belongs_to :main_user, class_name: 'User', foreign_key: :uid
 
   attr_accessor :all_check
@@ -34,6 +35,7 @@ class ApiManagement < ActiveRecord::Base
     key_id: :key_id_cont_any,
     character_name: :character_name_cont_any,
     corporation_name: :corporation_corporation_name_cont_any,
+    api_management_corporation_corporation_name: :api_management_corporation_corporation_name_cont_any,
     main_user_name: :main_user_name_cont_any,
     alpha: :alpha_eq_any,
     full_api: :full_api_eq_any
@@ -41,6 +43,7 @@ class ApiManagement < ActiveRecord::Base
 
   # Delegates
   delegate :corporation_name, to: :corporation, allow_nil: true
+  delegate :corporation_name, to: :api_management_corporation, allow_nil: true, prefix: 'api_management_corporation'
   delegate :name, to:  :main_user, allow_nil: true, prefix: 'main_user'
 
   # Scope

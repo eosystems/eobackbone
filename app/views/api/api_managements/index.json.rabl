@@ -17,4 +17,7 @@ child @managements => :results do
     attribute :corporation_id, :corporation_name
   end
 
+  child :api_management_corporation => :api_management_corporation do
+    attribute :corporation_id, :corporation_name
+  end
 end
