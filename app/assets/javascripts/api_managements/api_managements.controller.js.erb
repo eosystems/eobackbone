@@ -20,6 +20,12 @@ angular.module('eoApp')
       }
     });
 
+    $scope.boolean_status = [
+      { id: "", title: "" },
+      { id: 'true', title: "true" },
+      { id: 'false', title: "false" }
+    ];
+
     $scope.setTotalCount = function(count) {
       $scope.totalCount = count;
     };

@@ -22,19 +22,19 @@
         <td data-title="'Name'" filter="{character_name: 'text'}" sortable="'character_name'">
           {{row.character_name}}
         </td>
-        <td data-title="'Main'" filter="{key_id: 'text'}" sortable="'user_name'">
+        <td data-title="'Main'" filter="{main_user_name: 'text'}" sortable="'main_user_name'">
           {{row.main_user.name}}
         </td>
         <td data-title="'Corporation'" filter="{corporation_name: 'text'}" sortable="'corporation_name'">
           {{row.corporation.corporation_name}}
         </td>
-        <td data-title="'Alpha'" filter="{key_id: 'text'}" sortable="'alpha'">
+        <td data-title="'Alpha'" filter="{alpha: 'select'}" filter-data="boolean_status" sortable="'alpha'">
           {{row.alpha}}
         </td>
-        <td data-title="'Expires'" filter="{key_id: 'text'}" sortable="'expires'">
+        <td data-title="'Expires'" sortable="'expires'">
           {{row.expires}}
         </td>
-        <td data-title="'FullApi'" filter="{key_id: 'text'}" sortable="'full_api'">
+        <td data-title="'FullApi'" filter="{full_api: 'select'}" filter-data="boolean_status" sortable="'full_api'">
           {{row.full_api}}
         </td>
         <td data-title="'Created'" sortable="'created_at'">

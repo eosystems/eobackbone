@@ -33,11 +33,15 @@ class ApiManagement < ActiveRecord::Base
     id: :id_eq_any,
     key_id: :key_id_cont_any,
     character_name: :character_name_cont_any,
-    corporation_name: :corporation_corporation_name_cont_any
+    corporation_name: :corporation_corporation_name_cont_any,
+    main_user_name: :main_user_name_cont_any,
+    alpha: :alpha_eq_any,
+    full_api: :full_api_eq_any
   }.with_indifferent_access.freeze
 
   # Delegates
   delegate :corporation_name, to: :corporation, allow_nil: true
+  delegate :name, to:  :main_user, allow_nil: true, prefix: 'main_user'
 
   # Scope
   # 指定したCorpに属している
