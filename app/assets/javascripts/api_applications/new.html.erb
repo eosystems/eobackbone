@@ -20,7 +20,10 @@
           <span>{{ c.corporation_name }}</span>
         </ui-select-choices>
       </ui-select>
-      <br/>
+      <p>
+        <i class="fa fa-info-circle"></i>
+        Corporation は必ず指定してください
+      </p>
 
       <button id="check" class="btn btn-default" ng-click="checkApi()">Check</button>
 
@@ -38,6 +41,10 @@
       <p>
         <i class="fa fa-info-circle"></i>
         Full API かつ API有効期限が無期限になっている場合に申請することができます
+      </p>
+      <p>
+        <i class="fa fa-info-circle"></i>
+        Charactersに表示されているキャラクターが全て登録されます
       </p>
 
       <div class="form-group">
