@@ -9,7 +9,7 @@ class Api::ApiManagementsController < ApiController
         .accessible_corp_api_management(
           current_user.id,
           current_user.uid,
-          current_user.corporation_id)
+          current_character.corporation_id)
         .order(id: :desc)
     else
       @managements = ApiManagement
@@ -51,11 +51,11 @@ class Api::ApiManagementsController < ApiController
     @management = ApiManagement.find(params[:id])
     if @management.uid == current_user.id ||
         @management.character_id == current_user.uid ||
-        current_user.has_api_manager_role
+        current_user.has_api_manager_role?
       @management.destroy
       render json: {}
     else
-      render json: { error: "You have not corrent auth"}
+      render json: { error: "You have not corrent auth"}, status: 500
     end
   end
 

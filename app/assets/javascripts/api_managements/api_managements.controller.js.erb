@@ -115,7 +115,7 @@ angular.module('eoApp')
             $scope.selectedId = null;
             $scope.reload();
           }, function(error) {
-            toastr.error("Something wrong.", "Error");
+            toastr.error(error.data.error, "Error");
           });
         }
       );
