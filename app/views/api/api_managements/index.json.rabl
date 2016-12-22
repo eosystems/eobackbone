@@ -20,4 +20,8 @@ child @managements => :results do
   child :api_management_corporation => :api_management_corporation do
     attribute :corporation_id, :corporation_name
   end
+
 end
+
+node(:api_manager) { current_user.has_api_manager_role? }
+node(:recruit) { current_user.has_recruit_role? }

@@ -10,6 +10,17 @@
         <button class="btn btn-normal" ng-click="deleteApi()"  ng-disabled="selectedId == null" ng-class="{disabled : selectedId == null}" >Delete</button>
   </div>
 
+  <p ng-show="recruit">
+    <i class="fa fa-info-circle"></i>
+    あなたはリクルート権限を持っています。リクルート権限はコープメンバーのAPIを見ることができますが、APIキーはフィルタリングされて表示されます。<br />
+    また、メンバーのAPIキー削除はできません。
+  </p>
+  <p ng-show="api_manager">
+    <i class="fa fa-info-circle"></i>
+    あなたはAPIマネージャー権限を持っています。コープメンバーの全てのAPIがフィルタリングされずに表示されます。<br />
+    また、メンバーのAPIキーの削除もできます。
+    扱いには十分注意してください。
+  </p>
   <section class="content table-responsive">
     <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
       show-filter="true">

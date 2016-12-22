@@ -42,6 +42,10 @@ angular.module('eoApp')
           params.total(data.totalCount);
           $scope.setTotalCount(data.totalCount);
           $scope.searchResults = data.results;
+          // 権限
+          $scope.api_manager = data.api_manager;
+          $scope.recruit = data.recruit;
+
           return data.results;
         });
       }
