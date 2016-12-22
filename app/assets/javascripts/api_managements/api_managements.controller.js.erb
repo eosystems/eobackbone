@@ -88,12 +88,39 @@ angular.module('eoApp')
 
     // 削除
     $scope.deleteApi = function() {
-      DetailApi.update({ id: $scope.selectedId}).$promise.then(function(data) {
-        toastr.success("Delete Api" + " (#" + $scope.selectedId + ")", "Success");
-        $scope.reload();
-      }, function(error) {
-        toastr.error("Something wrong.", "Error");
+      var modalInstance = $uibModal.open({
+        templateUrl: "<%= asset_path 'shared/simple_dialog.html' %>",
+        controller: 'SimpleDialogController',
+        backdrop: true,
+        scope: $scope,
+        resolve: {
+          params: function() {
+            return {
+              title: 'Delete Api',
+              message: 'Are you sure?'
+            };
+          }
+        }
       });
+
+      modalInstance.result.then(
+        // cancel
+        function(result) {
+        },
+        // request
+        function(result) {
+          toastr.info("Delete Api Request", "Request");
+          DetailApi.delete({ id: $scope.selectedId}).$promise.then(function(data) {
+            toastr.success("Delete Api" + " (#" + $scope.selectedId + ")", "Success");
+            $scope.selectedId = null;
+            $scope.reload();
+          }, function(error) {
+            toastr.error("Something wrong.", "Error");
+          });
+        }
+      );
+
+
     };
 
   }]
