@@ -41,6 +41,10 @@ class ApiManagement < ActiveRecord::Base
     full_api: :full_api_eq_any
   }.with_indifferent_access.freeze
 
+  # Hook
+  after_create :audit_api_create
+  after_destroy :audit_api_destroy
+
   # Delegates
   delegate :corporation_name, to: :corporation, allow_nil: true
   delegate :corporation_name, to: :api_management_corporation, allow_nil: true, prefix: 'api_management_corporation'
@@ -241,4 +245,26 @@ class ApiManagement < ActiveRecord::Base
   def check_mask(mask)
     ( self.access_mask | mask == self.access_mask)
   end
+
+  # Audit Log
+  def audit_api_create
+    audit = Audit.create({
+      audit_type: "APIManagement",
+      audit_text: User.find(self.uid).name + " created api, key_id:" + self.key_id +
+      ", character_name: " + self.character_name,
+      uid: self.uid
+    })
+    audit.save!
+  end
+
+  def audit_api_destroy
+    audit = Audit.create({
+      audit_type: "APIManagement",
+      audit_text: User.find(self.uid).name + " deleted api, key_id:" + self.key_id.to_s +
+      ", character_name: " + self.character_name,
+      uid: self.uid
+    })
+    audit.save!
+  end
+
 end

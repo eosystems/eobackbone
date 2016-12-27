@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at",                            null: false
   end
 
-  create_table "audit", force: :cascade do |t|
+  create_table "audits", force: :cascade do |t|
     t.string   "audit_type", limit: 255,   null: false
     t.text     "audit_text", limit: 65535, null: false
     t.string   "uid",        limit: 255,   null: false
