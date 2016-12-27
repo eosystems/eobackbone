@@ -78,6 +78,12 @@ class ApiManagement < ActiveRecord::Base
     self.full_api = self.full_api?
     self.all_check = application_check(self.full_api, self.expires)
     self.characters = get_characters_from_api_key_info(item.rowset.row)
+
+    # コープ情報がない場合は格納する
+    self.characters.each do |c|
+      corp = Corporation.new({corporation_name: c.corporation_name, corporation_id: c.corporation_id})
+      corp.save if !corp.exists_corp?
+    end
   end
 
   def application_check(full_api, expires)

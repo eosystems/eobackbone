@@ -10,4 +10,8 @@
 
 class Corporation < ActiveRecord::Base
   has_many :departments
+
+  def exists_corp?
+    Corporation.find_by_corporation_name(self.corporation_name).present?
+  end
 end
