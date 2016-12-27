@@ -33,8 +33,10 @@ angular.module('eoApp')
 
     // APICheckボタン
     $scope.checkApi = function() {
+      toastr.info("Request API Check. Please wait a minite");
       CheckApi.get({key_id: $scope.keyId, v_code: $scope.vCode}).$promise.then(function(data) {
         $scope.results = data.results;
+        toastr.success("Success API Check");
       }, function(error){
         toastr.error("Error. Please Check Your API Key");
       });
