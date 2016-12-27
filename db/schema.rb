@@ -31,11 +31,12 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table "audits", force: :cascade do |t|
-    t.string   "audit_type", limit: 255,   null: false
-    t.text     "audit_text", limit: 65535, null: false
-    t.string   "uid",        limit: 255,   null: false
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.string   "audit_type",     limit: 255,   null: false
+    t.text     "audit_text",     limit: 65535, null: false
+    t.string   "uid",            limit: 255,   null: false
+    t.string   "corporation_id", limit: 255,   null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   create_table "corporations", primary_key: "corporation_id", force: :cascade do |t|

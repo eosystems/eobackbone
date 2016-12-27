@@ -248,21 +248,25 @@ class ApiManagement < ActiveRecord::Base
 
   # Audit Log
   def audit_api_create
+    user = User.find(self.uid)
     audit = Audit.create({
       audit_type: "APIManagement",
-      audit_text: User.find(self.uid).name + " created api, key_id:" + self.key_id +
+      audit_text: user.name + " created api, key_id:" + self.key_id +
       ", character_name: " + self.character_name,
-      uid: self.uid
+      corporation_id: user.user_detail.corporation_id,
+      uid: user.id
     })
     audit.save!
   end
 
   def audit_api_destroy
+    user = User.find(self.uid)
     audit = Audit.create({
       audit_type: "APIManagement",
-      audit_text: User.find(self.uid).name + " deleted api, key_id:" + self.key_id.to_s +
+      audit_text: user.name + " deleted api, key_id:" + self.key_id.to_s +
       ", character_name: " + self.character_name,
-      uid: self.uid
+      corporation_id: user.user_detail.corporation_id,
+      uid: user.id
     })
     audit.save!
   end

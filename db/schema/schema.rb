@@ -62,6 +62,7 @@ create_table :audits, collate: "utf8_bin" do |t|
   t.varchar :audit_type
   t.text :audit_text
   t.varchar :uid
+  t.varchar :corporation_id
   t.datetime :created_at
   t.datetime :updated_at
 end

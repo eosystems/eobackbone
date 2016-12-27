@@ -61,6 +61,36 @@
       </tr>
     </table>
   </section>
+
+  <div ng-show="api_manager">
+    <h2>API Audit Log For API Manager</h2>
+      <i class="fa fa-info-circle"></i>
+      この領域はAPI Managerのみ表示されます。
+    <div class="text-left">
+      <button class="btn btn-normal" ng-click="reloadAudit()">Reload</button>
+    </div>
+
+    <section class="content table-responsive">
+      <table ng-table="tableAuditParams" class="table table-condensed table-responsive table-hover mt-10" show-filter="true">
+        <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
+          <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="60px" class="deletable">
+            {{row.id}}
+          </td>
+          <td data-title="'Log'" sortable="'audit_text'">
+            {{row.audit_text}}
+          </td>
+          <td data-title="'Created'" sortable="'created_at'">
+            {{ row.created_at }}
+          </td>
+          <td data-title="'Updated'" sortable="'updated_at'">
+            {{ row.updated_at  }}
+          </td>
+        </tr>
+      </table>
+    </section>
+  </div>
+
+
 </div>
 
 </div>

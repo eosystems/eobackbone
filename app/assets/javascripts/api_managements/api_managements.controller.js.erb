@@ -19,6 +19,7 @@ angular.module('eoApp')
         method: 'DELETE'
       }
     });
+    var AuditApi = $resource("/api/audits");
 
     $scope.boolean_status = [
       { id: "", title: "" },
@@ -28,6 +29,10 @@ angular.module('eoApp')
 
     $scope.setTotalCount = function(count) {
       $scope.totalCount = count;
+    };
+
+    $scope.setAuditTotalCount = function(count) {
+      $scope.auditTotalCount = count;
     };
 
     $scope.tableParams = new ngTableParams({
@@ -50,6 +55,25 @@ angular.module('eoApp')
         });
       }
     });
+
+    $scope.tableAuditParams = new ngTableParams({
+      filter: { },
+      count: 10,
+    }, {
+      counts: [100, 50, 10],
+      getData: function(params) {
+        var urlParams = params.url();
+
+        return AuditApi.get(urlParams).$promise.then(function(data) {
+          params.total(data.totalCount);
+          $scope.setAuditTotalCount(data.totalCount);
+          $scope.searchAuditResults = data.results;
+
+          return data.results;
+        });
+      }
+    });
+
 
     // Order Grid押下時
     $scope.selectRow = function(id) {
@@ -88,6 +112,10 @@ angular.module('eoApp')
     // 再読み込み
     $scope.reload = function() {
       $scope.tableParams.reload();
+    };
+
+    $scope.reloadAudit = function() {
+      $scope.tableAuditParams.reload();
     };
 
     // 削除
