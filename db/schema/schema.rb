@@ -57,6 +57,15 @@ create_table :api_managements, collate: "utf8_bin" do |t|
   t.datetime :updated_at
 end
 
+create_table :audit, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.varchar :audit_type
+  t.text :audit_text
+  t.varchar :uid
+  t.datetime :created_at
+  t.datetime :updated_at
+end
+
 create_table :users, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
   t.varchar :uid
