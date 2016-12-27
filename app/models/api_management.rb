@@ -68,7 +68,6 @@ class ApiManagement < ActiveRecord::Base
   # Methods
 
   def api_check(key_id, v_code)
-    # TODO 失敗時の考慮
     client = EveClient.new(key_id, v_code)
     response = client.fetch_api_key_info
     response_account_status = client.fetch_account_status

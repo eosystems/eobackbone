@@ -35,6 +35,8 @@ angular.module('eoApp')
     $scope.checkApi = function() {
       CheckApi.get({key_id: $scope.keyId, v_code: $scope.vCode}).$promise.then(function(data) {
         $scope.results = data.results;
+      }, function(error){
+        toastr.error("Error. Please Check Your API Key");
       });
     };
 
