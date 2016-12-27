@@ -59,4 +59,11 @@ class User < ActiveRecord::Base
     UserRole.exists?(user_id: self.id, role: OperationRole::MANAGER.id)
   end
 
+  def has_api_manager_role?
+    UserRole.exists?(user_id: self.id, role: OperationRole::API_MANAGER.id)
+  end
+
+  def has_recruit_role?
+    UserRole.exists?(user_id: self.id, role: OperationRole::RECRUIT.id)
+  end
 end

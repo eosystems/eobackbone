@@ -17,5 +17,9 @@ Rails.application.routes.draw do
     resources :trade_history_summaries, only: [:index]
     resources :locations, only: [:index]
     resources :departments, only: [:index, :show,:create, :update, :destroy]
+    resources :api_checks, only: [:index]
+    resources :api_managements
+    resources :audits, only: [:index]
+    resources :corporations, only: [:index]
   end
 end

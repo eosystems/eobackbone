@@ -1,0 +1,159 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+  'apiManagementsController',
+  ['ngTableParams', '$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+  function(ngTableParams, $resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+
+    var RootApi = $resource("/api/api_managements");
+    var DetailApi = $resource("/api/api_managements/:id", { id: '@id' }, {
+      get: {
+        method: 'GET'
+      },
+      update: {
+        method: 'PUT'
+      },
+      delete: {
+        method: 'DELETE'
+      }
+    });
+    var AuditApi = $resource("/api/audits");
+
+    $scope.boolean_status = [
+      { id: "", title: "" },
+      { id: 'true', title: "true" },
+      { id: 'false', title: "false" }
+    ];
+
+    $scope.setTotalCount = function(count) {
+      $scope.totalCount = count;
+    };
+
+    $scope.setAuditTotalCount = function(count) {
+      $scope.auditTotalCount = count;
+    };
+
+    $scope.tableParams = new ngTableParams({
+      filter: { },
+      count: 100,
+    }, {
+      counts: [100, 50, 25],
+      getData: function(params) {
+        var urlParams = params.url();
+
+        return RootApi.get(urlParams).$promise.then(function(data) {
+          params.total(data.totalCount);
+          $scope.setTotalCount(data.totalCount);
+          $scope.searchResults = data.results;
+          // 権限
+          $scope.api_manager = data.api_manager;
+          $scope.recruit = data.recruit;
+
+          return data.results;
+        });
+      }
+    });
+
+    $scope.tableAuditParams = new ngTableParams({
+      filter: { },
+      count: 10,
+    }, {
+      counts: [100, 50, 10],
+      getData: function(params) {
+        var urlParams = params.url();
+
+        return AuditApi.get(urlParams).$promise.then(function(data) {
+          params.total(data.totalCount);
+          $scope.setAuditTotalCount(data.totalCount);
+          $scope.searchAuditResults = data.results;
+
+          return data.results;
+        });
+      }
+    });
+
+
+    // Order Grid押下時
+    $scope.selectRow = function(id) {
+      var results = $scope.searchResults;
+      _.each($scope.searchResults, function(v) { v.selected = false; });
+      var row = $scope.searchResults.find(function(v) { return v.id == id })
+      if (row) {
+        row.selected = !row.selected;
+      }
+      $scope.selectedId = id;
+    };
+
+    // 詳細表示
+    $scope.showDetail = function() {
+      if ($scope.selectedId != null)
+      {
+        var row = $scope.searchResults.find(function(v) { return v.id == $scope.selectedId })
+        var modalInstance = $uibModal.open({
+          templateUrl: "<%= asset_path 'shared/detail_dialog.html' %>",
+          controller: 'DetailDialogController',
+          backdrop: true,
+          scope: $scope,
+          resolve: {
+            params: function() {
+              return {
+                title: 'API Detail',
+                message1: 'KeyId: ' + row.key_id ,
+                message2: 'Vcode: ' + row.v_code
+              };
+            }
+          }
+        });
+      };
+    }
+
+    // 再読み込み
+    $scope.reload = function() {
+      $scope.tableParams.reload();
+    };
+
+    $scope.reloadAudit = function() {
+      $scope.tableAuditParams.reload();
+    };
+
+    // 削除
+    $scope.deleteApi = function() {
+      var modalInstance = $uibModal.open({
+        templateUrl: "<%= asset_path 'shared/simple_dialog.html' %>",
+        controller: 'SimpleDialogController',
+        backdrop: true,
+        scope: $scope,
+        resolve: {
+          params: function() {
+            return {
+              title: 'Delete Api',
+              message: 'Are you sure?'
+            };
+          }
+        }
+      });
+
+      modalInstance.result.then(
+        // cancel
+        function(result) {
+        },
+        // request
+        function(result) {
+          toastr.info("Delete Api Request", "Request");
+          DetailApi.delete({ id: $scope.selectedId}).$promise.then(function(data) {
+            toastr.success("Delete Api" + " (#" + $scope.selectedId + ")", "Success");
+            $scope.selectedId = null;
+            $scope.reload();
+          }, function(error) {
+            toastr.error(error.data.error, "Error");
+          });
+        }
+      );
+
+
+    };
+
+  }]
+);

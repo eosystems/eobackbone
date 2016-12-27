@@ -38,6 +38,35 @@ create_table :order_details, collate: "utf8_bin", comment: "注文明細" do |t|
   t.foreign_key :order_id, reference: :orders, reference_column: :id
 end
 
+create_table :api_managements, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.varchar :key_id
+  t.varchar :v_code
+  t.varchar :uid, comment: "メインユーザー"
+  t.varchar :character_id, comment: "ユーザー"
+  t.varchar :character_name, comment: "キャラクター名"
+  t.varchar :corporation_id
+  t.varchar :alliance_id, null: true
+  t.bigint :access_mask
+  t.boolean :alpha
+  t.boolean :full_api
+  t.datetime :expires, null: true
+
+  t.varchar :api_manage_corporation_id, comment: "申請先コープ"
+  t.datetime :created_at
+  t.datetime :updated_at
+end
+
+create_table :audits, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.varchar :audit_type
+  t.text :audit_text
+  t.varchar :uid
+  t.varchar :corporation_id
+  t.datetime :created_at
+  t.datetime :updated_at
+end
+
 create_table :users, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
   t.varchar :uid

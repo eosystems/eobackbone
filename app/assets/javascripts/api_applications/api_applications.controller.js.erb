@@ -1,0 +1,99 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+  'apiApplicationsController',
+  ['$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+  function($resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+
+    var that = this;
+
+    var CheckApi = $resource("/api/api_checks", {}, {
+      get: {
+        method: 'GET'
+      }
+    });
+
+    var ManagementApi = $resource("/api/api_managements", {}, {
+      create: {
+        method: 'POST'
+      }
+    });
+
+    var CorporationApi = $resource("/api/corporations", {});
+
+    // Corporation Suggest
+    this.corporation = null;
+    $scope.searchCorporation = function(corporationName) {
+      CorporationApi.get({ keyword: corporationName }).$promise.then(function(data) {
+        $scope.corporations = data.results;
+      });
+    };
+
+    // APICheckボタン
+    $scope.checkApi = function() {
+      toastr.info("Request API Check. Please wait a minite");
+      CheckApi.get({key_id: $scope.keyId, v_code: $scope.vCode}).$promise.then(function(data) {
+        $scope.results = data.results;
+        toastr.success("Success API Check");
+      }, function(error){
+        toastr.error("Error. Please Check Your API Key");
+      });
+    };
+
+    // Applicationボタン
+    $scope.applyApi = function() {
+      var modalInstance = $uibModal.open({
+        templateUrl: "<%= asset_path 'shared/simple_dialog.html' %>",
+        controller: 'SimpleDialogController',
+        backdrop: true,
+        scope: $scope,
+        resolve: {
+          params: function() {
+            return {
+              title: 'API Application',
+              message: 'Are you sure?'
+            };
+          }
+        }
+      });
+
+      modalInstance.result.then(
+        // cancel
+        function(result) {
+        },
+        // request
+        function(result) {
+          toastr.info("Send Api Request", "Request");
+          for (var i = 0; i < $scope.results.characters.length; i++){
+            var apiForm = {
+              key_id: $scope.keyId,
+              v_code: $scope.vCode,
+              character_id: $scope.results.characters[i].character_id,
+              character_name: $scope.results.characters[i].character_name,
+              corporation_id: $scope.results.characters[i].corporation_id,
+              alliance_id: $scope.results.characters[i].alliance_id,
+              access_mask: $scope.results.access_mask,
+              alpha: $scope.results.alpha,
+              full_api: $scope.results.full_api,
+              expires: $scope.results.expires,
+              api_manage_corporation_id: that.corporation != null ? that.corporation.corporation_id : null
+            };
+            ManagementApi.create({ management: apiForm }).$promise.then(function(data) {
+              toastr.success("Request Accepted", "Success");
+              $location.path("/api_managements");
+            }, function(error) {
+              toastr.error("Something wrong.", "Error");
+              $location.path("/api_applications");
+            });
+          };
+
+        }
+      );
+
+
+    };
+
+  }]
+);
