@@ -49,7 +49,7 @@ class Api::ApiManagementsController < ApiController
 
   def destroy
     @management = ApiManagement.find(params[:id])
-    if @management.uid == current_user.id ||
+    if @management.uid == current_user.id.to_s ||
         @management.character_id == current_user.uid ||
         current_user.has_api_manager_role?
       @management.destroy
