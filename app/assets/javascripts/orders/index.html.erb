@@ -6,6 +6,8 @@
 
   <div class="text-left">
     <button class="btn btn-normal" ng-click="reload()">Reload</button>
+    <i class="fa fa-info-circle"></i>
+    関連コープの情報も表示されます
   </div>
 
   <section class="content table-responsive">
@@ -25,11 +27,10 @@
         <td data-title="'Department'" filter="{contract_department_name: 'text'}" sortable="'department_department_name'">
           {{row.department_name}}
         </td>
-        <td data-title="'Payment'" sortable="'is_paid'" width="100px" class="deletable">
-          <label ng-show="row.is_paid" class="">Paid</label>
-          <label ng-show="!row.is_paid" class="">Unpaid</label>
+        <td data-title="'Corporation'" filter="{contract_corporation_name: 'text'}" sortable="'corporation_corporation_name'">
+          {{row.corporation_name}}
         </td>
-        <td data-title="'Price'" sortable="'sell_price'">
+       <td data-title="'Price'" sortable="'sell_price'">
           {{row.sell_price | number:2}} isk
         </td>
         <td data-title="'Volume'" sortable="'total_volume'">

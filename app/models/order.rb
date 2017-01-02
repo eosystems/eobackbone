@@ -30,12 +30,13 @@ class Order < ActiveRecord::Base
   RANSACK_FILTER_ATTRIBUTES = {
     id: :id_eq_any,
     processing_status: :processing_status_eq,
-    contract_department_name: :department_department_name_cont_any
+    contract_department_name: :department_department_name_cont_any,
+    contract_corporation_name: :corporation_corporation_name_cont_any
   }.with_indifferent_access.freeze
 
   # Relations
   has_many :order_details
-  belongs_to :corp, foreign_key: "corporation_id"
+  belongs_to :corporation, foreign_key: "corporation_id"
   belongs_to :order_user, class_name: 'User', foreign_key: :order_by
   belongs_to :station, class_name: "StaStation", primary_key: :station_id
   belongs_to :department
@@ -46,6 +47,7 @@ class Order < ActiveRecord::Base
   # Delegates
   delegate :station_name, to: :station, allow_nil: true, prefix: :contract
   delegate :department_name, to: :department, allow_nil: true, prefix: :contract
+  delegate :corporation_name, to: :corporation, allow_nil: true, prefix: :contract
   # Scopes
 
   # 指定したCorpに属している、または指定したユーザIDが出した注文であれば参照可能
