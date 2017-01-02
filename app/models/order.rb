@@ -52,7 +52,9 @@ class Order < ActiveRecord::Base
   scope :accessible_orders, -> (corporation_id, user_id) do
     cid = arel_table[:corporation_id]
     order_by = arel_table[:order_by]
-    where(cid.eq(corporation_id).or(order_by.eq(user_id)))
+
+    relation_corporations = CorporationRelation.relation_corporation(corporation_id)
+    where(cid.in(relation_corporations).or(order_by.eq(user_id)))
   end
 
   def retrieval!

@@ -42,8 +42,8 @@ ActiveRecord::Schema.define(version: 0) do
   create_table "corporation_relations", force: :cascade do |t|
     t.integer  "ancestor",   limit: 4, null: false
     t.integer  "descendant", limit: 4, null: false
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "corporation_relations", ["ancestor"], name: "index_corporation_relations_on_ancestor", using: :btree

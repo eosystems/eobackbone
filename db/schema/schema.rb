@@ -123,8 +123,8 @@ create_table :corporation_relations, collate: "utf8_bin" do |t|
   t.int :ancestor
   t.int :descendant
 
-  t.datetime :created_at
-  t.datetime :updated_at
+  t.datetime :created_at, null: true
+  t.datetime :updated_at, null: true
 
   t.index :ancestor
   t.index :descendant
