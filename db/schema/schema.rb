@@ -118,6 +118,18 @@ create_table :corporations, collate: "utf8_bin" do |t|
   t.datetime :updated_at
 end
 
+create_table :corporation_relations, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: 'auto_increment'
+  t.int :ancestor
+  t.int :descendant
+
+  t.datetime :created_at, null: true
+  t.datetime :updated_at, null: true
+
+  t.index :ancestor
+  t.index :descendant
+end
+
 create_table :delayed_jobs, comment: 'Delayed Job' do |t|
   t.int :id, primary_key: true, extra: 'auto_increment'
   t.int :priority, default: 0, null: false
