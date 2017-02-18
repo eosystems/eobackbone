@@ -29,7 +29,9 @@ class CorpWalletJournal < ActiveRecord::Base
   RANSACK_FILTER_ATTRIBUTES = {
     id: :id_eq_any,
     corp_wallet_division_id: :corp_wallet_division_id_eq,
-    journal_corporation_name: :corporation_corporation_name_cont_any
+    journal_corporation_name: :corporation_corporation_name_cont_any,
+    from_i_date: :i_date_gteq,
+    to_i_date: :i_date_lteq
   }.with_indifferent_access.freeze
 
   # Relations
