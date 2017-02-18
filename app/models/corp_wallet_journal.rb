@@ -34,16 +34,24 @@ class CorpWalletJournal < ActiveRecord::Base
   end
 
   def import_all_division_journals(key_id, v_code, corporation_id)
-    
-
+    divisions = CorpWalletDivision.where(corporation_id: corporation_id)
+    divisions.each do |division|
+      import_journals(key_id, v_code, corporation_id,division.id, account_key: division.account_key)
+    end
   end
 
-  def import_journals(key_id, v_code, corporation_id)
+  def import_journals(key_id, v_code, corporation_id, division_id, account_key: 1000, last_from_id: 0)
     client = EveClient.new(key_id, v_code)
-    response = client.fetch_corp_wallet_journals
-    items = response.items[0].rowset.row.map{ |v| HashObject.new(v) }
+    response = client.fetch_corp_wallet_journals(account_key: account_key, from_id: last_from_id)
+    if response.items.count != 0 && response.items[0].rowset.row != nil
+      save_journals(response, division_id, corporation_id)
+    end
+  end
 
+  def save_journals(response, division_id, corporation_id)
+    items = response.items[0].rowset.row.map{ |v| HashObject.new(v) }
     results = []
+    i = 0
     items.each do |item|
       exist_check = CorpWalletJournal.where(ref_id: item.refID)
       if exist_check.count == 0
@@ -62,11 +70,18 @@ class CorpWalletJournal < ActiveRecord::Base
         r.reason = item.reason
         r.owner1_type_id = item.owner1TypeID
         r.owner2_type_id = item.owner2TypeID
+        r.corp_wallet_division_id = division_id
         r.corporation_id = corporation_id
         results << r
       end
+      if (i % 1000 == 0)
+        CorpWalletJournal.import results
+        results = []
+      end
+      i = i + 1
     end
 
     CorpWalletJournal.import results
   end
+
 end
