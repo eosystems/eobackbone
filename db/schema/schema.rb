@@ -71,23 +71,25 @@ create_table :corp_wallet_journals, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
   t.datetime :i_date
   t.bigint :ref_id
-  t.int :ref_type_id
-  t.varchar :owner_name1
-  t.bigint :owner_id1
-  t.varchar :owner_name2
-  t.bigint :owner_id2
-  t.varchar :arg_name1
-  t.int :arg_id_1
+  t.int :ref_type_id, null: true
+  t.varchar :owner_name1, null: true
+  t.bigint :owner_id1, null: true
+  t.varchar :owner_name2, null: true
+  t.bigint :owner_id2, null: true
+  t.varchar :arg_name1, null: true
+  t.int :arg_id_1, null: true
   t.decimal :amount, default: "0.0000", precision: 20, scale: 4
   t.decimal :balance, default: "0.0000", precision: 20, scale: 4
-  t.varchar :reason
-  t.int :owner1_type_id
-  t.int :owner2_type_id
+  t.varchar :reason, null: true
+  t.int :owner1_type_id, null: true
+  t.int :owner2_type_id, null: true
 
   t.varchar :corporation_id
 
   t.datetime :created_at
   t.datetime :updated_at
+
+  t.index :ref_id
 end
 
 create_table :audits, collate: "utf8_bin" do |t|
