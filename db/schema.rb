@@ -39,6 +39,34 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at",                   null: false
   end
 
+  create_table "corp_api_managements", force: :cascade do |t|
+    t.string   "key_id",         limit: 255, null: false
+    t.string   "v_code",         limit: 255, null: false
+    t.string   "corporation_id", limit: 255, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  create_table "corp_wallet_journals", force: :cascade do |t|
+    t.datetime "i_date",                                                            null: false
+    t.integer  "ref_id",         limit: 8,                                          null: false
+    t.integer  "ref_type_id",    limit: 4,                                          null: false
+    t.string   "owner_name1",    limit: 255,                                        null: false
+    t.integer  "owner_id1",      limit: 8,                                          null: false
+    t.string   "owner_name2",    limit: 255,                                        null: false
+    t.integer  "owner_id2",      limit: 8,                                          null: false
+    t.string   "arg_name1",      limit: 255,                                        null: false
+    t.integer  "arg_id_1",       limit: 4,                                          null: false
+    t.decimal  "amount",                     precision: 20, scale: 4, default: 0.0, null: false
+    t.decimal  "balance",                    precision: 20, scale: 4, default: 0.0, null: false
+    t.string   "reason",         limit: 255,                                        null: false
+    t.integer  "owner1_type_id", limit: 4,                                          null: false
+    t.integer  "owner2_type_id", limit: 4,                                          null: false
+    t.string   "corporation_id", limit: 255,                                        null: false
+    t.datetime "created_at",                                                        null: false
+    t.datetime "updated_at",                                                        null: false
+  end
+
   create_table "corporation_relations", force: :cascade do |t|
     t.integer  "ancestor",   limit: 4, null: false
     t.integer  "descendant", limit: 4, null: false
