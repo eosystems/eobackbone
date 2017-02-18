@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at",                 null: false
   end
 
-  create_table "corp_wallet_division", force: :cascade do |t|
+  create_table "corp_wallet_divisions", force: :cascade do |t|
     t.integer  "account_key",    limit: 4,   null: false
     t.string   "name",           limit: 255, null: false
     t.string   "corporation_id", limit: 255, null: false

@@ -2,24 +2,25 @@
 #
 # Table name: corp_wallet_journals
 #
-#  id             :integer          not null, primary key
-#  i_date         :datetime         not null
-#  ref_id         :integer          not null
-#  ref_type_id    :integer          not null
-#  owner_name1    :string(255)      not null
-#  owner_id1      :integer          not null
-#  owner_name2    :string(255)      not null
-#  owner_id2      :integer          not null
-#  arg_name1      :string(255)      not null
-#  arg_id_1       :integer          not null
-#  amount         :decimal(20, 4)   default(0.0), not null
-#  balance        :decimal(20, 4)   default(0.0), not null
-#  reason         :string(255)      not null
-#  owner1_type_id :integer          not null
-#  owner2_type_id :integer          not null
-#  corporation_id :string(255)      not null
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id                      :integer          not null, primary key
+#  i_date                  :datetime         not null
+#  ref_id                  :integer          not null
+#  ref_type_id             :integer
+#  owner_name1             :string(255)
+#  owner_id1               :integer
+#  owner_name2             :string(255)
+#  owner_id2               :integer
+#  arg_name1               :string(255)
+#  arg_id_1                :integer
+#  amount                  :decimal(20, 4)   default(0.0), not null
+#  balance                 :decimal(20, 4)   default(0.0), not null
+#  reason                  :string(255)
+#  owner1_type_id          :integer
+#  owner2_type_id          :integer
+#  corporation_id          :string(255)      not null
+#  corp_wallet_division_id :integer          not null
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
 #
 
 class CorpWalletJournal < ActiveRecord::Base
@@ -28,8 +29,13 @@ class CorpWalletJournal < ActiveRecord::Base
   def import_all_corporation_journals
     corps = CorpApiManagement.all
     corps.each do |corp|
-      import_journals(corp.key_id, corp.v_code, corp.corporation_id)
+      import_all_division_journals(corp.key_id, corp.v_code, corp.corporation_id)
     end
+  end
+
+  def import_all_division_journals(key_id, v_code, corporation_id)
+    
+
   end
 
   def import_journals(key_id, v_code, corporation_id)
