@@ -67,6 +67,17 @@ create_table :corp_api_managements, collate: "utf8_bin" do |t|
   t.datetime :updated_at
 end
 
+create_table :corp_wallet_division, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.int :account_key
+  t.varchar :name
+  t.varchar :corporation_id
+
+  t.datetime :created_at
+  t.datetime :updated_at
+end
+
+
 create_table :corp_wallet_journals, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
   t.datetime :i_date
@@ -85,12 +96,15 @@ create_table :corp_wallet_journals, collate: "utf8_bin" do |t|
   t.int :owner2_type_id, null: true
 
   t.varchar :corporation_id
+  t.int :corp_wallet_division_id
 
   t.datetime :created_at
   t.datetime :updated_at
 
   t.index :ref_id
 end
+
+
 
 create_table :audits, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
