@@ -21,5 +21,7 @@ Rails.application.routes.draw do
     resources :api_managements
     resources :audits, only: [:index]
     resources :corporations, only: [:index]
+    resources :corp_wallet_journals, only: [:index]
+    resources :corp_wallet_divisions, only: [:index]
   end
 end
