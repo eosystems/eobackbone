@@ -407,3 +407,8 @@ create_table :trn_translations, collate: "utf8_bin", comment: "翻訳" do |t|
   t.text :text, null: true
 end
 
+create_table :ref_types, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true
+  t.varchar :name, null: true
+end
+

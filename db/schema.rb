@@ -217,6 +217,10 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at",                                                                      null: false
   end
 
+  create_table "ref_types", force: :cascade do |t|
+    t.string "name", limit: 255
+  end
+
   create_table "sta_stations", force: :cascade do |t|
     t.integer "station_id",      limit: 8,   null: false
     t.integer "region_id",       limit: 4,   null: false

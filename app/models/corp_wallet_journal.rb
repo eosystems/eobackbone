@@ -31,14 +31,17 @@ class CorpWalletJournal < ActiveRecord::Base
     corp_wallet_division_id: :corp_wallet_division_id_eq,
     journal_corporation_name: :corporation_corporation_name_cont_any,
     from_i_date: :i_date_gteq,
-    to_i_date: :i_date_lteq
+    to_i_date: :i_date_lteq,
+    ref_type_name: :ref_type_ref_type_name
   }.with_indifferent_access.freeze
 
   # Relations
   belongs_to :corporation
+  belongs_to :ref_type
 
   # Delegates
   delegate :corporation_name, to: :corporation, allow_nil: true, prefix: :journal
+  delegate :name, to: :ref_type, allow_nil: true, prefix: :ref_type
 
   # Scopes
   # 指定したCorpに属していれば参照可能

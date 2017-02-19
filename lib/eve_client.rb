@@ -3,6 +3,7 @@ class EveClient
   API_KEY_INFO_URL = '/eve/account/APIKeyInfo.xml.aspx'.freeze
   ACCOUNT_STATUS_URL = '/eve/account/AccountStatus.xml.aspx'.freeze
   CORP_WALLET_JOURNAL_URL = '/corp/WalletJournal.xml.aspx'.freeze
+  REF_TYPES_URL = '/eve/RefTypes.xml.aspx'.freeze
 
   def initialize(key_id, v_code)
     @key_id = key_id
@@ -21,6 +22,9 @@ class EveClient
     XmlApiResponse.parse(get_corp_request_to(CORP_WALLET_JOURNAL_URL, account_key, from_id))
   end
 
+  def fetch_ref_types
+    XmlApiResponse.parse(get_request_to(REF_TYPES_URL))
+  end
   private
 
   def build_api_connection
