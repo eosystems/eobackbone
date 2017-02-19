@@ -4,10 +4,11 @@ angular.module('eoApp')
 
 .controller(
   'corpWalletJournalsController',
-  ['ngTableParams', '$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
-  function(ngTableParams, $resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+  ['ngTableParams', '$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location', 'corporations',
+  function(ngTableParams, $resource, $scope, $state, $uibModal, $loading, toastr, $location, corporations) {
 
     var RootApi = $resource("/api/corp_wallet_journals");
+    $scope.corporations = corporations;
 
     $scope.buyFilter = [
       { id: "", title: "" },
