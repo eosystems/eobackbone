@@ -4,6 +4,7 @@ class Api::CorpWalletJournalsController < ApiController
       .search_with(params[:filter], params[:sorting], params[:page], params[:count])
       .accessible_orders(current_character.corporation_id)
       .includes(:corporation)
+      .includes(:ref_type)
       .order(ref_id: :desc)
   end
 
