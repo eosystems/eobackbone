@@ -1,7 +1,9 @@
 class Api::CorpWalletJournalsController < ApiController
   def index
     @journals = CorpWalletJournal
-      .accessible_orders(current_character.corporation_id, current_user.id)
+      .search_with(params[:filter], params[:sorting], params[:page], params[:count])
+      .accessible_orders(current_character.corporation_id)
+      .includes(:corporation)
       .order(ref_id: :desc)
   end
 

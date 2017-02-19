@@ -1,0 +1,33 @@
+<div class="container-fluid">
+<div class="row">
+
+<div class="col-md-12">
+  <h2>Corp Wallet Transaction</h2>
+
+  <div class="text-left">
+    <button class="btn btn-normal" ng-click="reload()">Reload</button>
+  </div>
+
+  <section class="content table-responsive">
+    <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
+      show-filter="true">
+      <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
+        <td data-title="'RefId'">
+          {{row.ref_id}}
+        </td>
+        <td data-title="'Date'">
+          {{row.i_date}}
+        </td>
+        <td data-title="'Amount'">
+          {{row.price | number}} isk
+        </td>
+        <td data-title="'Balance'">
+          {{row.price | number}} isk
+        </td>
+      </tr>
+    </table>
+  </section>
+</div>
+
+</div>
+</div>
