@@ -3,62 +3,87 @@
 angular.module('eoApp')
 
 .controller(
-  'corpWalletJournalsController',
-  ['ngTableParams', '$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location', 'corporations',
-  function(ngTableParams, $resource, $scope, $state, $uibModal, $loading, toastr, $location, corporations) {
+    'corpWalletJournalsController', ['ngTableParams', '$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location', 'corporations',
+        function(ngTableParams, $resource, $scope, $state, $uibModal, $loading, toastr, $location, corporations) {
 
-    var RootApi = $resource("/api/corp_wallet_journals");
-    $scope.corporations = corporations;
-    $scope.selectedCorporation = $scope.corporations[1].corporation_id;
+            var RootApi = $resource("/api/corp_wallet_journals");
+            $scope.corporations = corporations;
+            $scope.selectedCorporation = $scope.corporations[0].corporation_id;
 
-    $scope.buyFilter = [
-      { id: "", title: "" },
-      { id: 'sell', title: "Sell" },
-      { id: 'buy', title: "Buy" }
-    ];
+            $scope.buyFilter = [{
+                    id: "",
+                    title: ""
+                },
+                {
+                    id: 'sell',
+                    title: "Sell"
+                },
+                {
+                    id: 'buy',
+                    title: "Buy"
+                }
+            ];
 
-    $scope.tradeFilter = [
-      { id: "", title: "" },
-      { id: '0', title: "No" },
-      { id: '1', title: "Yes" }
-    ];
+            $scope.tradeFilter = [{
+                    id: "",
+                    title: ""
+                },
+                {
+                    id: '0',
+                    title: "No"
+                },
+                {
+                    id: '1',
+                    title: "Yes"
+                }
+            ];
 
-    $scope.setTotalCount = function(count) {
-      $scope.totalCount = count;
-    };
+            $scope.setTotalCount = function(count) {
+                $scope.totalCount = count;
+            };
 
-    $scope.tableParams = new ngTableParams({
-      filter: { },
-      count: 100,
-    }, {
-      counts: [100, 50, 25],
-      getData: function(params) {
-        var urlParams = params.url();
+            $scope.tableParams = new ngTableParams({
+                filter: {
+                    corporation_id: $scope.selectedCorporation,
+                    corp_wallet_division_id: 3
+                },
+                count: 100,
+            }, {
+                counts: [100, 50, 25],
+                getData: function(params) {
+                    var urlParams = params.url();
 
-        return RootApi.get({corporation_id: $scope.selectedCorporation, corp_wallet_division_id: '1002'}).$promise.then(function(data) {
-          params.total(data.totalCount);
-          $scope.setTotalCount(data.totalCount);
-          $scope.searchResults = data.results;
-          return data.results;
-        });
-      }
-    });
+                    return RootApi.get(
+                        urlParams
+                    ).$promise.then(function(data) {
+                        params.total(data.totalCount);
+                        $scope.setTotalCount(data.totalCount);
+                        $scope.searchResults = data.results;
+                        return data.results;
+                    });
+                }
+            });
 
-    // Order Grid押下時
-    $scope.selectRow = function(id) {
-      var results = $scope.searchResults;
-      _.each($scope.searchResults, function(v) { v.selected = false; });
-      var row = $scope.searchResults.find(function(v) { return v.id == id })
-      if (row) {
-        row.selected = !row.selected;
-      }
-      $scope.selectedId = id;
-    };
+            // Order Grid押下時
+            $scope.selectRow = function(id) {
+                var results = $scope.searchResults;
+                _.each($scope.searchResults, function(v) {
+                    v.selected = false;
+                });
+                var row = $scope.searchResults.find(function(v) {
+                    return v.id == id
+                })
+                if (row) {
+                    row.selected = !row.selected;
+                }
+                $scope.selectedId = id;
+            };
 
-    // 再読み込み
-    $scope.reload = function() {
-      $scope.tableParams.reload();
-    };
+            // 再読み込み
+            $scope.reload = function() {
+                $scope.tableParams.reload();
+            };
 
-  }]
+        }
+    ]
 );
