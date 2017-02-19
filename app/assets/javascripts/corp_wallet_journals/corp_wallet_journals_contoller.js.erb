@@ -9,6 +9,7 @@ angular.module('eoApp')
 
     var RootApi = $resource("/api/corp_wallet_journals");
     $scope.corporations = corporations;
+    $scope.selectedCorporation = $scope.corporations[1].corporation_id;
 
     $scope.buyFilter = [
       { id: "", title: "" },
@@ -34,7 +35,7 @@ angular.module('eoApp')
       getData: function(params) {
         var urlParams = params.url();
 
-        return RootApi.get(urlParams).$promise.then(function(data) {
+        return RootApi.get({corporation_id: $scope.selectedCorporation, corp_wallet_division_id: '1002'}).$promise.then(function(data) {
           params.total(data.totalCount);
           $scope.setTotalCount(data.totalCount);
           $scope.searchResults = data.results;
