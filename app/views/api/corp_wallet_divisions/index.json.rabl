@@ -1,5 +1,5 @@
 node :totalCount do
-  @divisions.total_count
+  # @divisions.total_count
 end
 
 child @divisions => :results do
