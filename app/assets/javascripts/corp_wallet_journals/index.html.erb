@@ -1,45 +1,60 @@
 <div class="container-fluid">
-<div class="row">
+    <div class="row">
 
-<div class="col-md-12">
-  <h2>Corp Wallet Journal</h2>
+        <div class="col-md-12">
+            <h2>Corp Wallet Journal</h2>
 
-  <div class="text-left">
-    <button class="btn btn-normal" ng-click="reload()">Reload</button>
-  </div>
+            <div class="text-left">
+                <button class="btn btn-normal" ng-click="reload()">Reload</button>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">Corporation:</label>
+                    <div class="col-xs-4">
+                        <select id="department" class="form-control mt-10" ng-model="selectedCorporation" ng-options="x.corporation_name for x in corporations" ng-change="changeDepartment()"></select>
+                    </div>
 
-  <section class="content table-responsive">
-    <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
-      show-filter="true">
-      <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
-        <td data-title="'RefId'">
-          {{row.ref_id}}
-        </td>
-        <td data-title="'Date'">
-          {{row.i_date}}
-        </td>
-        <td data-title="'Ref Type'">
-          {{row.ref_type_name}}
-        </td>
-        <td data-title="'Amount'">
-          {{row.amount | number}}
-        </td>
-        <td data-title="'Balance'">
-          {{row.balance | number}}
-        </td>
-        <td data-title="'Owner1'">
-          {{row.owner_name1}}
-        </td>
-        <td data-title="'Owner2'">
-          {{row.owner_name2}}
-        </td>
-        <td data-title="'Reason'">
-          {{row.reason}}
-        </td>
-      </tr>
-    </table>
-  </section>
-</div>
+                    <label class="col-xs-2 control-label">Wallet Division:</label>
+                    <div class="col-xs-4">
+                        <select id="department" class="form-control mt-10" ng-model="selectedDivision" ng-options="x.name for x in divisions" ng-change="changeDepartment()"></select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-12">
+            <section class="content table-responsive">
+                <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10" show-filter="true">
+                    <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
+                        <td data-title="'RefId'">
+                            {{row.ref_id}}
+                        </td>
+                        <td data-title="'Date'">
+                            {{row.i_date}}
+                        </td>
+                        <td data-title="'Ref Type'">
+                            {{row.ref_type_name}}
+                        </td>
+                        <td data-title="'Amount'">
+                            {{row.amount | number}}
+                        </td>
+                        <td data-title="'Balance'">
+                            {{row.balance | number}}
+                        </td>
+                        <td data-title="'Owner1'">
+                            {{row.owner_name1}}
+                        </td>
+                        <td data-title="'Owner2'">
+                            {{row.owner_name2}}
+                        </td>
+                        <td data-title="'Reason'">
+                            {{row.reason}}
+                        </td>
+                    </tr>
+                </table>
+            </section>
+        </div>
 
-</div>
+    </div>
 </div>
