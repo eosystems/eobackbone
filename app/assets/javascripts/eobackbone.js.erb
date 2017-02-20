@@ -79,9 +79,6 @@ angular.module('eoApp', [
     resolve: {
       corporations: ['getCorporation', function(getCorporation){
         return getCorporation;
-      }],
-      divisions: ['getCorpWalletDivision', function(getCorpWalletDivision){
-        return getCorpWalletDivision;
       }]
     },
     controller: 'corpWalletJournalsController'
