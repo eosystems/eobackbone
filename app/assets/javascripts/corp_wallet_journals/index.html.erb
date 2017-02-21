@@ -33,7 +33,7 @@
                         <td data-title="'Date'">
                             {{row.i_date}}
                         </td>
-                        <td data-title="'Ref Type'">
+                        <td data-title="'Ref Type'" filter="{processing_status: 'select'}" filter-data="refTypeFilter" >
                             {{row.ref_type_name}}
                         </td>
                         <td data-title="'Amount'">
