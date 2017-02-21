@@ -23,6 +23,13 @@
                 </div>
             </form>
         </div>
+
+        <div class="col-md-12">
+          <label class="checkbox-inline">
+            <input type="checkbox" ng-model="showReason"/>Show Reason
+          </label>
+        </div>
+
         <div class="col-md-12">
             <section class="content table-responsive">
                 <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10" show-filter="true">
@@ -48,7 +55,7 @@
                         <td data-title="'Owner2'">
                             {{row.owner_name2}}
                         </td>
-                        <td data-title="'Reason'">
+                        <td data-title="'Reason'" ng-if=showReason>
                             {{row.reason}}
                         </td>
                     </tr>
