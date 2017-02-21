@@ -13,7 +13,6 @@ angular.module('eoApp')
             })
             .success(function(res) {
                 deferred.resolve(res.results);
-                console.log(res.results[0]);
             });
         return deferred.promise;
     }

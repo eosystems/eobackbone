@@ -79,6 +79,9 @@ angular.module('eoApp', [
     resolve: {
       corporations: ['getCorporation', function(getCorporation){
         return getCorporation;
+      }],
+      refTypes: ['getRefTypes', function(getRefTypes){
+        return getRefTypes;
       }]
     },
     controller: 'corpWalletJournalsController'

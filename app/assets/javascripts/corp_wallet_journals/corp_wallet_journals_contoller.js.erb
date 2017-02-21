@@ -5,10 +5,10 @@ angular.module('eoApp')
 .controller(
     'corpWalletJournalsController', ['ngTableParams', '$resource', '$scope', '$state', '$uibModal',
         '$loading', 'toastr', '$location', 'corporations',
-        'getCorpWalletDivision', 'getRefTypes',
+        'getCorpWalletDivision', 'refTypes',
         function(ngTableParams, $resource, $scope,
             $state, $uibModal, $loading, toastr, $location, corporations,
-            getCorpWalletDivision, getRefTypes) {
+            getCorpWalletDivision, refTypes) {
 
             var RootApi = $resource("/api/corp_wallet_journals");
             $scope.corporations = corporations;
@@ -29,9 +29,6 @@ angular.module('eoApp')
                     title: "Buy"
                 }
             ];
-
-            // Ref Types
-            $scope.refTypeFilter = getRefTypes;
 
             // 初期化
             var initialize = function() {
