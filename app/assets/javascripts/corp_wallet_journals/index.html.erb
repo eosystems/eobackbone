@@ -13,12 +13,12 @@
                 <div class="form-group">
                     <label class="col-xs-2 control-label">Corporation:</label>
                     <div class="col-xs-4">
-                        <select id="department" class="form-control mt-10" ng-model="selectedCorporation" ng-options="x.corporation_name for x in corporations" ng-change="changeDepartment()"></select>
+                        <select id="corporation" class="form-control mt-10" ng-model="selectedCorporation" ng-options="x.corporation_name for x in corporations" ng-change="changeCorporation()"></select>
                     </div>
 
                     <label class="col-xs-2 control-label">Wallet Division:</label>
                     <div class="col-xs-4">
-                        <select id="department" class="form-control mt-10" ng-model="selectedDivision" ng-options="x.name for x in divisions" ng-change="changeDivision()"></select>
+                        <select id="division" class="form-control mt-10" ng-model="selectedDivision" ng-options="x.name for x in divisions" ng-change="changeDivision()"></select>
                     </div>
                 </div>
             </form>

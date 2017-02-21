@@ -14,6 +14,7 @@ angular.module('eoApp')
             $scope.corporations = corporations;
             $scope.selectedCorporation = $scope.corporations[0];
             $scope.selectedDivision = null;
+            $scope.stopDivisionChange = false;
 
             $scope.buyFilter = [{
                     id: "",
@@ -46,7 +47,7 @@ angular.module('eoApp')
             // 初期化
             var initialize = function() {
                 // Wallet 部門
-                $scope.divisions = getCorpWalletDivision.then(function(data) {　
+                $scope.divisions = getCorpWalletDivision($scope.selectedCorporation.corporation_id).then(function(data) {　
                     $scope.divisions = data;
                     $scope.selectedDivision = data[0];
                     // Table 初期化 (Wallet 部門を初期化後に読み込み開始)
@@ -78,7 +79,7 @@ angular.module('eoApp')
             $scope.newNgTableParams = function() {
                 var n = new ngTableParams({
                     filter: {
-                        corporation_id: $scope.selectedCorporation.id,
+                        corporation_id: $scope.selectedCorporation.corporation_id,
                         corp_wallet_division_id: $scope.selectedDivision.id
                     },
                     count: 100,
@@ -107,7 +108,20 @@ angular.module('eoApp')
 
             // Wallet Division Change
             $scope.changeDivision = function() {
-                $scope.tableParams = $scope.newNgTableParams();
+                if ($scope.stopDivisionChange != true) {
+                    $scope.tableParams = $scope.newNgTableParams();
+                }
+                $scope.stopDivisionChange = false;
+            };
+
+            // Corporation change
+            $scope.changeCorporation = function() {
+                $scope.stopDivisionChange = true;
+                $scope.divisions = getCorpWalletDivision($scope.selectedCorporation.corporation_id).then(function(data) {　
+                    $scope.divisions = data;
+                    $scope.selectedDivision = data[0];
+                    $scope.tableParams = $scope.newNgTableParams();
+                });
             };
         }
     ]
