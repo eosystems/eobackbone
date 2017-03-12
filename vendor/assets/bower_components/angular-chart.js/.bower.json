@@ -58,6 +58,6 @@
     "commit": "3ddc3a29c1217e9bfd2662d574c45e6e873e870d"
   },
   "_source": "https://github.com/jtblin/angular-chart.js.git",
-  "_target": "*",
+  "_target": "0.10.2",
   "_originalSource": "angular-chart.js"
 }

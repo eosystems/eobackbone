@@ -26,6 +26,6 @@
     "commit": "44c9cd566b6010b31f7cf960d75d5a87a9058eb3"
   },
   "_source": "https://github.com/esvit/ng-table.git",
-  "_target": "*",
+  "_target": "0.8.3",
   "_originalSource": "ng-table"
 }
