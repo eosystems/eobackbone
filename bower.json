@@ -6,7 +6,7 @@
       "angular-resource" : "latest",
       "angular-ui-router" : "latest",
       "angular-bootstrap" : "latest",
-      "ng-table": "latest",
+      "ng-table": "0.8.3",
       "lodash" : "latest",
       "angular-chart.js": "latest",
       "angular-animate": "latest",
