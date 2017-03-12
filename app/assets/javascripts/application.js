@@ -28,6 +28,7 @@
 //= require angular-loading/angular-loading.min
 //= require angular-ui-select/dist/select
 //= require angular-sanitize/angular-sanitize.min
+//= require moment/min/moment.min.js
 //= require angular-datepicker/dist/angular-datepicker.min
 //= require common
 //

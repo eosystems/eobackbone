@@ -31,8 +31,22 @@ angular.module('eoApp')
                 }
             ];
 
+            // Datepicker
+            $scope.fromDate = new Date();
+            $scope.toDate = new Date();
+
             // 初期化
-            var initialize = function() {
+            var initialize = function() {　
+                // 月初、月末　
+                $scope.fromDate.setDate(1);
+                $scope.fromDate.setHours(0);
+                $scope.fromDate.setMinutes(0);
+                $scope.toDate.setDate(1);
+                $scope.toDate.setMonth($scope.toDate.getMonth() + 1);
+                $scope.toDate.setDate(0);
+                $scope.toDate.setHours(23);
+                $scope.toDate.setMinutes(59);
+
                 // Wallet 部門
                 $scope.divisions = getCorpWalletDivision($scope.selectedCorporation.corporation_id).then(function(data) {　
                     $scope.divisions = data;
