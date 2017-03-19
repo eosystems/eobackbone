@@ -81,7 +81,9 @@ angular.module('eoApp')
                 var n = new ngTableParams({
                     filter: {
                         corporation_id: $scope.selectedCorporation.corporation_id,
-                        corp_wallet_division_id: $scope.selectedDivision.id
+                        corp_wallet_division_id: $scope.selectedDivision.id,
+                        from_i_date: $scope.fromDate,
+                        to_i_date: $scope.toDate
                     },
                     count: 100,
                 }, {
@@ -104,7 +106,7 @@ angular.module('eoApp')
 
             // 再読み込み
             $scope.reload = function() {
-                $scope.tableParams.reload();
+                $scope.tableParams = $scope.newNgTableParams();
             };
 
             // Wallet Division Change
@@ -124,6 +126,19 @@ angular.module('eoApp')
                     $scope.tableParams = $scope.newNgTableParams();
                 });
             };
+
+            // Change data
+            $scope.changeDate = function(modelName, newDate) {
+                switch (modelName) {
+                    case 'fromDate':
+                        $scope.fromDate = newDate.format();
+                        break;
+                    case 'toDate':
+                        $scope.toDate = newDate.format();
+                        break;
+                };
+            };
+
         }
     ]
 );
