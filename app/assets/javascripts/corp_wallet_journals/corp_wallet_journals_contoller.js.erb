@@ -109,7 +109,9 @@ angular.module('eoApp')
             $scope.newSummaryNgTableParams = function() {
                 var n = new ngTableParams({
                     filter: {},
+                    count: 0
                 }, {
+                    counts: [],
                     getData: function(params) {
                         return SummaryApi.get({
                             corporation_id: $scope.selectedCorporation.corporation_id,
