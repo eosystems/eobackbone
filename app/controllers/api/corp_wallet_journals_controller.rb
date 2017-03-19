@@ -7,5 +7,4 @@ class Api::CorpWalletJournalsController < ApiController
       .includes(:ref_type)
       .order(ref_id: :desc)
   end
-
 end

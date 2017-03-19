@@ -11,6 +11,7 @@ angular.module('eoApp')
             getCorpWalletDivision, refTypes) {
 
             var RootApi = $resource("/api/corp_wallet_journals");
+            var SummaryApi = $resource("/api/corp_wallet_journals/summary");
             $scope.corporations = corporations;
             $scope.selectedCorporation = $scope.corporations[0];
             $scope.selectedDivision = null;

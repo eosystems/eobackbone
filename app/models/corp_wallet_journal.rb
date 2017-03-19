@@ -113,4 +113,9 @@ class CorpWalletJournal < ActiveRecord::Base
     CorpWalletJournal.import results
   end
 
+  def self.summary(from_i_date, to_i_date, corporation_id, division_id)
+    CorpWalletJournal.group(:ref_type)
+      .where(corporation_id: corporation_id, corp_wallet_division_id: division_id)
+      .sum(:amount)
+  end
 end
