@@ -114,8 +114,15 @@ class CorpWalletJournal < ActiveRecord::Base
   end
 
   def self.summary(from_i_date, to_i_date, corporation_id, division_id)
-    CorpWalletJournal.group(:ref_type)
+    results = []
+    r = CorpWalletJournal.group(:ref_type_id)
       .where(corporation_id: corporation_id, corp_wallet_division_id: division_id)
+      .where(i_date: from_i_date..to_i_date)
       .sum(:amount)
+      .select
+    r.each { |id, v|
+      results << CorpWalletJournal.new(ref_type_id: id, amount: v)
+    }
+    results.sort {|a, b| a.ref_type_name <=> b.ref_type_name}
   end
 end

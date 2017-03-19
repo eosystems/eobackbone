@@ -11,7 +11,7 @@ angular.module('eoApp')
             getCorpWalletDivision, refTypes) {
 
             var RootApi = $resource("/api/corp_wallet_journals");
-            var SummaryApi = $resource("/api/corp_wallet_journals/summary");
+            var SummaryApi = $resource("/api/summary_corp_wallet_journals");
             $scope.corporations = corporations;
             $scope.selectedCorporation = $scope.corporations[0];
             $scope.selectedDivision = null;
@@ -54,6 +54,7 @@ angular.module('eoApp')
                     $scope.selectedDivision = data[0];
                     // Table 初期化 (Wallet 部門を初期化後に読み込み開始)
                     $scope.tableParams = $scope.newNgTableParams();
+                    $scope.summaryTableParams = $scope.newSummaryNgTableParams();
                 });
             };
 
@@ -105,9 +106,30 @@ angular.module('eoApp')
                 return n;
             };
 
+            $scope.newSummaryNgTableParams = function() {
+                var n = new ngTableParams({
+                    filter: {},
+                }, {
+                    getData: function(params) {
+                        return SummaryApi.get({
+                            corporation_id: $scope.selectedCorporation.corporation_id,
+                            corp_wallet_division_id: $scope.selectedDivision.id,
+                            from_i_date: $scope.fromDate,
+                            to_i_date: $scope.toDate
+                        }).$promise.then(function(data) {
+                            $scope.summaryResults = data.results;
+                            return data.results;
+                        });
+                    }
+                });
+                return n;
+            };
+
+
             // 再読み込み
             $scope.reload = function() {
                 $scope.tableParams = $scope.newNgTableParams();
+                $scope.summaryTableParams = $scope.newSummaryNgTableParams();
             };
 
             // Wallet Division Change

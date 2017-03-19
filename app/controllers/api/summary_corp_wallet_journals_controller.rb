@@ -3,7 +3,6 @@ class Api::SummaryCorpWalletJournalsController < ApiController
     @summary_journals = CorpWalletJournal.summary(params[:from_i_date],
                                                   params[:to_i_date],
                                                   params[:corporation_id],
-                                                  params[:division_id])
-    render json: @summary_journals
+                                                  params[:corp_wallet_division_id])
   end
 end
