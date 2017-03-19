@@ -17,6 +17,7 @@ angular.module('eoApp')
             $scope.selectedDivision = null;
             $scope.stopDivisionChange = false;
             $scope.showReason = false;
+            $scope.showDataCorrectionButton = false;
 
             $scope.buyFilter = [{
                     id: "",
@@ -179,6 +180,11 @@ angular.module('eoApp')
                         break;
                 };
             };
+
+            // データ集計無視
+            $scope.ignoreRecord = function(id){
+              console.log (id);
+            }
 
         }
     ]
