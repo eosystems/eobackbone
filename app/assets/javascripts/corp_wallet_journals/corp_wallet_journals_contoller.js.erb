@@ -153,7 +153,7 @@ angular.module('eoApp')
             // Wallet Division Change
             $scope.changeDivision = function() {
                 if ($scope.stopDivisionChange != true) {
-                    $scope.tableParams = $scope.newNgTableParams();
+                    $scope.reload();
                 }
                 $scope.stopDivisionChange = false;
             };
@@ -164,7 +164,7 @@ angular.module('eoApp')
                 $scope.divisions = getCorpWalletDivision($scope.selectedCorporation.corporation_id).then(function(data) {　
                     $scope.divisions = data;
                     $scope.selectedDivision = data[0];
-                    $scope.tableParams = $scope.newNgTableParams();
+                    $scope.reload();
                 });
             };
 
