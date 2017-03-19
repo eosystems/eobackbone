@@ -42,7 +42,7 @@
             <div class="col-md-12">
                 <section class="content table-responsive">
                     <table ng-table="summaryTableParams" class="table table-condensed table-responsive table-hover mt-10">
-                        <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
+                        <tr ng-repeat="row in $data" ng-click="selectSummaryRow(row.id)" ng-class="{selected: row.selected}">
                             <td data-title="'Ref Type'">
                                 {{row.ref_type_name}}
                             </td>

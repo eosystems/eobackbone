@@ -121,7 +121,7 @@ class CorpWalletJournal < ActiveRecord::Base
       .sum(:amount)
       .select
     r.each { |id, v|
-      results << CorpWalletJournal.new(ref_type_id: id, amount: v)
+      results << CorpWalletJournal.new(id: id, ref_type_id: id, amount: v)
     }
     results.sort {|a, b| a.ref_type_name <=> b.ref_type_name}
   end
