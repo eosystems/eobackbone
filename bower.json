@@ -15,7 +15,8 @@
       "angular-loading": "0.1.4",
       "angular-ui-select": "0.18.0",
       "angular-sanitize": "1.5.6",
-      "angular-datepicker": "2.0.3"
+      "angular-datepicker": "2.0.3",
+      "ng-csv": "0.3.6"
     }
   }
 }

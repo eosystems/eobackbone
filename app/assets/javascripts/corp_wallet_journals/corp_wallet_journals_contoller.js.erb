@@ -161,25 +161,7 @@ angular.module('eoApp')
                   from_i_date: $scope.fromDate,
                   to_i_date: $scope.toDate
               }).$promise.then(function(data) {
-                  var bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
-                  var content = data;
-                  var blob = new Blob([ bom, content ], { "type" : "text/csv" });
-
-                  // IEか他ブラウザかの判定
-                  if(window.navigator.msSaveBlob)
-                  {
-                    $window.navigator.msSaveBlob(blob, "test.csv");
-                    // msSaveOrOpenBlobの場合はファイルを保存せずに開ける
-                    $window.navigator.msSaveOrOpenBlob(blob, "test.csv");
-                  } else {
-                      // それ以外はaタグを利用してイベントを発火させます
-                      var a = $document.createElement("a");
-                      a.href = URL.createObjectURL(blob);
-                      a.target = '_blank';
-                      a.download = 'ファイル名.txt';
-                      a.click();
-                  };
-
+                  return data;
               });
             };
 
