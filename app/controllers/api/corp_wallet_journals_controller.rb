@@ -7,4 +7,23 @@ class Api::CorpWalletJournalsController < ApiController
       .includes(:ref_type)
       .order(ref_id: :desc)
   end
+
+  def update
+    if current_character.has_contract_role?
+      @journal = Journal.find(params[:id])
+      if @journal.update(journal_params)
+        render json: {}
+      else
+        render json: { error: "somthing wrong" }
+      end
+    else
+      render json: { error: "You don't have contract role" }, status: 500
+    end
+  end
+
+  private
+  def journal_params
+    params.require(:journal)
+      .permit(:ignore)
+  end
 end
