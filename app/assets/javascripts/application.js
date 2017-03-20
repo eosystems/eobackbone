@@ -30,6 +30,7 @@
 //= require angular-sanitize/angular-sanitize.min
 //= require moment/min/moment.min.js
 //= require angular-datepicker/dist/angular-datepicker.min
+//= require ng-csv/build/ng-csv.min
 //= require common
 //
 //= require eobackbone

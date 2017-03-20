@@ -5,21 +5,23 @@ angular.module('eoApp')
 .controller(
     'corpWalletJournalsController', ['ngTableParams', '$resource', '$scope', '$state', '$uibModal',
         '$loading', 'toastr', '$location', 'corporations',
-        'getCorpWalletDivision', 'refTypes', '$window', '$document',
+        'getCorpWalletDivision', 'refTypes', '$window', '$document', '$q',
         function(ngTableParams, $resource, $scope,
             $state, $uibModal, $loading, toastr, $location, corporations,
-            getCorpWalletDivision, refTypes, $window, $document) {
+            getCorpWalletDivision, refTypes, $window, $document, $q) {
 
             var RootApi = $resource("/api/corp_wallet_journals");
             var SummaryApi = $resource("/api/summary_corp_wallet_journals");
-            var CsvExportApi = $resource("/api/csv_corp_wallet_journals.csv");
-            var DetailApi = $resource("/api/corp_wallet_journals/:id", { id: '@id' }, {
-              get: {
-                method: 'GET'
-              },
-              update: {
-                method: 'PUT'
-              }
+            var CsvExportApi = $resource("/api/csv_corp_wallet_journals");
+            var DetailApi = $resource("/api/corp_wallet_journals/:id", {
+                id: '@id'
+            }, {
+                get: {
+                    method: 'GET'
+                },
+                update: {
+                    method: 'PUT'
+                }
             });
 
             $scope.corporations = corporations;
@@ -155,14 +157,45 @@ angular.module('eoApp')
             };
 
             $scope.exportCsv = function() {
-              CsvExportApi.get({
-                  corporation_id: $scope.selectedCorporation.corporation_id,
-                  corp_wallet_division_id: $scope.selectedDivision.id,
-                  from_i_date: $scope.fromDate,
-                  to_i_date: $scope.toDate
-              }).$promise.then(function(data) {
-                  return data;
-              });
+
+                CsvExportApi.get({
+                    corporation_id: $scope.selectedCorporation.corporation_id,
+                    corp_wallet_division_id: $scope.selectedDivision.id,
+                    from_i_date: $scope.fromDate,
+                    to_i_date: $scope.toDate
+                }).$promise.then(function(data) {
+
+                    var results = data.results;
+                    var lines = "";
+                    var exportAttributes = ['ignore', 'ref_id', 'i_date', 'ref_type_name', 'amount', 'balance', 'owner_name1', 'owner_name2']
+                    for (var i = 0; i < results.length; i++) {
+                        if (i == 0) {
+                            for (var j = 0; j < exportAttributes.length; j++) {
+                                lines += exportAttributes[j] + ',';
+                            }
+                            lines += '\r\n';
+                        }
+                        for (var j = 0; j < exportAttributes.length; j++) {
+                            lines += results[i][exportAttributes[j]] + ',';
+                        }
+                        lines += '\r\n';
+                    };
+
+                    var blob = new Blob([lines], {
+                        "type": "text/csv"
+                    });
+                    var link = $window.document.getElementById("csv_exporter");
+
+                    if (link == null) {
+                        link = $window.document.createElement("a");
+                        link.setAttribute("id", "csv_exporter");
+                        link.setAttribute("style", "display:none;");
+                        link.setAttribute("download", "export.csv");
+                    }
+
+                    link.setAttribute("href", $window.URL.createObjectURL(blob));
+                    link.click();
+                });
             };
 
             // 再読み込み
@@ -172,8 +205,8 @@ angular.module('eoApp')
             };
 
             $scope.reload2 = function() {
-              $scope.tableParams.reload();
-              $scope.summaryTableParams.reload();
+                $scope.tableParams.reload();
+                $scope.summaryTableParams.reload();
             };
 
             // Wallet Division Change
@@ -207,13 +240,16 @@ angular.module('eoApp')
             };
 
             // データ集計無視
-            $scope.ignoreRecord = function(id, current_status){
-              DetailApi.update({ id: id, ignore:  !current_status}).$promise.then(function(data) {
-                toastr.success("Change Status to " + !current_status + " (#" + id + ")", "Success");
-                $scope.reload2();
-              }, function(error) {
-                toastr.error(error.data.error, "Error");
-              });
+            $scope.ignoreRecord = function(id, current_status) {
+                DetailApi.update({
+                    id: id,
+                    ignore: !current_status
+                }).$promise.then(function(data) {
+                    toastr.success("Change Status to " + !current_status + " (#" + id + ")", "Success");
+                    $scope.reload2();
+                }, function(error) {
+                    toastr.error(error.data.error, "Error");
+                });
             };
 
         }
