@@ -5,13 +5,14 @@ angular.module('eoApp')
 .controller(
     'corpWalletJournalsController', ['ngTableParams', '$resource', '$scope', '$state', '$uibModal',
         '$loading', 'toastr', '$location', 'corporations',
-        'getCorpWalletDivision', 'refTypes',
+        'getCorpWalletDivision', 'refTypes', '$window', '$document',
         function(ngTableParams, $resource, $scope,
             $state, $uibModal, $loading, toastr, $location, corporations,
-            getCorpWalletDivision, refTypes) {
+            getCorpWalletDivision, refTypes, $window, $document) {
 
             var RootApi = $resource("/api/corp_wallet_journals");
             var SummaryApi = $resource("/api/summary_corp_wallet_journals");
+            var CsvExportApi = $resource("/api/csv_corp_wallet_journals.csv");
             var DetailApi = $resource("/api/corp_wallet_journals/:id", { id: '@id' }, {
               get: {
                 method: 'GET'
@@ -153,6 +154,34 @@ angular.module('eoApp')
                 return n;
             };
 
+            $scope.exportCsv = function() {
+              CsvExportApi.get({
+                  corporation_id: $scope.selectedCorporation.corporation_id,
+                  corp_wallet_division_id: $scope.selectedDivision.id,
+                  from_i_date: $scope.fromDate,
+                  to_i_date: $scope.toDate
+              }).$promise.then(function(data) {
+                  var bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+                  var content = data;
+                  var blob = new Blob([ bom, content ], { "type" : "text/csv" });
+
+                  // IEか他ブラウザかの判定
+                  if(window.navigator.msSaveBlob)
+                  {
+                    $window.navigator.msSaveBlob(blob, "test.csv");
+                    // msSaveOrOpenBlobの場合はファイルを保存せずに開ける
+                    $window.navigator.msSaveOrOpenBlob(blob, "test.csv");
+                  } else {
+                      // それ以外はaタグを利用してイベントを発火させます
+                      var a = $document.createElement("a");
+                      a.href = URL.createObjectURL(blob);
+                      a.target = '_blank';
+                      a.download = 'ファイル名.txt';
+                      a.click();
+                  };
+
+              });
+            };
 
             // 再読み込み
             $scope.reload = function() {

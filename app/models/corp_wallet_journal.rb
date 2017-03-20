@@ -130,4 +130,13 @@ class CorpWalletJournal < ActiveRecord::Base
     }
     results.sort {|a, b| a.ref_type_name <=> b.ref_type_name}
   end
+
+  def self.to_csv(journals)
+    CSV.generate do |csv|
+      csv << column_names
+      journals.each do |journal|
+        csv << journal.attributes.values_at(*column_names)
+      end
+    end
+  end
 end
