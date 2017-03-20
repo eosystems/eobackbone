@@ -72,6 +72,9 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer  "owner2_type_id",          limit: 4
     t.string   "corporation_id",          limit: 255,                                        null: false
     t.integer  "corp_wallet_division_id", limit: 4,                                          null: false
+    t.integer  "mod_status",              limit: 4
+    t.boolean  "ignore",                                                                     null: false
+    t.integer  "mod_ref_type_id",         limit: 4
     t.datetime "created_at",                                                                 null: false
     t.datetime "updated_at",                                                                 null: false
   end

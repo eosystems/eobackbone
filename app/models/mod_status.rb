@@ -4,5 +4,5 @@ class ModStatus < ActiveYaml::Base
   set_root_path 'config/divisions'
   set_filename "mod_status"
 
-  enum_accessor :id
+  enum_accessor :type
 end

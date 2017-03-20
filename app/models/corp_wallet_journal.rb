@@ -19,6 +19,9 @@
 #  owner2_type_id          :integer
 #  corporation_id          :string(255)      not null
 #  corp_wallet_division_id :integer          not null
+#  mod_status              :integer
+#  ignore                  :boolean          not null
+#  mod_ref_type_id         :integer
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #
