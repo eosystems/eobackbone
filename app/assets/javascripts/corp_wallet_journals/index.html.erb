@@ -97,7 +97,8 @@
                                 {{row.reason}}
                             </td>
                             <td data-title="'Action'" ng-if=showDataCorrectionButton>
-                              <button class="btn btn-danger btn-sm" ng-click="ignoreRecord(row.id)">Ignore</button>
+                              <button class="btn btn-primary btn-sm" ng-click="ignoreRecord(row.id, row.ignore)" ng-if=row.ignore>Notice</button>
+                              <button class="btn btn-danger btn-sm" ng-click="ignoreRecord(row.id, row.ignore)" ng-if=!row.ignore>Ignore</button>
                             </td>
                         </tr>
                     </table>

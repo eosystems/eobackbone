@@ -9,8 +9,8 @@ class Api::CorpWalletJournalsController < ApiController
   end
 
   def update
-    if current_character.has_contract_role?
-      @journal = Journal.find(params[:id])
+    if current_user.has_contract_role?
+      @journal = CorpWalletJournal.find(params[:id])
       if @journal.update(journal_params)
         render json: {}
       else
@@ -23,7 +23,6 @@ class Api::CorpWalletJournalsController < ApiController
 
   private
   def journal_params
-    params.require(:journal)
-      .permit(:ignore)
+    params.permit(:ignore)
   end
 end

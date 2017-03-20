@@ -12,6 +12,15 @@ angular.module('eoApp')
 
             var RootApi = $resource("/api/corp_wallet_journals");
             var SummaryApi = $resource("/api/summary_corp_wallet_journals");
+            var DetailApi = $resource("/api/corp_wallet_journals/:id", { id: '@id' }, {
+              get: {
+                method: 'GET'
+              },
+              update: {
+                method: 'PUT'
+              }
+            });
+            
             $scope.corporations = corporations;
             $scope.selectedCorporation = $scope.corporations[0];
             $scope.selectedDivision = null;
@@ -182,9 +191,14 @@ angular.module('eoApp')
             };
 
             // データ集計無視
-            $scope.ignoreRecord = function(id){
-              console.log (id);
-            }
+            $scope.ignoreRecord = function(id, current_status){
+              DetailApi.update({ id: id, ignore:  !current_status}).$promise.then(function(data) {
+                toastr.success("Change Status to " + !current_status + " (#" + id + ")", "Success");
+                $scope.reload();
+              }, function(error) {
+                toastr.error(error.data.error, "Error");
+              });
+            };
 
         }
     ]
