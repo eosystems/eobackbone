@@ -122,6 +122,7 @@ class CorpWalletJournal < ActiveRecord::Base
     r = CorpWalletJournal.group(:ref_type_id)
       .where(corporation_id: corporation_id, corp_wallet_division_id: division_id)
       .where(i_date: from_i_date..to_i_date)
+      .where(ignore: false)
       .sum(:amount)
       .select
     r.each { |id, v|
