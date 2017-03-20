@@ -20,7 +20,7 @@ angular.module('eoApp')
                 method: 'PUT'
               }
             });
-            
+
             $scope.corporations = corporations;
             $scope.selectedCorporation = $scope.corporations[0];
             $scope.selectedDivision = null;
@@ -160,6 +160,11 @@ angular.module('eoApp')
                 $scope.summaryTableParams = $scope.newSummaryNgTableParams();
             };
 
+            $scope.reload2 = function() {
+              $scope.tableParams.reload();
+              $scope.summaryTableParams.reload();
+            };
+
             // Wallet Division Change
             $scope.changeDivision = function() {
                 if ($scope.stopDivisionChange != true) {
@@ -194,7 +199,7 @@ angular.module('eoApp')
             $scope.ignoreRecord = function(id, current_status){
               DetailApi.update({ id: id, ignore:  !current_status}).$promise.then(function(data) {
                 toastr.success("Change Status to " + !current_status + " (#" + id + ")", "Success");
-                $scope.reload();
+                $scope.reload2();
               }, function(error) {
                 toastr.error(error.data.error, "Error");
               });
