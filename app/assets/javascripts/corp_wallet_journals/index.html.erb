@@ -69,6 +69,9 @@
                 <section class="content table-responsive">
                     <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10" show-filter="true">
                         <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
+                            <td data-title="'ignore'" filter="{ignore: 'select'}" filter-data="ignore_filter" class="text-center">
+                              <label ng-show="row.ignore" class="label label-danger">True</label>
+                            </td>
                             <td data-title="'RefId'">
                                 {{row.ref_id}}
                             </td>

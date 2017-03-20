@@ -19,17 +19,17 @@ angular.module('eoApp')
             $scope.showReason = false;
             $scope.showDataCorrectionButton = false;
 
-            $scope.buyFilter = [{
+            $scope.ignore_filter = [{
                     id: "",
                     title: ""
                 },
                 {
-                    id: 'sell',
-                    title: "Sell"
+                    id: true,
+                    title: "True"
                 },
                 {
-                    id: 'buy',
-                    title: "Buy"
+                    id: false,
+                    title: "False"
                 }
             ];
 

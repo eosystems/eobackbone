@@ -37,7 +37,8 @@ class CorpWalletJournal < ActiveRecord::Base
     from_i_date: :i_date_gteq,
     to_i_date: :i_date_lteq,
     ref_type_id: :ref_type_id_eq,
-    ref_type_name: :ref_type_name_cont_any
+    ref_type_name: :ref_type_name_cont_any,
+    ignore: :ignore_eq_any
   }.with_indifferent_access.freeze
 
   # Relations
