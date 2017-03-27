@@ -1,0 +1,110 @@
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-md-12">
+            <h2>Corp Wallet Journal</h2>
+
+            <div class="text-left">
+                <button class="btn btn-normal" ng-click="reload()">Reload</button>
+                <button class="btn btn-normal" ng-click="exportCsv()">Export</button>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">Corporation:</label>
+                    <div class="col-xs-4">
+                        <select id="corporation" class="form-control mt-10" ng-model="selectedCorporation" ng-options="x.corporation_name for x in corporations" ng-change="changeCorporation()"></select>
+                    </div>
+
+                    <label class="col-xs-2 control-label">Wallet Division:</label>
+                    <div class="col-xs-4">
+                        <select id="division" class="form-control mt-10" ng-model="selectedDivision" ng-options="x.name for x in divisions" ng-change="changeDivision()"></select>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-12">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-xs-2 control-label">From:</label>
+                    <div class="col-xs-4">
+                        <input date-time name="fromDate" class="form-control mt-10" ng-model="fromDate" min-date="minDate" date-change="changeDate">
+                    </div>
+                    <label class="col-xs-2 control-label">To:</label>
+                    <div class="col-xs-4">
+                        <input date-time name="fromDate" class="form-control mt-10" ng-model="toDate" min-date="maxDate" date-change="changeDate">
+                    </div>
+                </form>
+            </div>
+
+            <h3>Summary</h3>
+            <div class="col-md-12">
+                <section class="content table-responsive">
+                    <table ng-table="summaryTableParams" class="table table-condensed table-responsive table-hover mt-10">
+                        <tr ng-repeat="row in $data" ng-click="selectSummaryRow(row.id)" ng-class="{selected: row.selected}">
+                            <td data-title="'Ref Type'">
+                                {{row.ref_type_name}}
+                            </td>
+                            <td data-title="'Amount'">
+                                {{row.amount | number}}
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+            </div>
+
+            <h3>Detail</h3>
+
+            <div class="col-md-12">
+                <label class="checkbox-inline">
+                    <input type="checkbox" ng-model="showReason"/>Show Reason
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" ng-model="showDataCorrectionButton"/>Show Data Correction Button
+                </label>
+            </div>
+
+            <div class="col-md-12">
+                <section class="content table-responsive">
+                    <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10" show-filter="true">
+                        <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
+                            <td data-title="'ignore'" filter="{ignore: 'select'}" filter-data="ignore_filter" class="text-center">
+                              <label ng-show="row.ignore" class="label label-danger">True</label>
+                            </td>
+                            <td data-title="'RefId'">
+                                {{row.ref_id}}
+                            </td>
+                            <td data-title="'Date'">
+                                {{row.i_date}}
+                            </td>
+                            <td data-title="'Ref Type'" filter="{ref_type_name: 'text'}">
+                                {{row.ref_type_name}}
+                            </td>
+                            <td data-title="'Amount'">
+                                {{row.amount | number}}
+                            </td>
+                            <td data-title="'Balance'">
+                                {{row.balance | number}}
+                            </td>
+                            <td data-title="'Owner1'">
+                                {{row.owner_name1}}
+                            </td>
+                            <td data-title="'Owner2'">
+                                {{row.owner_name2}}
+                            </td>
+                            <td data-title="'Reason'" ng-if=showReason>
+                                {{row.reason}}
+                            </td>
+                            <td data-title="'Action'" ng-if=showDataCorrectionButton>
+                              <button class="btn btn-primary btn-sm" ng-click="ignoreRecord(row.id, row.ignore)" ng-if=row.ignore>Notice</button>
+                              <button class="btn btn-danger btn-sm" ng-click="ignoreRecord(row.id, row.ignore)" ng-if=!row.ignore>Ignore</button>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+            </div>
+
+        </div>
+    </div>

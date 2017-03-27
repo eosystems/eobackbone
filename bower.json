@@ -2,19 +2,21 @@
   "vendor": {
     "name": "bower-rails generated vendor assets",
     "dependencies": {
-      "angular" : "latest",
-      "angular-resource" : "latest",
-      "angular-ui-router" : "latest",
-      "angular-bootstrap" : "latest",
-      "ng-table": "latest",
-      "lodash" : "latest",
-      "angular-chart.js": "latest",
-      "angular-animate": "latest",
-      "angular-toastr": "latest",
-      "angular-dragdrop": "latest",
-      "angular-loading": "latest",
-      "angular-ui-select": "latest",
-      "angular-sanitize": "latest"
+      "angular" : "1.5.6",
+      "angular-resource" : "1.5.6",
+      "angular-ui-router" : "0.3.1",
+      "angular-bootstrap" : "1.3.3",
+      "ng-table": "0.8.3",
+      "lodash" : "4.13.1",
+      "angular-chart.js": "0.10.2",
+      "angular-animate": "1.5.6",
+      "angular-toastr": "1.7.0",
+      "angular-dragdrop": "1.0.13",
+      "angular-loading": "0.1.4",
+      "angular-ui-select": "0.18.0",
+      "angular-sanitize": "1.5.6",
+      "angular-datepicker": "2.0.3",
+      "ng-csv": "0.3.6"
     }
   }
 }

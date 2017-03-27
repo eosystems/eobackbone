@@ -57,6 +57,58 @@ create_table :api_managements, collate: "utf8_bin" do |t|
   t.datetime :updated_at
 end
 
+create_table :corp_api_managements, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.varchar :key_id
+  t.varchar :v_code
+  t.varchar :corporation_id
+
+  t.datetime :created_at
+  t.datetime :updated_at
+end
+
+create_table :corp_wallet_divisions, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.int :account_key
+  t.varchar :name
+  t.varchar :corporation_id
+
+  t.datetime :created_at
+  t.datetime :updated_at
+end
+
+
+create_table :corp_wallet_journals, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.datetime :i_date
+  t.bigint :ref_id
+  t.int :ref_type_id, null: true
+  t.varchar :owner_name1, null: true
+  t.bigint :owner_id1, null: true
+  t.varchar :owner_name2, null: true
+  t.bigint :owner_id2, null: true
+  t.varchar :arg_name1, null: true
+  t.int :arg_id_1, null: true
+  t.decimal :amount, default: "0.0000", precision: 20, scale: 4
+  t.decimal :balance, default: "0.0000", precision: 20, scale: 4
+  t.varchar :reason, null: true
+  t.int :owner1_type_id, null: true
+  t.int :owner2_type_id, null: true
+
+  t.varchar :corporation_id
+  t.int :corp_wallet_division_id
+
+  t.int :mod_status, null: true
+  t.boolean :ignore, default: false
+  t.int :mod_ref_type_id, null: true
+  t.datetime :created_at
+  t.datetime :updated_at
+
+  t.index :ref_id
+end
+
+
+
 create_table :audits, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
   t.varchar :audit_type
@@ -356,5 +408,10 @@ create_table :trn_translations, collate: "utf8_bin", comment: "翻訳" do |t|
   t.int :key_id, null: true
   t.varchar :language_id, null: true
   t.text :text, null: true
+end
+
+create_table :ref_types, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true
+  t.varchar :name, null: true
 end
 

@@ -11,7 +11,11 @@ angular.module('eoApp', [
   'toastr',
   'ngDragDrop',
   'ngSanitize',
-  'darthwade.dwLoading'
+  'darthwade.dwLoading',
+  'ui.bootstrap',
+  'datePicker',
+  'ngSanitize',
+  'ngCsv',
 ]).config(['$stateProvider', '$urlRouterProvider', '$sceProvider', 'toastrConfig', '$httpProvider',
   function ($stateProvider, $urlRouterProvider, $sceProvider, toastrConfig, $httpProvider) {
   // Toastr
@@ -72,6 +76,19 @@ angular.module('eoApp', [
     url: '/api_managements',
     templateUrl: '<%= asset_path 'api_managements/index.html' %>',
     controller: 'apiManagementsController'
+  })
+  .state('corpWalletJournals',{
+    url: '/corp_wallet_journals',
+    templateUrl: '<%= asset_path 'corp_wallet_journals/index.html' %>',
+    resolve: {
+      corporations: ['getCorporation', function(getCorporation){
+        return getCorporation;
+      }],
+      refTypes: ['getRefTypes', function(getRefTypes){
+        return getRefTypes;
+      }]
+    },
+    controller: 'corpWalletJournalsController'
   })
   ;
 

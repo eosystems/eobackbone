@@ -1,0 +1,257 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+    'corpWalletJournalsController', ['ngTableParams', '$resource', '$scope', '$state', '$uibModal',
+        '$loading', 'toastr', '$location', 'corporations',
+        'getCorpWalletDivision', 'refTypes', '$window', '$document', '$q',
+        function(ngTableParams, $resource, $scope,
+            $state, $uibModal, $loading, toastr, $location, corporations,
+            getCorpWalletDivision, refTypes, $window, $document, $q) {
+
+            var RootApi = $resource("/api/corp_wallet_journals");
+            var SummaryApi = $resource("/api/summary_corp_wallet_journals");
+            var CsvExportApi = $resource("/api/csv_corp_wallet_journals");
+            var DetailApi = $resource("/api/corp_wallet_journals/:id", {
+                id: '@id'
+            }, {
+                get: {
+                    method: 'GET'
+                },
+                update: {
+                    method: 'PUT'
+                }
+            });
+
+            $scope.corporations = corporations;
+            $scope.selectedCorporation = $scope.corporations[0];
+            $scope.selectedDivision = null;
+            $scope.stopDivisionChange = false;
+            $scope.showReason = false;
+            $scope.showDataCorrectionButton = false;
+
+            $scope.ignore_filter = [{
+                    id: "",
+                    title: ""
+                },
+                {
+                    id: true,
+                    title: "True"
+                },
+                {
+                    id: false,
+                    title: "False"
+                }
+            ];
+
+            // Datepicker
+            $scope.fromDate = new Date();
+            $scope.toDate = new Date();
+
+            // 初期化
+            var initialize = function() {　
+                // 月初、月末　
+                $scope.fromDate.setDate(1);
+                $scope.fromDate.setHours(0);
+                $scope.fromDate.setMinutes(0);
+                $scope.toDate.setDate(1);
+                $scope.toDate.setMonth($scope.toDate.getMonth() + 1);
+                $scope.toDate.setDate(0);
+                $scope.toDate.setHours(23);
+                $scope.toDate.setMinutes(59);
+
+                // Wallet 部門
+                $scope.divisions = getCorpWalletDivision($scope.selectedCorporation.corporation_id).then(function(data) {　
+                    $scope.divisions = data;
+                    $scope.selectedDivision = data[0];
+                    // Table 初期化 (Wallet 部門を初期化後に読み込み開始)
+                    $scope.tableParams = $scope.newNgTableParams();
+                    $scope.summaryTableParams = $scope.newSummaryNgTableParams();
+                });
+            };
+
+            initialize();
+
+            $scope.setTotalCount = function(count) {
+                $scope.totalCount = count;
+            };
+
+            // Order Grid押下時
+            $scope.selectRow = function(id) {
+                var results = $scope.searchResults;
+                _.each($scope.searchResults, function(v) {
+                    v.selected = false;
+                });
+                var row = $scope.searchResults.find(function(v) {
+                    return v.id == id
+                })
+                if (row) {
+                    row.selected = !row.selected;
+                }
+                $scope.selectedId = id;
+            };
+
+            // Summary Grid押下時
+            $scope.selectSummaryRow = function(id) {
+                var results = $scope.summaryResults;
+                _.each($scope.summaryResults, function(v) {
+                    v.selected = false;
+                });
+                var row = $scope.summaryResults.find(function(v) {
+                    return v.id == id
+                })
+                if (row) {
+                    row.selected = !row.selected;
+                }
+                $scope.selectedSummaryId = id;
+                $scope.tableParams.filter().ref_type_name = row.ref_type_name;
+            };
+
+            $scope.newNgTableParams = function() {
+                var n = new ngTableParams({
+                    filter: {
+                        corporation_id: $scope.selectedCorporation.corporation_id,
+                        corp_wallet_division_id: $scope.selectedDivision.id,
+                        from_i_date: $scope.fromDate,
+                        to_i_date: $scope.toDate
+                    },
+                    count: 100,
+                }, {
+                    counts: [100, 50, 25],
+                    getData: function(params) {
+                        var urlParams = params.url();
+
+                        return RootApi.get(
+                            urlParams
+                        ).$promise.then(function(data) {
+                            params.total(data.totalCount);
+                            $scope.setTotalCount(data.totalCount);
+                            $scope.searchResults = data.results;
+                            return data.results;
+                        });
+                    }
+                });
+                return n;
+            };
+
+            $scope.newSummaryNgTableParams = function() {
+                var n = new ngTableParams({
+                    filter: {},
+                    count: 0
+                }, {
+                    counts: [],
+                    getData: function(params) {
+                        return SummaryApi.get({
+                            corporation_id: $scope.selectedCorporation.corporation_id,
+                            corp_wallet_division_id: $scope.selectedDivision.id,
+                            from_i_date: $scope.fromDate,
+                            to_i_date: $scope.toDate
+                        }).$promise.then(function(data) {
+                            $scope.summaryResults = data.results;
+                            return data.results;
+                        });
+                    }
+                });
+                return n;
+            };
+
+            $scope.exportCsv = function() {
+
+                CsvExportApi.get({
+                    corporation_id: $scope.selectedCorporation.corporation_id,
+                    corp_wallet_division_id: $scope.selectedDivision.id,
+                    from_i_date: $scope.fromDate,
+                    to_i_date: $scope.toDate
+                }).$promise.then(function(data) {
+
+                    var results = data.results;
+                    var lines = "";
+                    var exportAttributes = ['ignore', 'ref_id', 'i_date', 'ref_type_name', 'amount', 'balance', 'owner_name1', 'owner_name2']
+                    for (var i = 0; i < results.length; i++) {
+                        if (i == 0) {
+                            for (var j = 0; j < exportAttributes.length; j++) {
+                                lines += exportAttributes[j] + ',';
+                            }
+                            lines += '\r\n';
+                        }
+                        for (var j = 0; j < exportAttributes.length; j++) {
+                            lines += results[i][exportAttributes[j]] + ',';
+                        }
+                        lines += '\r\n';
+                    };
+
+                    var blob = new Blob([lines], {
+                        "type": "text/csv"
+                    });
+                    var link = $window.document.getElementById("csv_exporter");
+
+                    if (link == null) {
+                        link = $window.document.createElement("a");
+                        link.setAttribute("id", "csv_exporter");
+                        link.setAttribute("style", "display:none;");
+                        link.setAttribute("download", "export.csv");
+                    }
+
+                    link.setAttribute("href", $window.URL.createObjectURL(blob));
+                    link.click();
+                });
+            };
+
+            // 再読み込み
+            $scope.reload = function() {
+                $scope.tableParams = $scope.newNgTableParams();
+                $scope.summaryTableParams = $scope.newSummaryNgTableParams();
+            };
+
+            $scope.reload2 = function() {
+                $scope.tableParams.reload();
+                $scope.summaryTableParams.reload();
+            };
+
+            // Wallet Division Change
+            $scope.changeDivision = function() {
+                if ($scope.stopDivisionChange != true) {
+                    $scope.reload();
+                }
+                $scope.stopDivisionChange = false;
+            };
+
+            // Corporation change
+            $scope.changeCorporation = function() {
+                $scope.stopDivisionChange = true;
+                $scope.divisions = getCorpWalletDivision($scope.selectedCorporation.corporation_id).then(function(data) {　
+                    $scope.divisions = data;
+                    $scope.selectedDivision = data[0];
+                    $scope.reload();
+                });
+            };
+
+            // Change data
+            $scope.changeDate = function(modelName, newDate) {
+                switch (modelName) {
+                    case 'fromDate':
+                        $scope.fromDate = newDate.format();
+                        break;
+                    case 'toDate':
+                        $scope.toDate = newDate.format();
+                        break;
+                };
+            };
+
+            // データ集計無視
+            $scope.ignoreRecord = function(id, current_status) {
+                DetailApi.update({
+                    id: id,
+                    ignore: !current_status
+                }).$promise.then(function(data) {
+                    toastr.success("Change Status to " + !current_status + " (#" + id + ")", "Success");
+                    $scope.reload2();
+                }, function(error) {
+                    toastr.error(error.data.error, "Error");
+                });
+            };
+
+        }
+    ]
+);

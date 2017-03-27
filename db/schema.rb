@@ -39,6 +39,48 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at",                   null: false
   end
 
+  create_table "corp_api_managements", force: :cascade do |t|
+    t.string   "key_id",         limit: 255, null: false
+    t.string   "v_code",         limit: 255, null: false
+    t.string   "corporation_id", limit: 255, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  create_table "corp_wallet_divisions", force: :cascade do |t|
+    t.integer  "account_key",    limit: 4,   null: false
+    t.string   "name",           limit: 255, null: false
+    t.string   "corporation_id", limit: 255, null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  create_table "corp_wallet_journals", force: :cascade do |t|
+    t.datetime "i_date",                                                                       null: false
+    t.integer  "ref_id",                  limit: 8,                                            null: false
+    t.integer  "ref_type_id",             limit: 4
+    t.string   "owner_name1",             limit: 255
+    t.integer  "owner_id1",               limit: 8
+    t.string   "owner_name2",             limit: 255
+    t.integer  "owner_id2",               limit: 8
+    t.string   "arg_name1",               limit: 255
+    t.integer  "arg_id_1",                limit: 4
+    t.decimal  "amount",                              precision: 20, scale: 4, default: 0.0,   null: false
+    t.decimal  "balance",                             precision: 20, scale: 4, default: 0.0,   null: false
+    t.string   "reason",                  limit: 255
+    t.integer  "owner1_type_id",          limit: 4
+    t.integer  "owner2_type_id",          limit: 4
+    t.string   "corporation_id",          limit: 255,                                          null: false
+    t.integer  "corp_wallet_division_id", limit: 4,                                            null: false
+    t.integer  "mod_status",              limit: 4
+    t.boolean  "ignore",                                                       default: false, null: false
+    t.integer  "mod_ref_type_id",         limit: 4
+    t.datetime "created_at",                                                                   null: false
+    t.datetime "updated_at",                                                                   null: false
+  end
+
+  add_index "corp_wallet_journals", ["ref_id"], name: "index_corp_wallet_journals_on_ref_id", using: :btree
+
   create_table "corporation_relations", force: :cascade do |t|
     t.integer  "ancestor",   limit: 4, null: false
     t.integer  "descendant", limit: 4, null: false
@@ -176,6 +218,10 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer  "department_id",     limit: 4
     t.datetime "created_at",                                                                      null: false
     t.datetime "updated_at",                                                                      null: false
+  end
+
+  create_table "ref_types", force: :cascade do |t|
+    t.string "name", limit: 255
   end
 
   create_table "sta_stations", force: :cascade do |t|
