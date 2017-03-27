@@ -99,7 +99,7 @@ create_table :corp_wallet_journals, collate: "utf8_bin" do |t|
   t.int :corp_wallet_division_id
 
   t.int :mod_status, null: true
-  t.boolean :ignore
+  t.boolean :ignore, default: false
   t.int :mod_ref_type_id, null: true
   t.datetime :created_at
   t.datetime :updated_at
