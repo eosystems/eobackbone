@@ -5,10 +5,10 @@ angular.module('eoApp')
 .controller(
     'corpWalletJournalsController', ['ngTableParams', '$resource', '$scope', '$state', '$uibModal',
         '$loading', 'toastr', '$location',
-        'getCorpWalletDivision','getCorporation', '$window', '$document', '$q',
+         '$window', '$document', '$q',
         function(ngTableParams, $resource, $scope,
             $state, $uibModal, $loading, toastr, $location,
-            getCorpWalletDivision, getCorporation, $window, $document, $q) {
+            $window, $document, $q) {
 
             var RootApi = $resource("/api/corp_wallet_journals");
             var SummaryApi = $resource("/api/summary_corp_wallet_journals");
@@ -23,6 +23,8 @@ angular.module('eoApp')
                     method: 'PUT'
                 }
             });
+            var myCorpApi = $resource("/api/my_corporations");
+            var myCorpWalletDivisionApi = $resource("/api/corp_wallet_divisions");
 
             $scope.selectedCorporation = null;
             $scope.selectedDivision = null;
@@ -60,17 +62,22 @@ angular.module('eoApp')
                 $scope.toDate.setHours(23);
                 $scope.toDate.setMinutes(59);
 
-                $scope.corporations = getCorporation().then(function(returnDataCorp){
-                  $scope.corporations = returnDataCorp;
-                  $scope.selectedCorporation = returnDataCorp[0];
-                  // Wallet 部門
-                  $scope.divisions = getCorpWalletDivision($scope.selectedCorporation.corporation_id).then(function(data) {　
-                      $scope.divisions = data;
-                      $scope.selectedDivision = data[0];
-                      // Table 初期化 (Wallet 部門を初期化後に読み込み開始)
-                      $scope.tableParams = $scope.newNgTableParams();
-                      $scope.summaryTableParams = $scope.newSummaryNgTableParams();
+
+                myCorpApi.get({
+                }).$promise.then(function(returnDataCorp) {
+                  $scope.corporations = returnDataCorp.results;
+                  $scope.selectedCorporation = returnDataCorp.results[0];
+
+                  myCorpWalletDivisionApi.get({
+                      corporation_id: $scope.selectedCorporation.corporation_id
+                  }).$promise.then(function(data) {
+                    $scope.divisions = data.results;
+                    $scope.selectedDivision = data.results[0];
+                    // Table 初期化 (Wallet 部門を初期化後に読み込み開始)
+                    $scope.tableParams = $scope.newNgTableParams();
+                    $scope.summaryTableParams = $scope.newSummaryNgTableParams();
                   });
+
                 });
 
             };
@@ -224,10 +231,13 @@ angular.module('eoApp')
             // Corporation change
             $scope.changeCorporation = function() {
                 $scope.stopDivisionChange = true;
-                $scope.divisions = getCorpWalletDivision($scope.selectedCorporation.corporation_id).then(function(data) {　
-                    $scope.divisions = data;
-                    $scope.selectedDivision = data[0];
-                    $scope.reload();
+
+                myCorpWalletDivisionApi.get({
+                    corporation_id: $scope.selectedCorporation.corporation_id
+                }).$promise.then(function(data) {
+                  $scope.divisions = data.results;
+                  $scope.selectedDivision = data.results[0];
+                  $scope.reload();
                 });
             };
 
