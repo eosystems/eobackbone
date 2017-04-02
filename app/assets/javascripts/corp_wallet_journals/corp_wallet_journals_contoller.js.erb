@@ -4,11 +4,11 @@ angular.module('eoApp')
 
 .controller(
     'corpWalletJournalsController', ['ngTableParams', '$resource', '$scope', '$state', '$uibModal',
-        '$loading', 'toastr', '$location', 'getCorporation',
-        'getCorpWalletDivision', 'getRefTypes', '$window', '$document', '$q',
+        '$loading', 'toastr', '$location',
+        'getCorpWalletDivision','getCorporation', '$window', '$document', '$q',
         function(ngTableParams, $resource, $scope,
-            $state, $uibModal, $loading, toastr, $location, getCorporation,
-            getCorpWalletDivision, getRefTypes, $window, $document, $q) {
+            $state, $uibModal, $loading, toastr, $location,
+            getCorpWalletDivision, getCorporation, $window, $document, $q) {
 
             var RootApi = $resource("/api/corp_wallet_journals");
             var SummaryApi = $resource("/api/summary_corp_wallet_journals");
@@ -60,7 +60,7 @@ angular.module('eoApp')
                 $scope.toDate.setHours(23);
                 $scope.toDate.setMinutes(59);
 
-                getCorporation().then(function(returnDataCorp){
+                $scope.corporations = getCorporation().then(function(returnDataCorp){
                   $scope.corporations = returnDataCorp;
                   $scope.selectedCorporation = returnDataCorp[0];
                   // Wallet 部門
