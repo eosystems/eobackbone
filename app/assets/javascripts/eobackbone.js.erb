@@ -80,14 +80,14 @@ angular.module('eoApp', [
   .state('corpWalletJournals',{
     url: '/corp_wallet_journals',
     templateUrl: '<%= asset_path 'corp_wallet_journals/index.html' %>',
-    resolve: {
-      corporations: ['getCorporation', function(getCorporation){
-        return getCorporation;
-      }],
-      refTypes: ['getRefTypes', function(getRefTypes){
-        return getRefTypes;
-      }]
-    },
+    //resolve: {
+    //  corporations: ['getCorporation', function(getCorporation){
+    //    return getCorporation;
+    //  }],
+    //  refTypes: ['getRefTypes', function(getRefTypes){
+    //    return getRefTypes;
+    //  }]
+    //},
     controller: 'corpWalletJournalsController'
   })
   ;
