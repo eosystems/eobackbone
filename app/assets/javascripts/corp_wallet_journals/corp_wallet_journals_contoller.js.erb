@@ -60,7 +60,7 @@ angular.module('eoApp')
                 $scope.toDate.setHours(23);
                 $scope.toDate.setMinutes(59);
 
-                getCorporation.then(function(returnDataCorp){
+                getCorporation().then(function(returnDataCorp){
                   $scope.corporations = returnDataCorp;
                   $scope.selectedCorporation = returnDataCorp[0];
                   // Wallet 部門
