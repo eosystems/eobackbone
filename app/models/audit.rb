@@ -18,8 +18,11 @@ class Audit < ActiveRecord::Base
   belongs_to :corporation
 
   scope :accessible_corp_audit, -> (user_id) do
-    c_uid = arel_table[:uid]
-    where(c_uid.eq(user_id))
+    cid = arel_table[:corporation_id]
+    user_corporation_id = User.find(user_id).user_detail.corporation_id
+
+    relation_corporations = CorporationRelation.relation_corporation(user_corporation_id)
+    where(cid.in(relation_corporations))
   end
 
 

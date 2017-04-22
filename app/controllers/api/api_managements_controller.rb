@@ -19,7 +19,7 @@ class Api::ApiManagementsController < ApiController
     end
 
     # 管理権限を持っていない場合はMaskをかける
-    if !current_user.has_api_manager_role?
+    if !current_user.has_api_manager_role? || current_user.has_recruit_role?
       api_mask(@managements)
     end
   end
