@@ -90,6 +90,13 @@ class ApiManagement < ActiveRecord::Base
     end
   end
 
+  def all_api_update(dry_run: false)
+    api_managements = ApiManagement.all
+    api_managements.each do |api_management|
+      api_management.api_update(dry_run: dry_run)
+    end
+  end
+
   def api_update(dry_run: false)
     client = EveClient.new(key_id, v_code)
     response = client.fetch_api_key_info
@@ -98,7 +105,7 @@ class ApiManagement < ActiveRecord::Base
       item = response.items[0].key
 
       after_characters = get_characters_from_api_key_info(item.rowset.row)
-      exist_character,target_character = character_exist_check(after_characters)
+      exist_character = character_exist_check(after_characters)
 
       diff = false
       log_messages = ""
@@ -114,10 +121,10 @@ class ApiManagement < ActiveRecord::Base
         after_alpha = self.alpha_check(response_account_status.items[0].paidUntil)
         after_full_api = self.full_api?
 
-        if before_access_mask != after_access_mask
+        if before_access_mask.to_s != after_access_mask.to_s
           log_messages << "access_mask before:#{before_access_mask} after:#{after_access_mask} "
         end
-        if before_expires != after_expires
+        if before_expires.to_s != after_expires.to_s
           log_messages << "expires before:#{before_expires} after:#{after_expires} "
         end
         if before_alpha != after_alpha
@@ -132,33 +139,48 @@ class ApiManagement < ActiveRecord::Base
           log_messages = "System Api Update , Target key_id=#{key_id},character_name=#{self.character_name} . because " + log_messages
 
           if !dry_run
+            # コープ情報がない場合は格納する
+            after_characters.each do |c|
+              corp = Corporation.new({corporation_name: c.corporation_name, corporation_id: c.corporation_id})
+              corp.save if !corp.exists_corp?
+            end
+            self.access_mask = item.accessMask
+            self.expires = item.expires
+            self.alpha = self.alpha_check(response_account_status.items[0].paidUntil)
+            self.full_api = self.full_api?
+            self.all_check = application_check(self.full_api, self.expires)
 
+            self.save!
+            audit_api_update(log_messages)
             Rails.logger.info(log_messages)
           else
             Rails.logger.info("dry_run:" + log_messages)
           end
         else
-          Rails.logger.warn("api not update: character_name=#{self.character_name}")
+          Rails.logger.info("api not update: character_name=#{self.character_name}")
         end
       else
-        Rails.logger.warn("api update error: character_name=#{self.character_name} is not exist")
+        log_messages = "api update error: character_name=#{self.character_name} is not found this api.Check user and update or delete this api"
+        audit_api_update(log_messages) unless dry_run
+        Rails.logger.warn(log_messages)
       end
     else
-      Rails.logger.warn("api update error: key_id=#{key_id},character_name=#{self.character_name}")
+      log_messages = "api update error because this api user change access mask? Check User and delete this api."
+      log_messages << "Detail: key_id=#{key_id},character_name=#{self.character_name}"
+      audit_api_update(log_messages) unless dry_run
+      Rails.logger.warn(log_messages)
     end
 
   end
 
   def character_exist_check(characters)
     exist_character = false
-    character_info = nil
-    after_characters.each do |character|
-      if character.name == character_name
+    characters.each do |character|
+      if character.character_name == character_name
         exist_character = true
-        character_info = character
       end
     end
-    [exist_character, character_info]
+    exist_character
   end
 
   def application_check(full_api, expires)
@@ -324,6 +346,17 @@ class ApiManagement < ActiveRecord::Base
       audit_type: "APIManagement",
       audit_text: user.name + " created api, key_id:" + self.key_id +
       ", character_name: " + self.character_name,
+      corporation_id: user.user_detail.corporation_id,
+      uid: user.id
+    })
+    audit.save!
+  end
+
+  def audit_api_update(message)
+    user = User.find(self.uid)
+    audit = Audit.create({
+      audit_type: "APIManagement",
+      audit_text: message,
       corporation_id: user.user_detail.corporation_id,
       uid: user.id
     })
