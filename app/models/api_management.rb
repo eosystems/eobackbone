@@ -90,6 +90,77 @@ class ApiManagement < ActiveRecord::Base
     end
   end
 
+  def api_update(dry_run: false)
+    client = EveClient.new(key_id, v_code)
+    response = client.fetch_api_key_info
+    if response.is_success
+      response_account_status = client.fetch_account_status
+      item = response.items[0].key
+
+      after_characters = get_characters_from_api_key_info(item.rowset.row)
+      exist_character,target_character = character_exist_check(after_characters)
+
+      diff = false
+      log_messages = ""
+      if exist_character
+        # Diff Check
+        before_access_mask = self.access_mask
+        before_expires = self.expires
+        before_alpha = self.alpha
+        before_full_api = self.full_api
+
+        after_access_mask = item.accessMask
+        after_expires = item.expires
+        after_alpha = self.alpha_check(response_account_status.items[0].paidUntil)
+        after_full_api = self.full_api?
+
+        if before_access_mask != after_access_mask
+          log_messages << "access_mask before:#{before_access_mask} after:#{after_access_mask} "
+        end
+        if before_expires != after_expires
+          log_messages << "expires before:#{before_expires} after:#{after_expires} "
+        end
+        if before_alpha != after_alpha
+          log_messages << "alpha before:#{before_alpha} after:#{after_alpha}"
+        end
+        if before_full_api != after_full_api
+          log_messages << "full_api before:#{before_full_api} after:#{after_full_api}"
+        end
+
+        diff = true if log_messages != ""
+        if diff
+          log_messages = "System Api Update , Target key_id=#{key_id},character_name=#{self.character_name} . because " + log_messages
+
+          if !dry_run
+
+            Rails.logger.info(log_messages)
+          else
+            Rails.logger.info("dry_run:" + log_messages)
+          end
+        else
+          Rails.logger.warn("api not update: character_name=#{self.character_name}")
+        end
+      else
+        Rails.logger.warn("api update error: character_name=#{self.character_name} is not exist")
+      end
+    else
+      Rails.logger.warn("api update error: key_id=#{key_id},character_name=#{self.character_name}")
+    end
+
+  end
+
+  def character_exist_check(characters)
+    exist_character = false
+    character_info = nil
+    after_characters.each do |character|
+      if character.name == character_name
+        exist_character = true
+        character_info = character
+      end
+    end
+    [exist_character, character_info]
+  end
+
   def application_check(full_api, expires)
     full_api && expires == nil
   end
