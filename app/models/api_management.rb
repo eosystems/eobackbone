@@ -90,7 +90,7 @@ class ApiManagement < ActiveRecord::Base
     end
   end
 
-  def all_api_update(dry_run: false)
+  def self.all_api_update(dry_run: false)
     api_managements = ApiManagement.all
     api_managements.each do |api_management|
       api_management.api_update(dry_run: dry_run)
