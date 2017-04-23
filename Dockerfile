@@ -6,7 +6,7 @@ WORKDIR /var/www/eobackbone
 RUN apt-get update && apt-get install -y nodejs --no-install-recommends && rm -rf /var/lib/apt/lists/*
 RUN apt-get update && apt-get install -y mysql-client postgresql-client sqlite3 --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y supervisor --no-install-recommends
+RUN apt-get update && apt-get install -y supervisor vim --no-install-recommends
 COPY supervisord.conf /etc/
 
 RUN git clone https://github.com/eosystems/eobackbone.git ./current
@@ -22,4 +22,6 @@ ADD .git/index /data/dummy_eobackbone
 RUN git pull origin master
 RUN bundle install
 
-CMD /bin/tail -f /dev/null
+RUN rm config/database.yml && ln -s /data/eobackbone/database.yml config/database.yml
+RUN ln -s /data/eobackbone/settings.yml config/settings.yml
+RUN rm config/secrets.yml && ln -s /data/eobackbone/secrets.yml config/secrets.yml
