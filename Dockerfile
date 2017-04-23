@@ -15,4 +15,8 @@ ENV RAILS_VERSION 5.0.1
 RUN gem install rails --version "$RAILS_VERSION"
 RUN bundle install --without development test
 
-EXPOSE 8080
+EXPOSE 3000
+
+ADD .git/index /data/dummy_eobackbone
+RUN git clone https://github.com/eosystems/eobackbone.git
+RUN bundle install
