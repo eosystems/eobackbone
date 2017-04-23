@@ -21,3 +21,5 @@ EXPOSE 3000
 ADD .git/index /data/dummy_eobackbone
 RUN git pull origin master
 RUN bundle install
+
+CMD /bin/tail -f /dev/null
