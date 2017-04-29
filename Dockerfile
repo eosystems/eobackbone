@@ -21,7 +21,10 @@ RUN gem install rails --version "$RAILS_VERSION"
 RUN bundle install --without development test
 
 ADD .git/index /data/dummy_eobackbone
-RUN git pull origin master
+ARG gitbranch="master"
+RUN git fetch
+RUN git checkout $gitbranch
+RUN git pull origin HEAD
 RUN bundle install
 
 RUN rm config/database.yml && ln -s /data/eobackbone/config/database.yml config/database.yml
