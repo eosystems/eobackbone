@@ -30,5 +30,3 @@ RUN bundle install
 RUN rm config/database.yml && ln -s /data/eobackbone/config/database.yml config/database.yml
 RUN ln -s /data/eobackbone/config/settings.yml config/settings.yml
 RUN rm config/secrets.yml && ln -s /data/eobackbone/config/secrets.yml config/secrets.yml
-
-ENTRYPOINT tools/start_server.sh
