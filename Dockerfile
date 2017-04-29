@@ -32,4 +32,4 @@ RUN rm config/database.yml && ln -s /data/eobackbone/config/database.yml config/
 RUN ln -s /data/eobackbone/config/settings.yml config/settings.yml
 RUN rm config/secrets.yml && ln -s /data/eobackbone/config/secrets.yml config/secrets.yml
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+CMD /usr/bin/supervisord -c /etc/supervisord.conf
