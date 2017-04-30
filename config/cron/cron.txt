@@ -1,4 +1,12 @@
 # Cron EOBackbone
+GEM_HOME=/usr/local/bundle
+LC_ALL=en_US.UTF-8
+BUNDLE_APP_CONFIG=/usr/local/bundle
+PATH=/usr/local/bundle/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+LANG=en_US.UTF-8
+BUNDLE_BIN=/usr/local/bundle/bin
+BUNDLE_PATH=/usr/local/bundle
+
 
 10 5,10,15,18,21 * * * cd /var/www/eobackbone/current/ && ./script/jobs/market_crawl.sh -e production
 20 * * * * /bin/bash -lc 'cd /var/www/eobackbone/current/ && bundle exec rake eobackbone:workflow:crawl_corp_wallet_journal RAILS_ENV=production'
