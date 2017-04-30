@@ -6,11 +6,14 @@ WORKDIR /var/www/eobackbone
 RUN apt-get update && apt-get install -y nodejs --no-install-recommends && rm -rf /var/lib/apt/lists/*
 RUN apt-get update && apt-get install -y mysql-client postgresql-client sqlite3 --no-install-recommends && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y supervisor vim locales locales-all --no-install-recommends
+RUN apt-get update && apt-get install -y cron supervisor vim locales locales-all --no-install-recommends
 RUN locale-gen en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
+
+# timezone
+RUN cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
 RUN git clone https://github.com/eosystems/eobackbone.git ./current
 WORKDIR /var/www/eobackbone/current
