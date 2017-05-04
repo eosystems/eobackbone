@@ -1,7 +1,7 @@
 worker_processes 3
 
-listen File.expand_path("/tmp/unicorn_eobackbone.sock", "/var/www/eobackbone/current")
-pid File.expand_path("/tmp/unicorn_eobackbone.pid", "/var/www/eobackbone/current")
+listen File.expand_path("/data/eobackbone/unicorn/unicorn_eobackbone.sock", "/var/www/eobackbone/current")
+pid File.expand_path("/data/eobackbone/unicorn/unicorn_eobackbone.pid", "/var/www/eobackbone/current")
 
 timeout 60
 
