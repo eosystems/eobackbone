@@ -11,21 +11,37 @@
     </div>
     <div class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
-        <li>
+        <!-- <li>
           <%= link_to "/#/dashboard" do %>
             Dashboard
           <% end %>
-        </li>
-       <li>
-          <%= link_to "/#/orders" do %>
-            <i class="fa fa-database mr-2"></i> Orders
-          <% end %>
-        </li>
-        <li>
-          <%= link_to "/#/sell_requests" do %>
-            <i class="fa fa-edit mr-2"></i> Sell Request
-          <% end %>
-        </li>
+        </li> -->
+      <ul class="nav navbar-nav">
+          <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-edit mr-2"></i>
+                  Orders
+                  <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                  <li>
+                      <%= link_to "/#/orders" do %>
+                      Sell Orders
+                      <% end %>
+                  </li>
+                  <li>
+                      <%= link_to "/#/sell_requests" do %>
+                      Sell Requests
+                      <% end %>
+                  </li>
+                  <li>
+                      <%= link_to "/#/buy_requests" do %>
+                      Buy Requests
+                      <% end %>
+                  </li>
+              </ul>
+          </li>
+      </ul>
        <li>
           <%= link_to "http://eosrp.eosystems.net" , :target => "_blank" do %>
             <i class="fa fa-plane mr-2"></i>SRP

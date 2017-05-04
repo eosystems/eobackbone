@@ -1,0 +1,31 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+  'buyRequestsController',
+  ['$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+    function($resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+    var Api = $resource("/api/sell_orders", {}, {
+      create: {
+        method: 'POST'
+      }
+    });
+    var LocationApi = $resource("/api/locations", {});
+    var DepartmentApi = $resource("/api/departments", {});
+
+    var that = this;
+
+    // 初期化
+    var initialize = function() {
+      // 部門
+      DepartmentApi.get({}).$promise.then(function(data) {
+        $scope.departments = data.results;
+      });
+    };
+
+    initialize();
+
+
+  }]
+);
