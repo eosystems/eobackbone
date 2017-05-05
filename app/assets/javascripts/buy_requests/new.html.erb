@@ -98,15 +98,15 @@
   <h3>Other Select</h3>
   <div class="form-group">
     <div class="col-xs-10">
-      <ui-select ng-model="src.contractLocation">
+      <ui-select ng-model="src.currentItem">
         <ui-select-match placeholder="Select Items ...">
-          <span>{{ src.contractLocation.station_name }}</span>
+          <span>{{ src.currentItem.type_name }}</span>
         </ui-select-match>
 
-        <ui-select-choices repeat="loc in locations"
-          refresh="searchLocation($select.search)"
+        <ui-select-choices repeat="item in marketItems"
+          refresh="searchTypes($select.search)"
           refresh-delay="0">
-          <span>{{ loc.station_name }}</span>
+          <span>{{ item.type_name }}</span>
         </ui-select-choices>
       </ui-select>
     </div>
@@ -178,7 +178,7 @@
       </div>
     </div>
   </form>
-  
+
   <button class="btn btn-primary btn-sm" ng-click="">Request</button>
 </div>
 </div>

@@ -15,4 +15,10 @@
 
 class InvType < ActiveRecord::Base
   self.primary_key = 'type_id'
+
+  # Scope
+  scope :market_items, -> do
+    where.not(market_group_id: nil)
+  end
+
 end

@@ -11,7 +11,7 @@ angular.module('eoApp')
         method: 'POST'
       }
     });
-    var LocationApi = $resource("/api/locations", {});
+    var TypesApi = $resource("/api/types", {});
     var DepartmentApi = $resource("/api/departments", {});
 
     var that = this;
@@ -51,6 +51,14 @@ angular.module('eoApp')
     $scope.removeRequestList = function(index) {
       $scope.requestItems.splice(index,1);
     }
+
+    // Item Suggest
+    $scope.currentItem = null;
+    $scope.searchTypes = function(type_name) {
+      TypesApi.get({ keyword: type_name }).$promise.then(function(data) {
+        $scope.marketItems = data.results;
+      });
+    };
 
   }]
 );
