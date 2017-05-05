@@ -39,6 +39,8 @@ angular.module('eoApp')
         item.sell_price = 4.2;
 
         $scope.requestItems.push(item);
+
+        toastr.info("Add to Request List" + " (" + item.type_name + ")", "Info");
     };
 
     $scope.changeQuantity = function(row) {
