@@ -39,6 +39,18 @@ class Api::BuyOrdersController < ApiController
     end
   end
 
+  def destroy
+    @order = Order.accessible_orders(current_character.corporation_id, current_user.id).find(params[:id])
+    render json: { error: 'No Record' } if @order.nil?
+
+    if @order.can_change_to_delete?(current_user)
+      @order.destroy
+      render json: {}
+    else
+      render json: { error: "Permission Deny" }
+    end
+  end
+
   private
 
   def permitted_attributes

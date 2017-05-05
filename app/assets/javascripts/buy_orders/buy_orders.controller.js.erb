@@ -14,6 +14,9 @@ angular.module('eoApp')
       },
       update: {
         method: 'PUT'
+      },
+      delete: {
+        method: 'DELETE'
       }
     });
 
@@ -87,6 +90,38 @@ angular.module('eoApp')
         toastr.error("Something wrong.", "Error");
       });
     }
+
+    $scope.deleteOrder = function() {
+      var modalInstance = $uibModal.open({
+        templateUrl: "<%= asset_path 'shared/simple_dialog.html' %>",
+        controller: 'SimpleDialogController',
+        backdrop: true,
+        scope: $scope,
+        resolve: {
+          params: function() {
+            return {
+              title: 'Delete Order',
+              message: 'Are you sure?'
+            };
+          }
+        }
+      });
+      modalInstance.result.then(
+        // cancel
+        function(result) {
+        },
+        // request
+        function(result) {
+          DetailApi.delete({ id: $scope.selectedId}).$promise.then(function(data) {
+            toastr.success("Delete Order (#" + $scope.selectedId + ")", "Success");
+            $scope.reload();
+            $scope.loadDetail();
+          }, function(error) {
+            toastr.error(error.data.error, "Error");
+          });
+        }
+      );
+    };
 
     // 画面遷移
     $scope.toBuyRequest = function() {

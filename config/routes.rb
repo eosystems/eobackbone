@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     resources :user_market_orders, only: [:index, :show, :update]
     resources :wallet_transactions, only: [:index, :update]
     resources :orders, only: [:index, :show, :update]
-    resources :buy_orders, only: [:index, :show, :create, :update, :delete]
+    resources :buy_orders, only: [:index, :show, :create, :update, :destroy]
     resources :trades, only: [:index]
     resources :trade_summaries, only: [:index]
     resources :trade_histories, only: [:index]

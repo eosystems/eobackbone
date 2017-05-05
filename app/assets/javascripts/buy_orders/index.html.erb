@@ -67,7 +67,7 @@
         ng-disabled="!management_accept" ng-class="{disabled : !management_accept}">Accept</button>
       <button class="btn btn-warning"  ng-click="updateStatus('canceled')"
         ng-disabled="!management_reject" ng-class="{disabled : !management_reject}">Reject</button>
-      <button class="btn btn-danger" ng-click="updateStatus('done')"
+      <button class="btn btn-danger" ng-click="deleteOrder()"
         ng-disabled="!management_delete" ng-class="{disabled : !management_delete}">Delete</button>
     </div>
     </div>

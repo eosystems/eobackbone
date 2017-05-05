@@ -41,7 +41,7 @@ class Order < ActiveRecord::Base
   }.with_indifferent_access.freeze
 
   # Relations
-  has_many :order_details
+  has_many :order_details, dependent: :destroy
   belongs_to :corporation, foreign_key: "corporation_id"
   belongs_to :order_user, class_name: 'User', foreign_key: :order_by
   belongs_to :station, class_name: "StaStation", primary_key: :station_id
