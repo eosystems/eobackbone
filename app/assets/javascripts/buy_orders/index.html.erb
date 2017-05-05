@@ -34,8 +34,8 @@
        <td data-title="'Price'" sortable="'sell_price'">
           {{row.sell_price | number:2}} isk
         </td>
-        <td data-title="'User'" sortable="'total_volume'">
-          Chatora Paaltomo
+        <td data-title="'User'" filter="{contract_user_name: 'text'}" sortable="'order_user_name'">
+          {{row.order_user_name}}
         </td>
         <td data-title="'Created'" sortable="'created_at'">
           {{row.created_at}}
@@ -195,8 +195,8 @@
                 <td> <img ng-src="{{ row.image_path }}" class="img-responsive"/> </td>
                 <td> {{ row.item_name }} </td>
                 <td> {{ row.pre_quantity | number }} </td>
-                <td> {{ row.sell_unit_price | number:2 }} </td>
-                <td> {{ row.sell_unit_price | number:2 }} </td>
+                <td> {{ row.pre_sell_unit_price | number:2 }} </td>
+                <td> {{ row.pre_buy_unit_price | number:2 }} </td>
               </tr>
             </tbody>
           </table>

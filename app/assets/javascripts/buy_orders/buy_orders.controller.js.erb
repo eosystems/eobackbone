@@ -7,8 +7,8 @@ angular.module('eoApp')
   ['ngTableParams', '$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
     function(ngTableParams, $resource, $scope, $state, $uibModal, $loading, toastr, $location) {
 
-    var RootApi = $resource("/api/orders");
-    var DetailApi = $resource("/api/orders/:id", { id: '@id' }, {
+    var RootApi = $resource("/api/buy_orders");
+    var DetailApi = $resource("/api/buy_orders/:id", { id: '@id' }, {
       get: {
         method: 'GET'
       },

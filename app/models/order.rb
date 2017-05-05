@@ -36,7 +36,8 @@ class Order < ActiveRecord::Base
     id: :id_eq_any,
     processing_status: :processing_status_eq,
     contract_department_name: :department_department_name_cont_any,
-    contract_corporation_name: :corporation_corporation_name_cont_any
+    contract_corporation_name: :corporation_corporation_name_cont_any,
+    contract_user_name: :order_user_name_cont_any,
   }.with_indifferent_access.freeze
 
   # Relations
@@ -53,6 +54,7 @@ class Order < ActiveRecord::Base
   delegate :station_name, to: :station, allow_nil: true, prefix: :contract
   delegate :department_name, to: :department, allow_nil: true, prefix: :contract
   delegate :corporation_name, to: :corporation, allow_nil: true, prefix: :contract
+  delegate :name, to: :order_user, allow_nil: true, prefix: :contract_user
   # Scopes
 
   # 指定したCorpに属している、または指定したユーザIDが出した注文であれば参照可能
@@ -62,6 +64,14 @@ class Order < ActiveRecord::Base
 
     relation_corporations = CorporationRelation.relation_corporation(corporation_id)
     where(cid.in(relation_corporations).or(order_by.eq(user_id)))
+  end
+
+  scope :buy_orders, -> do
+    where(is_buy: true)
+  end
+
+  scope :sell_orders, -> do
+    where(is_buy: false)
   end
 
   def retrieval!

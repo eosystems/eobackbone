@@ -2,6 +2,7 @@ class Api::BuyOrdersController < ApiController
   def index
     @orders = Order
       .search_with(params[:filter], params[:sorting], params[:page], params[:count])
+      .buy_orders
       .accessible_orders(current_character.corporation_id, current_user.id)
       .order(id: :desc)
   end
