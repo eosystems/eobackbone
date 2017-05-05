@@ -20,8 +20,8 @@ angular.module('eoApp')
     $scope.statuses = [
       { id: "", title: "" },
       { id: 'in_process', title: "In Process" },
-      { id: 'done', title: "Done" },
-      { id: 'canceled', title: "Canceled" },
+      { id: 'accept', title: "Accept" },
+      { id: 'create_contract', title: "Contract" },
       { id: 'reject', title: "Reject" }
     ];
 
@@ -71,9 +71,9 @@ angular.module('eoApp')
         // 各種操作権限
         $scope.management_accept = data.results.management_accept;
         $scope.management_reject = data.results.management_reject;
-        $scope.management_redo = data.results.management_redo;
+        $scope.management_undo = data.results.management_undo;
         $scope.management_create_contract = data.results.management_create_contract;
-        $scope.management_delete = data.requests.management_delete;
+        $scope.management_delete = data.results.management_delete;
       });
     }
 

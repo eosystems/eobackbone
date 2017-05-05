@@ -6,7 +6,7 @@
 
   <div class="text-left">
     <button class="btn btn-normal" ng-click="reload()">Reload</button>
-    <button class="btn btn-normal" ng-click="toBuyRequest()">Create Buy Request</button>
+    <button class="btn btn-default" ng-click="toBuyRequest()">Create Buy Request</button>
     <i class="fa fa-info-circle"></i>
     関連コープの情報も表示されます
   </div>
@@ -18,9 +18,9 @@
         <td data-title="'Status'" sortable="'processing_status'" width="100px"
           filter="{processing_status: 'select'}" filter-data="statuses" class="text-center">
           <label ng-show="row.processing_status == 'in_process'" class="label label-primary">In Process</label>
-          <label ng-show="row.processing_status == 'done'" class="label label-success">Accept</label>
+          <label ng-show="row.processing_status == 'accept'" class="label label-success">Accept</label>
           <label ng-show="row.processing_status == 'reject'" class="label label-danger">Reject</label>
-          <label ng-show="row.processing_status == 'canceled'" class="label label-default">Delete</label>
+          <label ng-show="row.processing_status == 'create_contract'" class="label label-warning">Contract</label>
         </td>
         <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="100px" class="deletable">
           {{row.id}}
@@ -54,21 +54,21 @@
   <div class="row">
     <div class="col-xs-6">
       <div class="text-left">
-        <button class="btn btn-primary" ng-click="toBuyContracts()"
-          ng-disabled="!management_done" ng-class="{disabled : !management_done}">Create Contract</button>
-        <button class="btn btn-primary" ng-click="updateStatus('done')"
-            ng-disabled="!management_done" ng-class="{disabled : !management_done}">Undo</button>
+        <button class="btn btn-default" ng-click="toBuyContracts()"
+          ng-disabled="!management_create_contract" ng-class="{disabled : !management_create_contract}">Create Contract</button>
+        <button class="btn btn-warning" ng-click="updateStatus('done')"
+            ng-disabled="!management_undo" ng-class="{disabled : !management_undo}">Undo</button>
       </div>
     </div>
 
     <div class="col-xs-6">
     <div class="text-right">
-      <button class="btn btn-normal"  ng-click="updateStatus('reject')"
-        ng-disabled="!management_reject" ng-class="{disabled : !management_reject}">Accept</button>
-      <button class="btn btn-normal"  ng-click="updateStatus('canceled')"
-        ng-disabled="!management_cancel" ng-class="{disabled : !management_cancel}">Reject</button>
-      <button class="btn btn-primary" ng-click="updateStatus('done')"
-        ng-disabled="!management_done" ng-class="{disabled : !management_done}">Delete</button>
+      <button class="btn btn-success"  ng-click="updateStatus('accept')"
+        ng-disabled="!management_accept" ng-class="{disabled : !management_accept}">Accept</button>
+      <button class="btn btn-warning"  ng-click="updateStatus('canceled')"
+        ng-disabled="!management_reject" ng-class="{disabled : !management_reject}">Reject</button>
+      <button class="btn btn-danger" ng-click="updateStatus('done')"
+        ng-disabled="!management_delete" ng-class="{disabled : !management_delete}">Delete</button>
     </div>
     </div>
   </div>

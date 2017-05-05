@@ -105,10 +105,45 @@ class Order < ActiveRecord::Base
     false
   end
 
+  def can_change_to_undo?(user)
+    return true if user.has_contract_role? && self.processing_status == ProcessingStatus::CREATE_CONTRACT.id
+    false
+  end
+
   # Rejectに変更可能か
   # - 契約管理権限を持っている場合は操作可能
   def can_change_to_reject?(user)
     user.has_contract_role?
+  end
+
+  def can_change_to_accept_for_buy?(user)
+    return true if my_order?(user) && (
+      self.processing_status == ProcessingStatus::CREATE_CONTRACT.id ||
+      self.processing_status == ProcessingStatus::REJECT.id
+    )
+    return true if user.has_contract_role? && (
+      self.processing_status == ProcessingStatus::CREATE_CONTRACT.id ||
+      self.processing_status == ProcessingStatus::REJECT.id
+    )
+    false
+  end
+
+  def can_change_to_reject_for_buy?(user)
+    return true if my_order?(user) && (
+      self.processing_status == ProcessingStatus::CREATE_CONTRACT.id ||
+      self.processing_status == ProcessingStatus::ACCEPT.id
+    )
+    return true if user.has_contract_role? && (
+      self.processing_status == ProcessingStatus::CREATE_CONTRACT.id ||
+      self.processing_status == ProcessingStatus::ACCEPT.id
+    )
+    false
+  end
+
+  def can_change_to_delete?(user)
+    return true if my_order?(user) && self.processing_status == ProcessingStatus::IN_PROCESS.id
+    return true if user.has_contract_role? && self.processing_status == ProcessingStatus::IN_PROCESS.id
+    false
   end
 
   # Cancelに変更可能か
@@ -121,6 +156,11 @@ class Order < ActiveRecord::Base
   # - 契約管理権限を持っている場合は操作可能
   def can_change_to_done?(user)
     user.has_contract_role?
+  end
+
+  def can_create_contract?(user)
+    return true if user.has_contract_role? && self.processing_status == ProcessingStatus::IN_PROCESS.id
+    false
   end
 
   def my_order?(user)

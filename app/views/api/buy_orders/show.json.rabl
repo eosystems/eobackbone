@@ -17,8 +17,9 @@ child @order => :results do
     node(:item_name) { |o| o.item_type_name }
   end
 
-  node(:management_done) { |o| o.can_change_to_done?(current_user) }
-  node(:management_cancel) { |o| o.can_change_to_cancel?(current_user) }
-  node(:management_reject) { |o| o.can_change_to_reject?(current_user) }
-  node(:management_in_process) { |o| o.can_change_to_in_process?(current_user) }
+  node(:management_accept) { |o| o.can_change_to_accept_for_buy?(current_user) }
+  node(:management_reject) { |o| o.can_change_to_reject_for_buy?(current_user) }
+  node(:management_undo) { |o| o.can_change_to_undo?(current_user) }
+  node(:management_create_contract) { |o| o.can_create_contract?(current_user) }
+  node(:management_delete) { |o| o.can_change_to_delete?(current_user) }
 end
