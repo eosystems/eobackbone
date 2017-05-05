@@ -46,5 +46,9 @@ angular.module('eoApp')
       row.buy_price = row.buy_unit_price * row.quantity;
     }
 
+    $scope.removeRequestList = function(index) {
+      $scope.requestItems.splice(index,1);
+    }
+
   }]
 );
