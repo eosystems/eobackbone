@@ -2,21 +2,26 @@
 #
 # Table name: orders
 #
-#  id                :integer          not null, primary key
-#  total_price       :decimal(20, 4)   default(0.0), not null
-#  sell_price        :decimal(20, 4)   default(0.0), not null
-#  total_volume      :decimal(20, 4)   default(0.0), not null
-#  is_credit         :boolean          default(FALSE), not null
-#  is_paid           :boolean          default(FALSE), not null
-#  processing_status :string(255)      default("in_process"), not null
-#  station_id        :integer
-#  order_by          :integer          not null
-#  assigned_user_id  :integer
-#  corporation_id    :integer
-#  note              :text(65535)
-#  department_id     :integer
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
+#  id                        :integer          not null, primary key
+#  total_price               :decimal(20, 4)   default(0.0), not null
+#  sell_price                :decimal(20, 4)   default(0.0), not null
+#  total_volume              :decimal(20, 4)   default(0.0), not null
+#  is_credit                 :boolean          default(FALSE), not null
+#  is_paid                   :boolean          default(FALSE), not null
+#  processing_status         :string(255)      default("in_process"), not null
+#  station_id                :integer
+#  order_by                  :integer          not null
+#  assigned_user_id          :integer
+#  corporation_id            :integer
+#  note                      :text(65535)
+#  department_id             :integer
+#  is_buy                    :boolean          default(FALSE), not null
+#  total_estimate_sell_price :decimal(20, 4)   default(0.0), not null
+#  total_estimate_buy_price  :decimal(20, 4)   default(0.0), not null
+#  done_date                 :datetime
+#  estimate_date             :datetime
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
 #
 
 class Order < ActiveRecord::Base

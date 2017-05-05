@@ -18,6 +18,11 @@ create_table :orders, collate: "utf8_bin", comment: "注文" do |t|
   t.int :corporation_id, null: true, comment: "参照範囲用コープId"
   t.text :note, null: true, comment: "メモ"
   t.int :department_id, null: true, comment: "部門"
+  t.boolean :is_buy, null: false, default: false
+  t.decimal :total_estimate_sell_price, default: "0.0000", precision: 20, scale: 4, comment: "当初見積金額(Sell)"
+  t.decimal :total_estimate_buy_price, default: "0.0000", precision: 20, scale: 4, comment: "当初見積金額(Buy)"
+  t.datetime :done_date, null: true
+  t.datetime :estimate_date, null: true
 
   t.datetime :created_at
   t.datetime :updated_at
