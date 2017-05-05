@@ -15,8 +15,8 @@
     <div class="col">
 
       <div class="container-1">
-        <div class="btn btn-one">
-          <span><img src="https://image.eveonline.com/Type/34_64.png" />Tritanium</span>
+        <div class="btn btn-one" ng-click="addToRequestList(34)">
+          <span ng-click="addToRequestList()"><img src="https://image.eveonline.com/Type/34_64.png" />Tritanium</span>
         </div>
 
         <div class="btn btn-one">
@@ -96,7 +96,59 @@
   </div>
 
   <h3>Other Select</h3>
+  <div class="form-group">
+    <div class="col-xs-10">
+      <ui-select ng-model="src.contractLocation">
+        <ui-select-match placeholder="Select Items ...">
+          <span>{{ src.contractLocation.station_name }}</span>
+        </ui-select-match>
 
+        <ui-select-choices repeat="loc in locations"
+          refresh="searchLocation($select.search)"
+          refresh-delay="0">
+          <span>{{ loc.station_name }}</span>
+        </ui-select-choices>
+      </ui-select>
+    </div>
+    <div class ="col-xs-2 no-padding">
+        <button class="btn btn-normal btn-padding" ng-click="addToRequestList()">Add To List</button>
+    </div>
+    <br/><br/>
+
+  </div>
+
+  <h3>Request Item Lists</h3>
+
+  <table class="table table-condensed table-responsive table-hover mt-10">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th> Name </th>
+      <th> Quantity </th>
+      <th> Unit Price ( Jita Buy )</th>
+      <th> Unit Price ( Jita Sell )</th>
+      <th> Price ( Jita Buy ) </th>
+      <th> Price ( Jita Sell ) </th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="row in requestItems">
+      <td> <img ng-src="https://image.eveonline.com/Type/{{row.type_id}}_32.png" class="img-responsive"/> </td>
+      <td> {{ row.type_name }} </td>
+      <td>
+        <input ng-model="row.quantity" ng-change="changeQuantity(row)">
+      </td>
+      <td> {{ row.buy_unit_price | number }} </td>
+      <td> {{ row.sell_unit_price | number }} </td>
+      <td> {{ row.buy_price | number }} </td>
+      <td> {{ row.sell_price | number }} </td>
+      <td>
+        <button class="btn btn-danger btn-sm" ng-click="removeRecord(row.id)">Remove</button>
+      </td>
+    </tr>
+  </tbody>
+  </table>
 </div>
 </div>
 </div>
