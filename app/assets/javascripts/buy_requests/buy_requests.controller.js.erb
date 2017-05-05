@@ -6,7 +6,7 @@ angular.module('eoApp')
   'buyRequestsController',
   ['$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
     function($resource, $scope, $state, $uibModal, $loading, toastr, $location) {
-    var Api = $resource("/api/sell_orders", {}, {
+    var Api = $resource("/api/buy_orders", {}, {
       create: {
         method: 'POST'
       }
@@ -23,6 +23,8 @@ angular.module('eoApp')
 
     var that = this;
     $scope.requestItems = new Array();
+    $scope.totalBuyPrice = 0;
+    $scope.totalSellPrice = 0;
 
     // 初期化
     var initialize = function() {
@@ -50,6 +52,7 @@ angular.module('eoApp')
           item.sell_price = data.sell_min_price;
 
           $scope.requestItems.push(item);
+          $scope.calcTotalPrice();
 
           toastr.info("Add to Request List" + " (" + item.type_name + ")", "Info");
         });
@@ -58,10 +61,23 @@ angular.module('eoApp')
     $scope.changeQuantity = function(row) {
       row.sell_price = row.sell_unit_price * row.quantity;
       row.buy_price = row.buy_unit_price * row.quantity;
+
+      this.calcTotalPrice();
     }
 
     $scope.removeRequestList = function(index) {
       $scope.requestItems.splice(index,1);
+      $scope.calcTotalPrice();
+    }
+
+    $scope.calcTotalPrice = function() {
+      $scope.totalBuyPrice = 0;
+      $scope.totalSellPrice = 0;
+
+      $scope.requestItems.forEach(function(item){
+        $scope.totalBuyPrice += parseFloat(item.sell_price);
+        $scope.totalSellPrice += parseFloat(item.buy_price);
+      });
     }
 
     // Item Suggest
@@ -70,6 +86,45 @@ angular.module('eoApp')
       TypesApi.get({ keyword: type_name }).$promise.then(function(data) {
         $scope.marketItems = data.results;
       });
+    };
+
+    // 申請ボタン
+    $scope.requestConfirm = function() {
+      var modalInstance = $uibModal.open({
+        templateUrl: "<%= asset_path 'shared/simple_dialog.html' %>",
+        controller: 'SimpleDialogController',
+        backdrop: true,
+        scope: $scope,
+        resolve: {
+          params: function() {
+            return {
+              title: 'Buy Request',
+              message: 'Are you sure?'
+            };
+          }
+        }
+      });
+      modalInstance.result.then(
+        // cancel
+        function(result) {
+        },
+        // request
+        function(result) {
+          toastr.info("Send Buy Request", "Request");
+
+          var orderForm = {
+            department_id: $scope.selectedDepartment != null ? $scope.selectedDepartment.id : null,
+            note: $scope.note
+          };
+          Api.create({ form: $scope.requestItems, order: orderForm }).$promise.then(function(data) {
+            toastr.success("Request Accepted", "Success");
+
+            $location.path("/buy_orders");
+          }, function(error) {
+            toastr.error("Something wrong.", "Error");
+          });
+        }
+      );
     };
 
   }]
