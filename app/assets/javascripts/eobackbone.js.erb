@@ -52,6 +52,11 @@ angular.module('eoApp', [
     templateUrl: '<%= asset_path 'buy_requests/new.html' %>',
     controller: 'buyRequestsController'
   })
+  .state('buyRequestsShow', {
+    url: '/buy_requests/:id',
+    templateUrl: '<%= asset_path 'buy_requests/update.html' %>',
+    controller: 'buyRequestsController'
+  })
   .state('buyContracts', {
     url: '/buy_contracts',
     templateUrl: '<%= asset_path 'buy_contracts/new.html' %>',

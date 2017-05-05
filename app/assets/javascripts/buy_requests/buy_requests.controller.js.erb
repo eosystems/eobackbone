@@ -6,7 +6,10 @@ angular.module('eoApp')
   'buyRequestsController',
   ['$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
     function($resource, $scope, $state, $uibModal, $loading, toastr, $location) {
-    var Api = $resource("/api/buy_orders", {}, {
+    var Api = $resource("/api/buy_orders/:id", { id: '@id' }, {
+      get: {
+        method: 'GET'
+      },
       create: {
         method: 'POST'
       }
@@ -32,9 +35,23 @@ angular.module('eoApp')
       DepartmentApi.get({}).$promise.then(function(data) {
         $scope.departments = data.results;
       });
+
+      if ($scope.$state.params.id != null){
+        Api.get({id: $scope.$state.params.id}).$promise.then(function(data) {
+          $scope.order = data.results;
+          $scope.orderDetails = data.results.order_details;
+        });
+      }
     };
 
     initialize();
+
+    $scope.loadDetail = function() {
+      Api.get({id: $scope.$state.params.id}).$promise.then(function(data) {
+        $scope.order = data.results;
+        $scope.orderDetails = data.results.order_details;
+      });
+    };
 
     $scope.addToRequestList = function(typeId) {
         MarketPricesApi.get(
