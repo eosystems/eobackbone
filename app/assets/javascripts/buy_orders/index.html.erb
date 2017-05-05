@@ -74,82 +74,138 @@
   </div>
 
   <form class="form-horizontal">
-    <div class="form-group">
-      <label class="col-sm-3 control-label">Total Price: </label>
-      <div class="col-sm-9">
-        <p class="form-control-static"> {{ order.total_price | number:2 }} ISK </p>
-      </div>
-    </div>
+    <uib-tabset active="activeForm">
+        <uib-tab index="0" heading="契約情報">
+          <form name="outerForm">
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Total Price: </label>
+              <div class="col-sm-9">
+                <p class="form-control-static"> {{ order.total_price | number:2 }} ISK </p>
+              </div>
+            </div>
 
-    <div class="form-group">
-      <label class="col-sm-3 control-label">Price Percentage (Jita Buy): </label>
-      <div class="col-sm-9">
-        <p class="form-control-static"> {{ (order.sell_price / order.total_price * 100.0 || 0.0) | number:1 }} % </p>
-      </div>
-    </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Price Percentage (Jita Buy): </label>
+              <div class="col-sm-9">
+                <p class="form-control-static"> {{ (order.sell_price / order.total_price * 100.0 || 0.0) | number:1 }} % </p>
+              </div>
+            </div>
 
-    <div class="form-group">
-      <label class="col-sm-3 control-label">Price Percentage (Jita Sell): </label>
-      <div class="col-sm-9">
-        <p class="form-control-static"> {{ (order.sell_price / order.total_price * 100.0 || 0.0) | number:1 }} % </p>
-      </div>
-    </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Price Percentage (Jita Sell): </label>
+              <div class="col-sm-9">
+                <p class="form-control-static"> {{ (order.sell_price / order.total_price * 100.0 || 0.0) | number:1 }} % </p>
+              </div>
+            </div>
 
-    <div class="form-group">
-      <label class="col-sm-3 control-label">Total Volume: </label>
-      <div class="col-sm-9">
-        <p class="form-control-static"> {{ order.total_volume | number }} m3</p>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-3 control-label">Contract Place:</label>
-      <div class="col-sm-9">
-        <p class="form-control-static"> {{ order.contract_station_name || "None" }} </p>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-3 control-label">Orderer: </label>
-      <div class="col-sm-9">
-        <p class="form-control-static"> {{ order.order_user_name }} </p>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-3 control-label">Department: </label>
-      <div class="col-sm-9">
-        <p class="form-control-static"> {{ order.department_name }} </p>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-sm-3 control-label">Note:</label>
-      <div class="col-sm-9">
-        <p class="form-control-static"> {{ order.note }} </p>
-      </div>
-    </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Orderer: </label>
+              <div class="col-sm-9">
+                <p class="form-control-static"> {{ order.order_user_name }} </p>
+              </div>
+            </div>
 
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Department: </label>
+              <div class="col-sm-9">
+                <p class="form-control-static"> {{ order.department_name }} </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Note:</label>
+              <div class="col-sm-9">
+                <p class="form-control-static"> {{ order.note }} </p>
+              </div>
+            </div>
+
+          </form>
+
+          <table class="table table-condensed table-responsive table-hover mt-10">
+            <thead>
+              <tr>
+                <th> </th>
+                <th> Name </th>
+                <th> Quantity </th>
+                <th> Price </th>
+                <th> Unit Price ( Jita Buy ) </th>
+                <th> Unit Price ( Jita Sell ) </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="row in orderDetails">
+                <td> <img ng-src="{{ row.image_path }}" class="img-responsive"/> </td>
+                <td> {{ row.item_name }} </td>
+                <td> {{ row.quantity | number }} </td>
+                <td> {{ row.volume | number:2 }} </td>
+                <td> {{ row.sell_unit_price | number:2 }} </td>
+                <td> {{ row.sell_unit_price | number:2 }} </td>
+              </tr>
+            </tbody>
+          </table>
+        </uib-tab>
+
+        <uib-tab index="1" heading="申請情報">
+          <form name="outerForm">
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Total Price (Jita Sell): </label>
+              <div class="col-sm-9">
+                <p class="form-control-static"> {{ order.total_estimate_sell_price | number:2 }} ISK </p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Total Price (Jita Buy): </label>
+              <div class="col-sm-9">
+                <p class="form-control-static"> {{ order.total_estimate_buy_price | number:2 }} ISK </p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Orderer: </label>
+              <div class="col-sm-9">
+                <p class="form-control-static"> {{ order.order_user_name }} </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Department: </label>
+              <div class="col-sm-9">
+                <p class="form-control-static"> {{ order.department_name }} </p>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Note:</label>
+              <div class="col-sm-9">
+                <p class="form-control-static"> {{ order.note }} </p>
+              </div>
+            </div>
+          </form>
+
+          <table class="table table-condensed table-responsive table-hover mt-10">
+            <thead>
+              <tr>
+                <th> </th>
+                <th> Name </th>
+                <th> Quantity </th>
+                <th> Unit Price ( Jita Buy ) </th>
+                <th> Unit Price ( Jita Sell ) </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="row in orderDetails">
+                <td> <img ng-src="{{ row.image_path }}" class="img-responsive"/> </td>
+                <td> {{ row.item_name }} </td>
+                <td> {{ row.pre_quantity | number }} </td>
+                <td> {{ row.sell_unit_price | number:2 }} </td>
+                <td> {{ row.sell_unit_price | number:2 }} </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </uib-tab>
+    </uib-tabset>
   </form>
 
-  <table class="table table-condensed table-responsive table-hover mt-10">
-    <thead>
-      <tr>
-        <th> </th>
-        <th> Name </th>
-        <th> Quantity </th>
-        <th> Price </th>
-        <th> Unit Price ( Jita Buy ) </th>
-        <th> Unit Price ( Jita Sell ) </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="row in orderDetails">
-        <td> <img ng-src="{{ row.image_path }}" class="img-responsive"/> </td>
-        <td> {{ row.item_name }} </td>
-        <td> {{ row.quantity | number }} </td>
-        <td> {{ row.volume | number:2 }} </td>
-        <td> {{ row.sell_unit_price | number:2 }} </td>
-        <td> {{ row.sell_unit_price | number:2 }} </td>
-      </tr>
-    </tbody>
-  </table>
+
 </div>
 </div>
 
