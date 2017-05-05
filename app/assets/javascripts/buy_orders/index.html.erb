@@ -1,0 +1,158 @@
+<div class="container-fluid">
+<div class="row">
+
+<div class="col-md-6">
+  <h2>Buy Orders</h2>
+
+  <div class="text-left">
+    <button class="btn btn-normal" ng-click="reload()">Reload</button>
+    <button class="btn btn-normal" ng-click="toBuyRequest()">Create Buy Request</button>
+    <i class="fa fa-info-circle"></i>
+    関連コープの情報も表示されます
+  </div>
+
+  <section class="content table-responsive">
+    <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
+      show-filter="true">
+      <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
+        <td data-title="'Status'" sortable="'processing_status'" width="100px"
+          filter="{processing_status: 'select'}" filter-data="statuses" class="text-center">
+          <label ng-show="row.processing_status == 'in_process'" class="label label-primary">In Process</label>
+          <label ng-show="row.processing_status == 'done'" class="label label-success">Accept</label>
+          <label ng-show="row.processing_status == 'reject'" class="label label-danger">Reject</label>
+          <label ng-show="row.processing_status == 'canceled'" class="label label-default">Delete</label>
+        </td>
+        <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="100px" class="deletable">
+          {{row.id}}
+        </td>
+        <td data-title="'Department'" filter="{contract_department_name: 'text'}" sortable="'department_department_name'">
+          {{row.department_name}}
+        </td>
+        <td data-title="'Corporation'" filter="{contract_corporation_name: 'text'}" sortable="'corporation_corporation_name'">
+          {{row.corporation_name}}
+        </td>
+       <td data-title="'Price'" sortable="'sell_price'">
+          {{row.sell_price | number:2}} isk
+        </td>
+        <td data-title="'User'" sortable="'total_volume'">
+          Chatora Paaltomo
+        </td>
+        <td data-title="'Created'" sortable="'created_at'">
+          {{row.created_at}}
+        </td>
+      </tr>
+    </table>
+  </section>
+</div>
+
+<div class="col-md-6">
+  <div class="loading" dw-loading="loading" dw-loading-options="{text: 'Loading...'}">
+  <!-- メモ: 何故かloadingで囲うとng-modelが動かなくなることがある。何かあったら削除 -->
+
+  <h2>Order Detail (#{{selectedId}})</h2>
+
+  <div class="row">
+    <div class="col-xs-6">
+      <div class="text-left">
+        <button class="btn btn-primary" ng-click="updateStatus('done')"
+          ng-disabled="!management_done" ng-class="{disabled : !management_done}">Create Contract</button>
+        <button class="btn btn-primary" ng-click="updateStatus('done')"
+            ng-disabled="!management_done" ng-class="{disabled : !management_done}">Undo</button>
+      </div>
+    </div>
+
+    <div class="col-xs-6">
+    <div class="text-right">
+      <button class="btn btn-normal"  ng-click="updateStatus('reject')"
+        ng-disabled="!management_reject" ng-class="{disabled : !management_reject}">Accept</button>
+      <button class="btn btn-normal"  ng-click="updateStatus('canceled')"
+        ng-disabled="!management_cancel" ng-class="{disabled : !management_cancel}">Reject</button>
+      <button class="btn btn-primary" ng-click="updateStatus('done')"
+        ng-disabled="!management_done" ng-class="{disabled : !management_done}">Delete</button>
+    </div>
+    </div>
+  </div>
+
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Total Price: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.total_price | number:2 }} ISK </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Price Percentage (Jita Buy): </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ (order.sell_price / order.total_price * 100.0 || 0.0) | number:1 }} % </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Price Percentage (Jita Sell): </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ (order.sell_price / order.total_price * 100.0 || 0.0) | number:1 }} % </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Total Volume: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.total_volume | number }} m3</p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Contract Place:</label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.contract_station_name || "None" }} </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Orderer: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.order_user_name }} </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Department: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.department_name }} </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Note:</label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ order.note }} </p>
+      </div>
+    </div>
+
+  </form>
+
+  <table class="table table-condensed table-responsive table-hover mt-10">
+    <thead>
+      <tr>
+        <th> </th>
+        <th> Name </th>
+        <th> Quantity </th>
+        <th> Price </th>
+        <th> Unit Price ( Jita Buy ) </th>
+        <th> Unit Price ( Jita Sell ) </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="row in orderDetails">
+        <td> <img ng-src="{{ row.image_path }}" class="img-responsive"/> </td>
+        <td> {{ row.item_name }} </td>
+        <td> {{ row.quantity | number }} </td>
+        <td> {{ row.volume | number:2 }} </td>
+        <td> {{ row.sell_unit_price | number:2 }} </td>
+        <td> {{ row.sell_unit_price | number:2 }} </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+
+
+</div>
+</div>

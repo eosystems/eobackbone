@@ -1,0 +1,96 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+  'buyOrdersController',
+  ['ngTableParams', '$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+    function(ngTableParams, $resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+
+    var RootApi = $resource("/api/orders");
+    var DetailApi = $resource("/api/orders/:id", { id: '@id' }, {
+      get: {
+        method: 'GET'
+      },
+      update: {
+        method: 'PUT'
+      }
+    });
+
+    $scope.statuses = [
+      { id: "", title: "" },
+      { id: 'in_process', title: "In Process" },
+      { id: 'done', title: "Done" },
+      { id: 'canceled', title: "Canceled" },
+      { id: 'reject', title: "Reject" }
+    ];
+
+    $scope.setTotalCount = function(count) {
+      $scope.totalCount = count;
+    };
+
+    $scope.tableParams = new ngTableParams({
+      filter: { },
+      count: 20,
+    }, {
+      counts: [10, 20, 50],
+      getData: function(params) {
+        var urlParams = params.url();
+
+        return RootApi.get(urlParams).$promise.then(function(data) {
+          params.total(data.totalCount);
+          $scope.setTotalCount(data.totalCount);
+          $scope.searchResults = data.results;
+          return data.results;
+        });
+      }
+    });
+
+    // Order Grid押下時
+    $scope.selectRow = function(id) {
+      var results = $scope.searchResults;
+      _.each($scope.searchResults, function(v) { v.selected = false; });
+      var row = $scope.searchResults.find(function(v) { return v.id == id })
+      if (row) {
+        row.selected = !row.selected;
+      }
+      $scope.selectedId = id;
+      $scope.loadDetail();
+    };
+
+    // 再読み込み
+    $scope.reload = function() {
+      $scope.tableParams.reload();
+    };
+
+    // 詳細取得
+    $scope.loadDetail = function() {
+      DetailApi.get({id: $scope.selectedId}).$promise.then(function(data) {
+        $scope.order = data.results;
+        $scope.orderDetails = data.results.order_details;
+        // 各種操作権限
+        $scope.management_done = data.results.management_done;
+        $scope.management_cancel = data.results.management_cancel;
+        $scope.management_reject = data.results.management_reject;
+        $scope.management_in_process = data.results.management_in_process;
+      });
+    }
+
+    // ステータス更新
+    $scope.updateStatus = function(statusId) {
+      DetailApi.update({ id: $scope.selectedId, status: statusId }).$promise.then(function(data) {
+        toastr.success("Change Status to " + statusId + " (#" + $scope.selectedId + ")", "Success");
+        $scope.reload();
+        $scope.loadDetail();
+      }, function(error) {
+        toastr.error("Something wrong.", "Error");
+      });
+    }
+
+    // 画面遷移
+    $scope.toBuyRequest = function() {
+      $location.path('/buy_requests');
+    }
+
+  }]
+);
