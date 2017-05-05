@@ -13,6 +13,13 @@ angular.module('eoApp')
     });
     var TypesApi = $resource("/api/types", {});
     var DepartmentApi = $resource("/api/departments", {});
+    var MarketPricesApi = $resource("/api/market_prices/:id", {
+      id: '@id'
+    }, {
+      get: {
+        method: 'GET'
+      }
+    });
 
     var that = this;
     $scope.requestItems = new Array();
@@ -28,19 +35,24 @@ angular.module('eoApp')
     initialize();
 
     $scope.addToRequestList = function(typeId) {
-        console.log ("add to request");
-        var item = new Object();
-        item.type_name = "tritanium";
-        item.type_id = typeId;
-        item.quantity = 1;
-        item.buy_unit_price = 3.45;
-        item.buy_price = 3.45;
-        item.sell_unit_price = 4.2;
-        item.sell_price = 4.2;
+        MarketPricesApi.get(
+          {
+            id: typeId
+          }
+        ).$promise.then(function(data) {
+          var item = new Object();
+          item.type_name = data.item.type_name;
+          item.type_id = data.item.type_id;
+          item.quantity = 1;
+          item.buy_unit_price = data.buy_max_price;
+          item.buy_price = data.buy_max_price;
+          item.sell_unit_price = data.sell_min_price;
+          item.sell_price = data.sell_min_price;
 
-        $scope.requestItems.push(item);
+          $scope.requestItems.push(item);
 
-        toastr.info("Add to Request List" + " (" + item.type_name + ")", "Info");
+          toastr.info("Add to Request List" + " (" + item.type_name + ")", "Info");
+        });
     };
 
     $scope.changeQuantity = function(row) {
