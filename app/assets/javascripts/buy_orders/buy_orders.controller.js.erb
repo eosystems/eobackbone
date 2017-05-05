@@ -129,7 +129,7 @@ angular.module('eoApp')
     }
 
     $scope.toBuyContracts = function() {
-      $location.path('/buy_contracts');
+      $location.path('/buy_requests/' + $scope.selectedId);
     }
 
   }]

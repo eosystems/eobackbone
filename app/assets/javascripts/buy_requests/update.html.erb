@@ -16,27 +16,31 @@
       <th>#</th>
       <th> Name </th>
       <th> Quantity </th>
+      <th> Quantity(Require) </th>
+      <th> Unit Price </th>
       <th> Unit Price ( Jita Buy )</th>
       <th> Unit Price ( Jita Sell )</th>
+      <th> Price ( Me ) </th>
       <th> Price ( Jita Buy ) </th>
       <th> Price ( Jita Sell ) </th>
-      <th> </th>
     </tr>
   </thead>
   <tbody>
-    <tr ng-repeat="row in requestItems">
-      <td> <img ng-src="https://image.eveonline.com/Type/{{row.type_id}}_32.png" class="img-responsive"/> </td>
-      <td> {{ row.type_name }} </td>
+    <tr ng-repeat="row in order_details">
+      <td> <img ng-src="https://image.eveonline.com/Type/{{row.item_id}}_32.png" class="img-responsive"/> </td>
+      <td> {{ row.item_name }} </td>
       <td>
-        <input ng-model="row.quantity" ng-change="changeQuantity(row)">
+        <input ng-model="row.quantity" ng-change="changeQuantity2(row)">
       </td>
-      <td> {{ row.buy_unit_price | number }} </td>
+      <td> {{ row.pre_quantity | number }}</td>
+      <td>
+        <input ng-model="row.unit_price" ng-change="changeQuantity2(row)">
+      </td>
       <td> {{ row.sell_unit_price | number }} </td>
+      <td> {{ row.buy_unit_price | number }} </td>
+      <td> {{ row.price | number }} </td>
       <td> {{ row.buy_price | number }} </td>
       <td> {{ row.sell_price | number }} </td>
-      <td>
-        <button class="btn btn-danger btn-sm" ng-click="removeRequestList($index)">Remove</button>
-      </td>
     </tr>
   </tbody>
   </table>
@@ -44,21 +48,27 @@
   <h3>Request Item Information</h3>
   <form class="">
     <div class="form-group form-inline">
-      <label class="col-sm-3 control-label">Total Price (Jita Sell):</label>
+      <label class="col-sm-3 control-label">Total Price:</label>
       <div class="col-sm-9">
         <p class="form-control-static"> {{ totalPrice | number:2 }} ISK </p>
+      </div>
+    </div>
+    <div class="form-group form-inline">
+      <label class="col-sm-3 control-label">Total Price (Jita Sell):</label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ totalBuyPrice | number:2 }} ISK </p>
       </div>
     </div>
     <div class="form-group">
       <label class="col-sm-3 control-label">Total Price (Jita Buy): </label>
       <div class="col-sm-9">
-        <p class="form-control-static"> {{ totalPrice | number:2 }} ISK </p>
+        <p class="form-control-static"> {{ totalSellPrice | number:2 }} ISK </p>
       </div>
     </div>
     <div class="form-group">
       <label class="col-xs-3 control-label">Department:</label>
-      <div class="col-xs-9">
-        <select id= "department" class="form-control mt-10" ng-model="selectedDepartment" ng-options="x.department_name for x in departments" ng-change="changeDepartment()"></select>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ department }} </p>
       </div>
     </div>
     <div class="form-group">

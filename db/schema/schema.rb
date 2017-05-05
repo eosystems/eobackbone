@@ -34,6 +34,7 @@ create_table :order_details, collate: "utf8_bin", comment: "注文明細" do |t|
   t.int :item_id, comment: "商品Id"
   t.decimal :unit_price, default: "0.0000", precision: 20, scale: 4, comment: "単価"
   t.decimal :sell_unit_price, default: "0.0000", precision: 20, scale: 4, comment: "買取単価"
+  t.decimal :buy_unit_price, default: "0.0000", precision: 20, scale: 4, comment: "買取単価"
   t.int :quantity, comment: "数量"
   t.decimal :volume, default: "0.0000", precision: 20, scale: 4, comment: "容量"
   t.decimal :pre_sell_unit_price, default: "0.0000", precision: 20, scale: 4

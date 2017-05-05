@@ -36,22 +36,33 @@ angular.module('eoApp')
         $scope.departments = data.results;
       });
 
-      if ($scope.$state.params.id != null){
+      if ($scope.$state.params.id != null) {
         Api.get({id: $scope.$state.params.id}).$promise.then(function(data) {
           $scope.order = data.results;
-          $scope.orderDetails = data.results.order_details;
+          $scope.order_details = data.results.order_details;
+
+          $scope.order_details.forEach(function(item){
+            MarketPricesApi.get(
+              {
+                id: item.item_id
+              }
+            ).$promise.then(function(data) {
+              item.quantity = item.pre_quantity;
+              item.unit_price = data.sell_min_price;
+              item.buy_unit_price = data.buy_max_price;
+              item.buy_price = data.buy_max_price;
+              item.sell_unit_price = data.sell_min_price;
+              item.sell_price = data.sell_min_price;
+              //$scope.changeQuantity(item);
+              $scope.changeQuantity2(item);
+            });
+
+          });
         });
-      }
+      };
     };
 
     initialize();
-
-    $scope.loadDetail = function() {
-      Api.get({id: $scope.$state.params.id}).$promise.then(function(data) {
-        $scope.order = data.results;
-        $scope.orderDetails = data.results.order_details;
-      });
-    };
 
     $scope.addToRequestList = function(typeId) {
         MarketPricesApi.get(
@@ -82,6 +93,13 @@ angular.module('eoApp')
       this.calcTotalPrice();
     }
 
+    $scope.changeQuantity2 = function(row) {
+      row.price = row.unit_price * row.quantity
+      row.sell_price = row.sell_unit_price * row.quantity;
+      row.buy_price = row.buy_unit_price * row.quantity;
+      this.calcTotalPrice2();
+    }
+
     $scope.removeRequestList = function(index) {
       $scope.requestItems.splice(index,1);
       $scope.calcTotalPrice();
@@ -92,6 +110,18 @@ angular.module('eoApp')
       $scope.totalSellPrice = 0;
 
       $scope.requestItems.forEach(function(item){
+        $scope.totalBuyPrice += parseFloat(item.sell_price);
+        $scope.totalSellPrice += parseFloat(item.buy_price);
+      });
+    }
+
+    $scope.calcTotalPrice2 = function() {
+      $scope.totalPrice = 0;
+      $scope.totalBuyPrice = 0;
+      $scope.totalSellPrice = 0;
+
+      $scope.order_details.forEach(function(item){
+        $scope.totalPrice += parseFloat(item.price);
         $scope.totalBuyPrice += parseFloat(item.sell_price);
         $scope.totalSellPrice += parseFloat(item.buy_price);
       });

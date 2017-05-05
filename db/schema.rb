@@ -195,6 +195,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer  "item_id",             limit: 4,                                        null: false
     t.decimal  "unit_price",                    precision: 20, scale: 4, default: 0.0, null: false
     t.decimal  "sell_unit_price",               precision: 20, scale: 4, default: 0.0, null: false
+    t.decimal  "buy_unit_price",                precision: 20, scale: 4, default: 0.0, null: false
     t.integer  "quantity",            limit: 4,                                        null: false
     t.decimal  "volume",                        precision: 20, scale: 4, default: 0.0, null: false
     t.decimal  "pre_sell_unit_price",           precision: 20, scale: 4, default: 0.0, null: false
