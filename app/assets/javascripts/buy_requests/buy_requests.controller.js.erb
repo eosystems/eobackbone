@@ -113,6 +113,8 @@ angular.module('eoApp')
           toastr.info("Send Buy Request", "Request");
 
           var orderForm = {
+            total_estimate_buy_price: $scope.totalBuyPrice,
+            total_estimate_sell_price: $scope.totalSellPrice,
             department_id: $scope.selectedDepartment != null ? $scope.selectedDepartment.id : null,
             note: $scope.note
           };

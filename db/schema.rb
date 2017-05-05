@@ -191,14 +191,17 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "monitor_market_orders", ["type_id", "buy", "station_id"], name: "index_type_id_and_buy_and_station_id", using: :btree
 
   create_table "order_details", force: :cascade do |t|
-    t.integer  "order_id",        limit: 4,                                        null: false
-    t.integer  "item_id",         limit: 4,                                        null: false
-    t.decimal  "unit_price",                precision: 20, scale: 4, default: 0.0, null: false
-    t.decimal  "sell_unit_price",           precision: 20, scale: 4, default: 0.0, null: false
-    t.integer  "quantity",        limit: 4,                                        null: false
-    t.decimal  "volume",                    precision: 20, scale: 4, default: 0.0, null: false
-    t.datetime "created_at",                                                       null: false
-    t.datetime "updated_at",                                                       null: false
+    t.integer  "order_id",            limit: 4,                                        null: false
+    t.integer  "item_id",             limit: 4,                                        null: false
+    t.decimal  "unit_price",                    precision: 20, scale: 4, default: 0.0, null: false
+    t.decimal  "sell_unit_price",               precision: 20, scale: 4, default: 0.0, null: false
+    t.integer  "quantity",            limit: 4,                                        null: false
+    t.decimal  "volume",                        precision: 20, scale: 4, default: 0.0, null: false
+    t.decimal  "pre_sell_unit_price",           precision: 20, scale: 4, default: 0.0, null: false
+    t.decimal  "pre_buy_unit_price",            precision: 20, scale: 4, default: 0.0, null: false
+    t.integer  "pre_quantity",        limit: 4,                          default: 0,   null: false
+    t.datetime "created_at",                                                           null: false
+    t.datetime "updated_at",                                                           null: false
   end
 
   add_index "order_details", ["order_id"], name: "order_details_order_id_fk", using: :btree

@@ -71,6 +71,21 @@ class Order < ActiveRecord::Base
     self.sell_price = (order_details.map(&:sell_price).sum * PURCHASE_FACTOR).round(2)
   end
 
+  def parse_buy_orders(form)
+    form.each do |f|
+      i = InvType.where(type_id: f[:type_id]).first
+      self.order_details.build(
+        quantity: 0,
+        item_id: f[:type_id],
+        pre_sell_unit_price: f[:sell_price],
+        pre_buy_unit_price: f[:buy_unit_price],
+        pre_quantity: f[:quantity],
+        volume: i.volume
+      )
+    end
+    self
+  end
+
   # In Processに変更可能か
   # - 自分の契約の場合はキャンセルの場合に戻せる
   # - ユーザが契約管理権限を持っていない場合は In Process に戻せる
