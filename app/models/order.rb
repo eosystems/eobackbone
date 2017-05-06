@@ -96,6 +96,17 @@ class Order < ActiveRecord::Base
     self
   end
 
+  def update_buy_orders(form)
+    form.each do |f|
+      c = self.order_details.find(f[:id])
+      c.sell_unit_price = f[:sell_unit_price]
+      c.buy_unit_price = f[:buy_unit_price]
+      c.quantity = f[:quantity]
+      c.save
+    end
+    self
+  end
+
   # In Processに変更可能か
   # - 自分の契約の場合はキャンセルの場合に戻せる
   # - ユーザが契約管理権限を持っていない場合は In Process に戻せる

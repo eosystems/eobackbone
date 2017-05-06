@@ -32,6 +32,14 @@ class Api::BuyOrdersController < ApiController
   def update
     @order = Order.find(params[:id])
     @order.processing_status = params[:status] if params[:status].present?
+    if params[:form]
+      @order.update_buy_orders(params[:form])
+      @order.attributes = permitted_attributes
+      @order.processing_status = ProcessingStatus::CREATE_CONTRACT.id
+      @order.assigned_user_id = current_user.id
+      @order.estimate_date = Time.zone.now
+    end
+    
     if @order.save
       render json: { }
     else
@@ -56,6 +64,6 @@ class Api::BuyOrdersController < ApiController
   def permitted_attributes
     params
       .require(:order)
-      .permit(:total_estimate_buy_price, :total_estimate_sell_price, :department_id, :note)
+      .permit(:total_estimate_buy_price, :total_estimate_sell_price, :department_id, :note, :total_price)
   end
 end

@@ -10,7 +10,7 @@ child @order => :results do
   node(:department_name) { |v| v.department.try(:department_name) }
 
   child :order_details do
-    attributes :item_id, :unit_price,
+    attributes :item_id, :unit_price, :id,
       :sell_unit_price, :quantity, :image_path, :price, :volume, :sell_price
     node(:item_name) { |o| o.item_type_name }
   end

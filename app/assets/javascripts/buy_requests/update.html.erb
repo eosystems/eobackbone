@@ -68,19 +68,19 @@
     <div class="form-group">
       <label class="col-xs-3 control-label">Department:</label>
       <div class="col-sm-9">
-        <p class="form-control-static"> {{ department }} </p>
+        <p class="form-control-static"> {{ order.department_name }} </p>
       </div>
     </div>
     <div class="form-group">
       <label class="col-xs-3 control-label">Note:</label>
       <div class="col-xs-9">
-        <textarea class="form-control mt-10" rows="3" ng-model="note">
+        <textarea class="form-control mt-10" rows="3" ng-model="order.note">
         </textarea>
       </div>
     </div>
   </form>
 
-  <button class="btn btn-primary btn-sm" ng-click="">OK</button>
+  <button class="btn btn-primary btn-sm" ng-click="updateRequest()">OK</button>
   <p>
     <i class="fa fa-info-circle"></i>OK後はステータスが契約中になります。相手が受領するのをお待ち下さい。
   </p>

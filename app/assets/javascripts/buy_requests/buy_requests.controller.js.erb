@@ -12,6 +12,9 @@ angular.module('eoApp')
       },
       create: {
         method: 'POST'
+      },
+      update: {
+        method: 'PUT'
       }
     });
     var TypesApi = $resource("/api/types", {});
@@ -160,12 +163,52 @@ angular.module('eoApp')
           toastr.info("Send Buy Request", "Request");
 
           var orderForm = {
-            total_estimate_buy_price: $scope.totalBuyPrice,
+            total_estimate_buy_price: $scope.totalPrice,
             total_estimate_sell_price: $scope.totalSellPrice,
             department_id: $scope.selectedDepartment != null ? $scope.selectedDepartment.id : null,
             note: $scope.note
           };
           Api.create({ form: $scope.requestItems, order: orderForm }).$promise.then(function(data) {
+            toastr.success("Request Accepted", "Success");
+
+            $location.path("/buy_orders");
+          }, function(error) {
+            toastr.error("Something wrong.", "Error");
+          });
+        }
+      );
+    };
+
+    // OKボタン
+    // 申請ボタン
+    $scope.updateRequest = function() {
+      var modalInstance = $uibModal.open({
+        templateUrl: "<%= asset_path 'shared/simple_dialog.html' %>",
+        controller: 'SimpleDialogController',
+        backdrop: true,
+        scope: $scope,
+        resolve: {
+          params: function() {
+            return {
+              title: 'Create Contract',
+              message: 'Are you sure?'
+            };
+          }
+        }
+      });
+      modalInstance.result.then(
+        // cancel
+        function(result) {
+        },
+        // request
+        function(result) {
+          toastr.info("Update Request", "Request");
+
+          var orderForm = {
+            total_price: $scope.totalPrice,
+            note: $scope.order.note
+          };
+          Api.update({id: $scope.$state.params.id, form: $scope.order_details, order: orderForm }).$promise.then(function(data) {
             toastr.success("Request Accepted", "Success");
 
             $location.path("/buy_orders");
