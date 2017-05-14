@@ -97,6 +97,16 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at",                   null: false
   end
 
+  create_table "dashboards", force: :cascade do |t|
+    t.text     "iframe_text",    limit: 65535, null: false
+    t.string   "title",          limit: 255,   null: false
+    t.string   "description",    limit: 255
+    t.integer  "corporation_id", limit: 4
+    t.integer  "user_id",        limit: 4
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+  end
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   limit: 4,     default: 0, null: false
     t.integer  "attempts",   limit: 4,     default: 0, null: false
