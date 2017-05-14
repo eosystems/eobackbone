@@ -1,4 +1,4 @@
-class Api::DashboardController < ApiController
+class Api::DashboardsController < ApiController
   def index
     @boards = Dashboard.accessible_corp(current_user.id)
     render json: {results: @boards}

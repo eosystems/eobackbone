@@ -289,3 +289,24 @@ table .deleted .deletable a {
   padding: 0px;
   margin: 0px;
 }
+
+.iframe-content-wrap {
+   display: -webkit-box;
+   display: box;
+}
+.iframe-content-block {
+   -webkit-box-flex: 1;
+        box-flex: 1;
+}
+.iframe-content {
+  position: relative;
+ width: 100%;
+    padding: 75% 0 0 0;
+}
+.iframe-content iframe {
+    position: absolute;
+ top: 0;
+ left: 0;
+    width: 100%;
+    height: 100%;
+}

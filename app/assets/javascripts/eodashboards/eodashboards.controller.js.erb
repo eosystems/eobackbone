@@ -18,6 +18,11 @@ angular.module('eoApp')
 
     // 初期化
     var initialize = function() {
+      if ($scope.$state.params.id != null) {
+        DetailApi.get({id: $scope.$state.params.id}).$promise.then(function(data) {
+          $scope.detail = data.results;
+        });
+      };
     }
 
     initialize();
@@ -43,6 +48,11 @@ angular.module('eoApp')
     $scope.reload = function() {
       $scope.tableParams.reload();
     };
+
+    // Order Grid押下時
+    $scope.selectRow = function(id) {
+      $location.path("/eo_dashboards/" + id);
+    }
 
   }]
 );

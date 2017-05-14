@@ -108,7 +108,7 @@ angular.module('eoApp', [
     controller: 'eoDashboardsController'
   })
   .state('eoDashboardsShow',{
-    url: '/eo_dashboards',
+    url: '/eo_dashboards/:id',
     templateUrl: '<%= asset_path 'eodashboards/show.html' %>',
     controller: 'eoDashboardsController'
   })
