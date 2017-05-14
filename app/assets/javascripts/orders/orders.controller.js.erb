@@ -98,5 +98,14 @@ angular.module('eoApp')
       });
     }
 
+    // 画面遷移
+    $scope.toSellRequest = function() {
+      $location.path('/sell_requests');
+    }
+
+    $scope.toBuyOrders = function() {
+      $location.path('/buy_orders');
+    }
+
   }]
 );

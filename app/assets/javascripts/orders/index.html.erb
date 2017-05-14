@@ -6,6 +6,8 @@
 
   <div class="text-left">
     <button class="btn btn-normal" ng-click="reload()">Reload</button>
+    <button class="btn btn-default" ng-click="toSellRequest()">Create Sell Request</button>
+    <button class="btn btn-default" ng-click="toBuyOrders()">Buy Orders</button>
     <i class="fa fa-info-circle"></i>
     関連コープの情報も表示されます
   </div>
@@ -60,13 +62,13 @@
 
     <div class="col-xs-8">
     <div class="text-right">
-      <button class="btn btn-normal"  ng-click="updateStatus('in_process')"
+      <button class="btn btn-primary"  ng-click="updateStatus('in_process')"
         ng-disabled="!management_in_process" ng-class="{disabled : !management_in_process}">In Process</button>
-      <button class="btn btn-normal"  ng-click="updateStatus('reject')"
+      <button class="btn btn-danger"  ng-click="updateStatus('reject')"
         ng-disabled="!management_reject" ng-class="{disabled : !management_reject}">Reject</button>
       <button class="btn btn-normal"  ng-click="updateStatus('canceled')"
         ng-disabled="!management_cancel" ng-class="{disabled : !management_cancel}">Cancel</button>
-      <button class="btn btn-primary" ng-click="updateStatus('done')"
+      <button class="btn btn-success" ng-click="updateStatus('done')"
         ng-disabled="!management_done" ng-class="{disabled : !management_done}">Done</button>
     </div>
     </div>

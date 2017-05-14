@@ -136,6 +136,10 @@ angular.module('eoApp')
       $location.path('/buy_requests');
     }
 
+    $scope.toSellOrders = function() {
+      $location.path('/orders');
+    }
+
     $scope.toBuyContracts = function() {
       $location.path('/buy_requests/' + $scope.selectedId);
     }
