@@ -209,6 +209,7 @@ ActiveRecord::Schema.define(version: 0) do
 
   create_table "orders", force: :cascade do |t|
     t.decimal  "total_price",                             precision: 20, scale: 4, default: 0.0,          null: false
+    t.decimal  "total_jita_sell_price",                   precision: 20, scale: 4, default: 0.0,          null: false
     t.decimal  "sell_price",                              precision: 20, scale: 4, default: 0.0,          null: false
     t.decimal  "total_volume",                            precision: 20, scale: 4, default: 0.0,          null: false
     t.boolean  "is_credit",                                                        default: false,        null: false

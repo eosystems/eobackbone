@@ -4,6 +4,7 @@
 #
 #  id                        :integer          not null, primary key
 #  total_price               :decimal(20, 4)   default(0.0), not null
+#  total_jita_sell_price     :decimal(20, 4)   default(0.0), not null
 #  sell_price                :decimal(20, 4)   default(0.0), not null
 #  total_volume              :decimal(20, 4)   default(0.0), not null
 #  is_credit                 :boolean          default(FALSE), not null
@@ -99,6 +100,7 @@ class Order < ActiveRecord::Base
   def update_buy_orders(form)
     form.each do |f|
       c = self.order_details.find(f[:id])
+      c.unit_price = f[:unit_price]
       c.sell_unit_price = f[:sell_unit_price]
       c.buy_unit_price = f[:buy_unit_price]
       c.quantity = f[:quantity]

@@ -1,7 +1,7 @@
 object false
 
 child @order => :results do
-  attributes :id, :total_price, :sell_price, :total_volume,
+  attributes :id, :total_price, :sell_price, :total_volume, :total_jita_sell_price,
     :is_credit, :is_paid, :processing_status, :station_id, :order_by, :assigned_user_id,
     :corporation_id, :note, :created_at, :updated_at
 

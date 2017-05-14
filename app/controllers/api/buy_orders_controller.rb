@@ -64,6 +64,6 @@ class Api::BuyOrdersController < ApiController
   def permitted_attributes
     params
       .require(:order)
-      .permit(:total_estimate_buy_price, :total_estimate_sell_price, :department_id, :note, :total_price)
+      .permit(:total_estimate_buy_price, :total_estimate_sell_price, :department_id, :note, :total_price, :total_jita_sell_price, :sell_price)
   end
 end

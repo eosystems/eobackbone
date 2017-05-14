@@ -32,7 +32,7 @@
           {{row.corporation_name}}
         </td>
        <td data-title="'Price'" sortable="'sell_price'">
-          {{row.sell_price | number:2}} isk
+          {{row.total_price | number:2}} isk
         </td>
         <td data-title="'User'" filter="{contract_user_name: 'text'}" sortable="'order_user_name'">
           {{row.order_user_name}}
@@ -77,8 +77,23 @@
     <uib-tabset active="activeForm">
         <uib-tab index="0" heading="契約情報">
           <form name="outerForm">
+
             <div class="form-group">
-              <label class="col-sm-3 control-label">Total Price: </label>
+              <label class="col-sm-3 control-label">Sell Price: </label>
+              <div class="col-sm-9">
+                <p class="form-control-static"> {{ order.sell_price | number:2 }} ISK </p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Total Price (Jita Sell): </label>
+              <div class="col-sm-9">
+                <p class="form-control-static"> {{ order.total_jita_sell_price | number:2 }} ISK </p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Total Price (Jita Buy): </label>
               <div class="col-sm-9">
                 <p class="form-control-static"> {{ order.total_price | number:2 }} ISK </p>
               </div>
@@ -94,7 +109,7 @@
             <div class="form-group">
               <label class="col-sm-3 control-label">Price Percentage (Jita Sell): </label>
               <div class="col-sm-9">
-                <p class="form-control-static"> {{ (order.sell_price / order.total_price * 100.0 || 0.0) | number:1 }} % </p>
+                <p class="form-control-static"> {{ (order.sell_price / order.total_jita_sell_price * 100.0 || 0.0) | number:1 }} % </p>
               </div>
             </div>
 
@@ -126,7 +141,7 @@
                 <th> </th>
                 <th> Name </th>
                 <th> Quantity </th>
-                <th> Price </th>
+                <th> Unit Price </th>
                 <th> Unit Price ( Jita Buy ) </th>
                 <th> Unit Price ( Jita Sell ) </th>
               </tr>
@@ -136,8 +151,8 @@
                 <td> <img ng-src="{{ row.image_path }}" class="img-responsive"/> </td>
                 <td> {{ row.item_name }} </td>
                 <td> {{ row.quantity | number }} </td>
-                <td> {{ row.volume | number:2 }} </td>
-                <td> {{ row.sell_unit_price | number:2 }} </td>
+                <td> {{ row.unit_price | number:2 }} </td>
+                <td> {{ row.buy_unit_price | number:2 }} </td>
                 <td> {{ row.sell_unit_price | number:2 }} </td>
               </tr>
             </tbody>

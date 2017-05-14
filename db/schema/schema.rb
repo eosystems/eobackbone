@@ -7,6 +7,7 @@ end
 create_table :orders, collate: "utf8_bin", comment: "注文" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
   t.decimal :total_price, default: "0.0000", precision: 20, scale: 4, comment: "注文合計額"
+  t.decimal :total_jita_sell_price, default: "0.0000", precision: 20, scale: 4, comment: "見積"
   t.decimal :sell_price, default: "0.0000", precision: 20, scale: 4, comment: "買取合計額\t実際に買取を行う価格"
   t.decimal :total_volume, default: "0.0000", precision: 20, scale: 4, comment: "注文合計容量"
   t.boolean :is_credit, default: false, comment: "掛払フラグ\tfalseの場合は即時払い"
