@@ -102,6 +102,16 @@ angular.module('eoApp', [
     templateUrl: '<%= asset_path 'corp_wallet_journals/index.html' %>',
     controller: 'corpWalletJournalsController'
   })
+  .state('eoDashboards',{
+    url: '/eo_dashboards',
+    templateUrl: '<%= asset_path 'eodashboards/index.html' %>',
+    controller: 'eoDashboardsController'
+  })
+  .state('eoDashboardsShow',{
+    url: '/eo_dashboards',
+    templateUrl: '<%= asset_path 'eodashboards/show.html' %>',
+    controller: 'eoDashboardsController'
+  })
   ;
 
 }])

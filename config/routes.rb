@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :dashboard, only: [:index]
 
   namespace :api, defaults: { format: :json } do
+    resources :dashboards, only: [:index, :show]
     resources :sell_orders, only: [:index, :create]
     resources :user_market_orders, only: [:index, :show, :update]
     resources :wallet_transactions, only: [:index, :update]
