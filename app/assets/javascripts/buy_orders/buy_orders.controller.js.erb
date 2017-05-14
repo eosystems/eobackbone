@@ -82,6 +82,14 @@ angular.module('eoApp')
 
     // ステータス更新
     $scope.updateStatus = function(statusId) {
+      if (statusId == "undo"){
+        if ($scope.management_accept || $scope.management_reject){
+          statusId = "in_process";
+        } else {
+          statusId = "create_contract";
+        }
+      }
+
       DetailApi.update({ id: $scope.selectedId, status: statusId }).$promise.then(function(data) {
         toastr.success("Change Status to " + statusId + " (#" + $scope.selectedId + ")", "Success");
         $scope.reload();

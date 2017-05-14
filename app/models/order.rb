@@ -119,7 +119,10 @@ class Order < ActiveRecord::Base
   end
 
   def can_change_to_undo?(user)
-    return true if user.has_contract_role? && self.processing_status == ProcessingStatus::CREATE_CONTRACT.id
+    return true if user.has_contract_role?
+    return true if my_order?(user) && self.processing_status == ProcessingStatus::ACCEPT.id
+    return true if my_order?(user) && self.processing_status == ProcessingStatus::REJECT.id
+
     false
   end
 
@@ -131,24 +134,20 @@ class Order < ActiveRecord::Base
 
   def can_change_to_accept_for_buy?(user)
     return true if my_order?(user) && (
-      self.processing_status == ProcessingStatus::CREATE_CONTRACT.id ||
-      self.processing_status == ProcessingStatus::REJECT.id
+      self.processing_status == ProcessingStatus::CREATE_CONTRACT.id
     )
     return true if user.has_contract_role? && (
-      self.processing_status == ProcessingStatus::CREATE_CONTRACT.id ||
-      self.processing_status == ProcessingStatus::REJECT.id
+      self.processing_status == ProcessingStatus::CREATE_CONTRACT.id
     )
     false
   end
 
   def can_change_to_reject_for_buy?(user)
     return true if my_order?(user) && (
-      self.processing_status == ProcessingStatus::CREATE_CONTRACT.id ||
-      self.processing_status == ProcessingStatus::ACCEPT.id
+      self.processing_status == ProcessingStatus::CREATE_CONTRACT.id
     )
     return true if user.has_contract_role? && (
-      self.processing_status == ProcessingStatus::CREATE_CONTRACT.id ||
-      self.processing_status == ProcessingStatus::ACCEPT.id
+      self.processing_status == ProcessingStatus::CREATE_CONTRACT.id
     )
     false
   end

@@ -56,7 +56,7 @@
       <div class="text-left">
         <button class="btn btn-default" ng-click="toBuyContracts()"
           ng-disabled="!management_create_contract" ng-class="{disabled : !management_create_contract}">Create Contract</button>
-        <button class="btn btn-warning" ng-click="updateStatus('done')"
+        <button class="btn btn-warning" ng-click="updateStatus('undo')"
             ng-disabled="!management_undo" ng-class="{disabled : !management_undo}">Undo</button>
       </div>
     </div>
@@ -65,7 +65,7 @@
     <div class="text-right">
       <button class="btn btn-success"  ng-click="updateStatus('accept')"
         ng-disabled="!management_accept" ng-class="{disabled : !management_accept}">Accept</button>
-      <button class="btn btn-warning"  ng-click="updateStatus('canceled')"
+      <button class="btn btn-warning"  ng-click="updateStatus('reject')"
         ng-disabled="!management_reject" ng-class="{disabled : !management_reject}">Reject</button>
       <button class="btn btn-danger" ng-click="deleteOrder()"
         ng-disabled="!management_delete" ng-class="{disabled : !management_delete}">Delete</button>
