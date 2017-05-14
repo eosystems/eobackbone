@@ -368,13 +368,13 @@ end
 
 create_table :dashboards, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
-  t.text :iframe_text
-  t.varchar :title
+  t.text :iframe_text ,null: true
+  t.varchar :title , null: true
   t.varchar :description, null: true
   t.int :corporation_id, null: true
   t.int :user_id, null: true
-  t.datetime :created_at
-  t.datetime :updated_at
+  t.datetime :created_at , null: true
+  t.datetime :updated_at, null: true
 end
 
 

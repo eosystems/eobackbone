@@ -98,13 +98,13 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table "dashboards", force: :cascade do |t|
-    t.text     "iframe_text",    limit: 65535, null: false
-    t.string   "title",          limit: 255,   null: false
+    t.text     "iframe_text",    limit: 65535
+    t.string   "title",          limit: 255
     t.string   "description",    limit: 255
     t.integer  "corporation_id", limit: 4
     t.integer  "user_id",        limit: 4
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
