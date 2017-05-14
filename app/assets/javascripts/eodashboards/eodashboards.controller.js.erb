@@ -1,0 +1,58 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+  'eoDashboardsController',
+  ['ngTableParams', '$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+    function(ngTableParams, $resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+
+    var RootApi = $resource("/api/dashboards");
+    var DetailApi = $resource("/api/dashboards/:id", { id: '@id' }, {
+      get: {
+        method: 'GET'
+      },
+    });
+
+    var that = this;
+
+    // 初期化
+    var initialize = function() {
+      if ($scope.$state.params.id != null) {
+        DetailApi.get({id: $scope.$state.params.id}).$promise.then(function(data) {
+          $scope.detail = data.results;
+        });
+      };
+    }
+
+    initialize();
+
+    $scope.tableParams = new ngTableParams({
+      filter: { },
+      count: 20,
+    }, {
+      counts: [10, 20, 50],
+      getData: function(params) {
+        var urlParams = params.url();
+
+        return RootApi.get(urlParams).$promise.then(function(data) {
+          //params.total(data.totalCount);
+          //$scope.setTotalCount(data.totalCount);
+          $scope.searchResults = data.results;
+          return data.results;
+        });
+      }
+    });
+
+    // 再読み込み
+    $scope.reload = function() {
+      $scope.tableParams.reload();
+    };
+
+    // Order Grid押下時
+    $scope.selectRow = function(id) {
+      $location.path("/eo_dashboards/" + id);
+    }
+
+  }]
+);

@@ -366,6 +366,18 @@ create_table :departments, collate: "utf8_bin" do |t|
   t.datetime :updated_at, null: true
 end
 
+create_table :dashboards, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.text :iframe_text ,null: true
+  t.varchar :title , null: true
+  t.varchar :description, null: true
+  t.int :corporation_id, null: true
+  t.int :user_id, null: true
+  t.datetime :created_at , null: true
+  t.datetime :updated_at, null: true
+end
+
+
 # master
 create_table :inv_types, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment

@@ -1,0 +1,43 @@
+<div class="container-fluid">
+<div class="row">
+
+<div class="col-md-12">
+<h2>EOZkill ダッシュボード一覧</h2>
+<p>
+  <i class="fa fa-info-circle"></i>
+  開発版 <br/>
+  Zkill Boardの情報を解析してみよう！ という試みの一貫です。<br/>
+  ニアリアルタイムのZkill Board解析も検討中です。<br/>
+  現段階は気が向いたままに更新。
+  ここの情報ほしい とかありましたらお問い合わせください。
+</p>
+<section class="content table-responsive">
+  <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
+    show-filter="true">
+    <tr ng-repeat="row in $data" ng-click="selectRow(row.id)">
+      <td data-title="'#'" width="100px" class="deletable">
+        {{row.id}}
+      </td>
+      <td data-title="'Title'">
+        {{row.title}}
+      </td>
+      <td data-title="'Description'">
+        {{row.description}}
+      </td>
+      <td data-title="'Creater'">
+        {{row.user_id}}
+      </td>
+      <td data-title="'Created At'">
+        {{row.created_at}}
+      </td>
+      <td data-title="'Updated At'">
+        {{row.updated_at}}
+      </td>
+    </tr>
+  </table>
+</section>
+
+
+</div>
+</div>
+</div>
