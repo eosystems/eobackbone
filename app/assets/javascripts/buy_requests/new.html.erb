@@ -1,0 +1,188 @@
+<div class="container-fluid" ng-controller="buyRequestsController as src">
+<div class="row">
+
+<div class="col-md-12">
+  <h2>Buy Request</h2>
+  <p>
+    <i class="fa fa-info-circle"></i><b> 買取リクエストの流れ</b><br />
+    1. 本画面で買取希望のアイテムを選択し、リクエストを出してください。<br/>
+    2. 担当者が見積もり、契約をあなたに投げます。<br/>
+    3. 契約を確認し、Buy Orders画面にて受領する場合はAccept、拒否する場合はRejectをしてください。<br/>
+  </p>
+
+  <h3>Major Items</h3>
+  <div class="col-md-12 hover_btn_container">
+    <div class="col">
+
+      <div class="container-1">
+        <div class="btn btn-one" ng-click="addToRequestList(34)">
+          <span><img src="https://image.eveonline.com/Type/34_64.png" />Tritanium</span>
+        </div>
+
+        <div class="btn btn-one" ng-click="addToRequestList(35)">
+          <span><img src="https://image.eveonline.com/Type/35_64.png" />Pyerite</span>
+        </div>
+
+        <div class="btn btn-one" ng-click="addToRequestList(36)">
+          <span><img src="https://image.eveonline.com/Type/36_64.png" />Mexallon</span>
+        </div>
+
+        <div class="btn btn-one" ng-click="addToRequestList(37)">
+          <span><img src="https://image.eveonline.com/Type/37_64.png" />Isogen</span>
+        </div>
+
+        <div class="btn btn-one" ng-click="addToRequestList(38)">
+          <span><img src="https://image.eveonline.com/Type/38_64.png" />Nocxium</span>
+        </div>
+
+        <div class="btn btn-one" ng-click="addToRequestList(39)">
+          <span><img src="https://image.eveonline.com/Type/39_64.png" />Zydrine</span>
+        </div>
+
+        <div class="btn btn-one" ng-click="addToRequestList(40)">
+          <span><img src="https://image.eveonline.com/Type/40_64.png" />Megacyte</span>
+        </div>
+
+        <div class="btn btn-one" ng-click="addToRequestList(16274)">
+          <span><img src="https://image.eveonline.com/Type/16274_64.png" />Helium Isotopes</span>
+        </div>
+
+        <div class="btn btn-one" ng-click="addToRequestList(17888)">
+          <span><img src="https://image.eveonline.com/Type/17888_64.png" />Nitrogen Isotopes</span>
+        </div>
+
+        <div class="btn btn-one" ng-click="addToRequestList(17889)">
+          <span><img src="https://image.eveonline.com/Type/17889_64.png" />Hydrogen Isotopes</span>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <h3>Planet Items</h3>
+
+  <div class="col-md-12 hover_btn_container">
+    <div class="col">
+
+      <div class="container-1">
+        <div class="btn btn-one" ng-click="addToRequestList(2869)">
+          <span><img src="https://image.eveonline.com/Type/2869_64.png" />Nano-Fatory</span>
+        </div>
+
+        <div class="btn btn-one" ng-click="addToRequestList(2348)">
+          <span><img src="https://image.eveonline.com/Type/2348_64.png" />Gel-Matrix Biopaste</span>
+        </div>
+
+        <div class="btn btn-one" ng-click="addToRequestList(9848)">
+          <span><img src="https://image.eveonline.com/Type/9848_64.png" />Robotics</span>
+        </div>
+
+        <div class="btn btn-one" ng-click="addToRequestList(9834)">
+          <span><img src="https://image.eveonline.com/Type/9834_64.png" />Guidance Systems</span>
+        </div>
+
+        <div class="btn btn-one" ng-click="addToRequestList(9832)">
+          <span><img src="https://image.eveonline.com/Type/9832_64.png" />Coolant</span>
+        </div>
+
+        <div class="btn btn-one" ng-click="addToRequestList(44)">
+          <span><img src="https://image.eveonline.com/Type/44_64.png" />Enriched Uranium</span>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <h3>Other Select</h3>
+  <div class="form-group">
+    <div class="col-xs-10">
+      <ui-select ng-model="src.currentItem">
+        <ui-select-match placeholder="アイテム名を入力 ...">
+          <span>{{ src.currentItem.type_name }}</span>
+        </ui-select-match>
+
+        <ui-select-choices repeat="item in marketItems"
+          refresh="searchTypes($select.search)"
+          refresh-delay="0">
+          <span>{{ item.type_name }}</span>
+        </ui-select-choices>
+      </ui-select>
+    </div>
+    <div class ="col-xs-2 no-padding">
+        <button class="btn btn-normal btn-padding" ng-click="addToRequestList(src.currentItem.type_id)">Add To List</button>
+    </div>
+    <br/><br/>
+    <p>
+      <i class="fa fa-info-circle"></i>
+      検索後はEnter → Add To List。 大文字小文字も区別されます。
+    </p>
+  </div>
+
+  <h3>Request Item Lists</h3>
+
+  <table class="table table-condensed table-responsive table-hover mt-10">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th> Name </th>
+      <th> Quantity </th>
+      <th> Unit Price ( Jita Buy )</th>
+      <th> Unit Price ( Jita Sell )</th>
+      <th> Price ( Jita Buy ) </th>
+      <th> Price ( Jita Sell ) </th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="row in requestItems">
+      <td> <img ng-src="https://image.eveonline.com/Type/{{row.type_id}}_32.png" class="img-responsive"/> </td>
+      <td> {{ row.type_name }} </td>
+      <td>
+        <input ng-model="row.quantity" ng-change="changeQuantity(row)">
+      </td>
+      <td> {{ row.buy_unit_price | number }} </td>
+      <td> {{ row.sell_unit_price | number }} </td>
+      <td> {{ row.buy_price | number }} </td>
+      <td> {{ row.sell_price | number }} </td>
+      <td>
+        <button class="btn btn-danger btn-sm" ng-click="removeRequestList($index)">Remove</button>
+      </td>
+    </tr>
+  </tbody>
+  </table>
+
+  <h3>Request Item Information</h3>
+  <form class="">
+    <div class="form-group form-inline">
+      <label class="col-sm-3 control-label">Total Price (Jita Sell):</label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ totalSellPrice | number:0 }} ISK </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-3 control-label">Total Price (Jita Buy): </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ totalBuyPrice | number:0 }} ISK </p>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-3 control-label">Department:</label>
+      <div class="col-xs-9">
+        <select id= "department" class="form-control mt-10" ng-model="selectedDepartment" ng-options="x.department_name for x in departments" ng-change="changeDepartment()"></select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-xs-3 control-label">Note:</label>
+      <div class="col-xs-9">
+        <textarea class="form-control mt-10" rows="3" ng-model="note">
+        </textarea>
+      </div>
+    </div>
+  </form>
+
+  <button class="btn btn-primary btn-sm" ng-click="requestConfirm()">Request</button>
+</div>
+</div>
+</div>

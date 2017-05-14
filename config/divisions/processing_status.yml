@@ -6,3 +6,7 @@
   name: Canceled
 - id: reject
   name: Reject
+- id: create_contract
+  name: Create Contract
+- id: accept
+  name: Accept

@@ -7,6 +7,7 @@ end
 create_table :orders, collate: "utf8_bin", comment: "注文" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
   t.decimal :total_price, default: "0.0000", precision: 20, scale: 4, comment: "注文合計額"
+  t.decimal :total_jita_sell_price, default: "0.0000", precision: 20, scale: 4, comment: "見積"
   t.decimal :sell_price, default: "0.0000", precision: 20, scale: 4, comment: "買取合計額\t実際に買取を行う価格"
   t.decimal :total_volume, default: "0.0000", precision: 20, scale: 4, comment: "注文合計容量"
   t.boolean :is_credit, default: false, comment: "掛払フラグ\tfalseの場合は即時払い"
@@ -18,6 +19,11 @@ create_table :orders, collate: "utf8_bin", comment: "注文" do |t|
   t.int :corporation_id, null: true, comment: "参照範囲用コープId"
   t.text :note, null: true, comment: "メモ"
   t.int :department_id, null: true, comment: "部門"
+  t.boolean :is_buy, null: false, default: false
+  t.decimal :total_estimate_sell_price, default: "0.0000", precision: 20, scale: 4, comment: "当初見積金額(Sell)"
+  t.decimal :total_estimate_buy_price, default: "0.0000", precision: 20, scale: 4, comment: "当初見積金額(Buy)"
+  t.datetime :done_date, null: true
+  t.datetime :estimate_date, null: true
 
   t.datetime :created_at
   t.datetime :updated_at
@@ -29,8 +35,12 @@ create_table :order_details, collate: "utf8_bin", comment: "注文明細" do |t|
   t.int :item_id, comment: "商品Id"
   t.decimal :unit_price, default: "0.0000", precision: 20, scale: 4, comment: "単価"
   t.decimal :sell_unit_price, default: "0.0000", precision: 20, scale: 4, comment: "買取単価"
+  t.decimal :buy_unit_price, default: "0.0000", precision: 20, scale: 4, comment: "買取単価"
   t.int :quantity, comment: "数量"
   t.decimal :volume, default: "0.0000", precision: 20, scale: 4, comment: "容量"
+  t.decimal :pre_sell_unit_price, default: "0.0000", precision: 20, scale: 4
+  t.decimal :pre_buy_unit_price, default: "0.0000", precision: 20, scale: 4
+  t.int :pre_quantity, default: 0
 
   t.datetime :created_at
   t.datetime :updated_at

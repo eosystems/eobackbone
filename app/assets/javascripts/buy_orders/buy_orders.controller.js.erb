@@ -3,25 +3,28 @@
 angular.module('eoApp')
 
 .controller(
-  'ordersController',
+  'buyOrdersController',
   ['ngTableParams', '$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
     function(ngTableParams, $resource, $scope, $state, $uibModal, $loading, toastr, $location) {
 
-    var RootApi = $resource("/api/orders");
-    var DetailApi = $resource("/api/orders/:id", { id: '@id' }, {
+    var RootApi = $resource("/api/buy_orders");
+    var DetailApi = $resource("/api/buy_orders/:id", { id: '@id' }, {
       get: {
         method: 'GET'
       },
       update: {
         method: 'PUT'
+      },
+      delete: {
+        method: 'DELETE'
       }
     });
 
     $scope.statuses = [
       { id: "", title: "" },
       { id: 'in_process', title: "In Process" },
-      { id: 'done', title: "Done" },
-      { id: 'canceled', title: "Canceled" },
+      { id: 'accept', title: "Accept" },
+      { id: 'create_contract', title: "Contract" },
       { id: 'reject', title: "Reject" }
     ];
 
@@ -69,15 +72,24 @@ angular.module('eoApp')
         $scope.order = data.results;
         $scope.orderDetails = data.results.order_details;
         // 各種操作権限
-        $scope.management_done = data.results.management_done;
-        $scope.management_cancel = data.results.management_cancel;
+        $scope.management_accept = data.results.management_accept;
         $scope.management_reject = data.results.management_reject;
-        $scope.management_in_process = data.results.management_in_process;
+        $scope.management_undo = data.results.management_undo;
+        $scope.management_create_contract = data.results.management_create_contract;
+        $scope.management_delete = data.results.management_delete;
       });
     }
 
     // ステータス更新
     $scope.updateStatus = function(statusId) {
+      if (statusId == "undo"){
+        if ($scope.management_accept || $scope.management_reject){
+          statusId = "in_process";
+        } else {
+          statusId = "create_contract";
+        }
+      }
+
       DetailApi.update({ id: $scope.selectedId, status: statusId }).$promise.then(function(data) {
         toastr.success("Change Status to " + statusId + " (#" + $scope.selectedId + ")", "Success");
         $scope.reload();
@@ -87,24 +99,49 @@ angular.module('eoApp')
       });
     }
 
-    // 支払
-    $scope.pay = function(paidStatus) {
-      DetailApi.update({ id: $scope.selectedId, is_paid: paidStatus}).$promise.then(function(data) {
-        toastr.success("Success");
-        $scope.reload();
-        $scope.loadDetail();
-      }, function(error) {
-        toastr.error("Something wrong.", "Error");
+    $scope.deleteOrder = function() {
+      var modalInstance = $uibModal.open({
+        templateUrl: "<%= asset_path 'shared/simple_dialog.html' %>",
+        controller: 'SimpleDialogController',
+        backdrop: true,
+        scope: $scope,
+        resolve: {
+          params: function() {
+            return {
+              title: 'Delete Order',
+              message: 'Are you sure?'
+            };
+          }
+        }
       });
-    }
+      modalInstance.result.then(
+        // cancel
+        function(result) {
+        },
+        // request
+        function(result) {
+          DetailApi.delete({ id: $scope.selectedId}).$promise.then(function(data) {
+            toastr.success("Delete Order (#" + $scope.selectedId + ")", "Success");
+            $scope.reload();
+            $scope.loadDetail();
+          }, function(error) {
+            toastr.error(error.data.error, "Error");
+          });
+        }
+      );
+    };
 
     // 画面遷移
-    $scope.toSellRequest = function() {
-      $location.path('/sell_requests');
+    $scope.toBuyRequest = function() {
+      $location.path('/buy_requests');
     }
 
-    $scope.toBuyOrders = function() {
-      $location.path('/buy_orders');
+    $scope.toSellOrders = function() {
+      $location.path('/orders');
+    }
+
+    $scope.toBuyContracts = function() {
+      $location.path('/buy_requests/' + $scope.selectedId);
     }
 
   }]

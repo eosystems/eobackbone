@@ -82,7 +82,13 @@ class CorpWalletJournal < ActiveRecord::Base
   end
 
   def save_journals(response, division_id, corporation_id)
-    items = response.items[0].rowset.row.map{ |v| HashObject.new(v) }
+    items = nil
+    if response.items[0].rowset.row.class.to_s == "HashObject"
+      items = []
+      items << response.items[0].rowset.row
+    else
+      items = response.items[0].rowset.row.map{ |v| HashObject.new(v) }
+    end
     results = []
     i = 0
     items.each do |item|

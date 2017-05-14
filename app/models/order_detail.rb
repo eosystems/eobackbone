@@ -2,15 +2,19 @@
 #
 # Table name: order_details
 #
-#  id              :integer          not null, primary key
-#  order_id        :integer          not null
-#  item_id         :integer          not null
-#  unit_price      :decimal(20, 4)   default(0.0), not null
-#  sell_unit_price :decimal(20, 4)   default(0.0), not null
-#  quantity        :integer          not null
-#  volume          :decimal(20, 4)   default(0.0), not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                  :integer          not null, primary key
+#  order_id            :integer          not null
+#  item_id             :integer          not null
+#  unit_price          :decimal(20, 4)   default(0.0), not null
+#  sell_unit_price     :decimal(20, 4)   default(0.0), not null
+#  buy_unit_price      :decimal(20, 4)   default(0.0), not null
+#  quantity            :integer          not null
+#  volume              :decimal(20, 4)   default(0.0), not null
+#  pre_sell_unit_price :decimal(20, 4)   default(0.0), not null
+#  pre_buy_unit_price  :decimal(20, 4)   default(0.0), not null
+#  pre_quantity        :integer          default(0), not null
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
 #
 
 class OrderDetail < ActiveRecord::Base

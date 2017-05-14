@@ -1,7 +1,7 @@
 object false
 
 child @order => :results do
-  attributes :id, :total_price, :sell_price, :total_volume,
+  attributes :id, :total_price, :sell_price, :total_volume, :total_jita_sell_price,
     :is_credit, :is_paid, :processing_status, :station_id, :order_by, :assigned_user_id,
     :corporation_id, :note, :created_at, :updated_at
 
@@ -10,7 +10,7 @@ child @order => :results do
   node(:department_name) { |v| v.department.try(:department_name) }
 
   child :order_details do
-    attributes :item_id, :unit_price,
+    attributes :item_id, :unit_price, :id,
       :sell_unit_price, :quantity, :image_path, :price, :volume, :sell_price
     node(:item_name) { |o| o.item_type_name }
   end

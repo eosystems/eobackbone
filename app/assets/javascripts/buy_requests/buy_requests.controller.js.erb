@@ -1,0 +1,225 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+  'buyRequestsController',
+  ['$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+    function($resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+    var Api = $resource("/api/buy_orders/:id", { id: '@id' }, {
+      get: {
+        method: 'GET'
+      },
+      create: {
+        method: 'POST'
+      },
+      update: {
+        method: 'PUT'
+      }
+    });
+    var TypesApi = $resource("/api/types", {});
+    var DepartmentApi = $resource("/api/departments", {});
+    var MarketPricesApi = $resource("/api/market_prices/:id", {
+      id: '@id'
+    }, {
+      get: {
+        method: 'GET'
+      }
+    });
+
+    var that = this;
+    $scope.requestItems = new Array();
+    $scope.totalBuyPrice = 0;
+    $scope.totalSellPrice = 0;
+
+    // 初期化
+    var initialize = function() {
+      // 部門
+      DepartmentApi.get({}).$promise.then(function(data) {
+        $scope.departments = data.results;
+      });
+
+      if ($scope.$state.params.id != null) {
+        Api.get({id: $scope.$state.params.id}).$promise.then(function(data) {
+          $scope.order = data.results;
+          $scope.order_details = data.results.order_details;
+
+          $scope.order_details.forEach(function(item){
+            MarketPricesApi.get(
+              {
+                id: item.item_id
+              }
+            ).$promise.then(function(data) {
+              item.quantity = item.pre_quantity;
+              item.unit_price = data.sell_min_price;
+              item.buy_unit_price = data.buy_max_price;
+              item.buy_price = data.buy_max_price;
+              item.sell_unit_price = data.sell_min_price;
+              item.sell_price = data.sell_min_price;
+              //$scope.changeQuantity(item);
+              $scope.changeQuantity2(item);
+            });
+
+          });
+        });
+      };
+    };
+
+    initialize();
+
+    $scope.addToRequestList = function(typeId) {
+        MarketPricesApi.get(
+          {
+            id: typeId
+          }
+        ).$promise.then(function(data) {
+          var item = new Object();
+          item.type_name = data.item.type_name;
+          item.type_id = data.item.type_id;
+          item.quantity = 1;
+          item.buy_unit_price = data.buy_max_price;
+          item.buy_price = data.buy_max_price;
+          item.sell_unit_price = data.sell_min_price;
+          item.sell_price = data.sell_min_price;
+
+          $scope.requestItems.push(item);
+          $scope.calcTotalPrice();
+
+          toastr.info("Add to Request List" + " (" + item.type_name + ")", "Info");
+        });
+    };
+
+    $scope.changeQuantity = function(row) {
+      row.sell_price = row.sell_unit_price * row.quantity;
+      row.buy_price = row.buy_unit_price * row.quantity;
+
+      this.calcTotalPrice();
+    }
+
+    $scope.changeQuantity2 = function(row) {
+      row.price = row.unit_price * row.quantity
+      row.sell_price = row.sell_unit_price * row.quantity;
+      row.buy_price = row.buy_unit_price * row.quantity;
+      this.calcTotalPrice2();
+    }
+
+    $scope.removeRequestList = function(index) {
+      $scope.requestItems.splice(index,1);
+      $scope.calcTotalPrice();
+    }
+
+    $scope.calcTotalPrice = function() {
+      $scope.totalBuyPrice = 0;
+      $scope.totalSellPrice = 0;
+
+      $scope.requestItems.forEach(function(item){
+        $scope.totalBuyPrice += parseFloat(item.buy_price);
+        $scope.totalSellPrice += parseFloat(item.sell_price);
+      });
+    }
+
+    $scope.calcTotalPrice2 = function() {
+      $scope.totalPrice = 0;
+      $scope.totalBuyPrice = 0;
+      $scope.totalSellPrice = 0;
+
+      $scope.order_details.forEach(function(item){
+        $scope.totalPrice += parseFloat(item.price);
+        $scope.totalBuyPrice += parseFloat(item.buy_price);
+        $scope.totalSellPrice += parseFloat(item.sell_price);
+      });
+    }
+
+    // Item Suggest
+    $scope.currentItem = null;
+    $scope.searchTypes = function(type_name) {
+      TypesApi.get({ keyword: type_name }).$promise.then(function(data) {
+        $scope.marketItems = data.results;
+      });
+    };
+
+    // 申請ボタン
+    $scope.requestConfirm = function() {
+      var modalInstance = $uibModal.open({
+        templateUrl: "<%= asset_path 'shared/simple_dialog.html' %>",
+        controller: 'SimpleDialogController',
+        backdrop: true,
+        scope: $scope,
+        resolve: {
+          params: function() {
+            return {
+              title: 'Buy Request',
+              message: 'Are you sure?'
+            };
+          }
+        }
+      });
+      modalInstance.result.then(
+        // cancel
+        function(result) {
+        },
+        // request
+        function(result) {
+          toastr.info("Send Buy Request", "Request");
+
+          var orderForm = {
+            total_estimate_buy_price: $scope.totalBuyPrice,
+            total_estimate_sell_price: $scope.totalSellPrice,
+            department_id: $scope.selectedDepartment != null ? $scope.selectedDepartment.id : null,
+            note: $scope.note
+          };
+          Api.create({ form: $scope.requestItems, order: orderForm }).$promise.then(function(data) {
+            toastr.success("Request Accepted", "Success");
+
+            $location.path("/buy_orders");
+          }, function(error) {
+            toastr.error("Something wrong.", "Error");
+          });
+        }
+      );
+    };
+
+    // OKボタン
+    // 申請ボタン
+    $scope.updateRequest = function() {
+      var modalInstance = $uibModal.open({
+        templateUrl: "<%= asset_path 'shared/simple_dialog.html' %>",
+        controller: 'SimpleDialogController',
+        backdrop: true,
+        scope: $scope,
+        resolve: {
+          params: function() {
+            return {
+              title: 'Create Contract',
+              message: 'Are you sure?'
+            };
+          }
+        }
+      });
+      modalInstance.result.then(
+        // cancel
+        function(result) {
+        },
+        // request
+        function(result) {
+          toastr.info("Update Request", "Request");
+
+          var orderForm = {
+            sell_price: $scope.totalPrice,
+            total_price: $scope.totalBuyPrice,
+            total_jita_sell_price: $scope.totalSellPrice,
+            note: $scope.order.note
+          };
+          Api.update({id: $scope.$state.params.id, form: $scope.order_details, order: orderForm }).$promise.then(function(data) {
+            toastr.success("Request Accepted", "Success");
+
+            $location.path("/buy_orders");
+          }, function(error) {
+            toastr.error("Something wrong.", "Error");
+          });
+        }
+      );
+    };
+
+  }]
+);

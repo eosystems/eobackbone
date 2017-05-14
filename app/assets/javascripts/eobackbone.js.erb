@@ -37,10 +37,30 @@ angular.module('eoApp', [
     templateUrl: '<%= asset_path 'orders/index.html' %>',
     controller: 'ordersController'
   })
+  .state('buyOrders', {
+    url: '/buy_orders',
+    templateUrl: '<%= asset_path 'buy_orders/index.html' %>',
+    controller: 'buyOrdersController'
+  })
   .state('sellRequests', {
     url: '/sell_requests',
     templateUrl: '<%= asset_path 'sell_requests/new.html' %>',
     controller: 'sellRequestsController'
+  })
+  .state('buyRequests', {
+    url: '/buy_requests',
+    templateUrl: '<%= asset_path 'buy_requests/new.html' %>',
+    controller: 'buyRequestsController'
+  })
+  .state('buyRequestsShow', {
+    url: '/buy_requests/:id',
+    templateUrl: '<%= asset_path 'buy_requests/update.html' %>',
+    controller: 'buyRequestsController'
+  })
+  .state('buyContracts', {
+    url: '/buy_contracts',
+    templateUrl: '<%= asset_path 'buy_contracts/new.html' %>',
+    controller: 'buyContractsController'
   })
   .state('userMarketOrders',{
     url: '/user_market_orders',
