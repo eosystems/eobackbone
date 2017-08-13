@@ -22,7 +22,7 @@ production:
   adapter: mysql2
   encoding: utf8
   database: <%= ENV['DATABASE_NAME'] %>
-  pool: <%= ENV['DATABASE_POOL' %>
+  pool: <%= ENV['DATABASE_POOL'] %>
   timeout: 5000
   username: <%= ENV['DATABASE_USER'] %>
   password: <%= ENV['DATABASE_PASS'] %>
