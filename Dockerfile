@@ -22,7 +22,6 @@ ENV RAILS_VERSION 5.0.1
 RUN gem install rails --version "$RAILS_VERSION"
 RUN bundle install --without development test
 
-RUN mkdir /data/dummy_eobackbone
 ADD .git/index /data/dummy_eobackbone
 COPY supervisord.conf /etc/
 
