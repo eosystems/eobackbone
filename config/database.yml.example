@@ -27,5 +27,6 @@ production:
   username: <%= ENV['DATABASE_USER'] %>
   password: <%= ENV['DATABASE_PASS'] %>
   collation: utf8_bin
+  socket: /var/run/mysqld-default/mysqld.sock
   host: <%= ENV['DATABASE_HOST'] %>
 
