@@ -59,11 +59,11 @@ class Order < ActiveRecord::Base
   # Scopes
 
   # 指定したCorpに属している、または指定したユーザIDが出した注文であれば参照可能
-  scope :accessible_orders, -> (corporation_id, user_id) do
+  scope :accessible_orders, -> (corporation_id, user_id, operation_auth: false) do
     cid = arel_table[:corporation_id]
     order_by = arel_table[:order_by]
 
-    relation_corporations = CorporationRelation.relation_corporation(corporation_id)
+    relation_corporations = CorporationRelation.relation_corporation(corporation_id, operation_auth: operation_auth)
     where(cid.in(relation_corporations).or(order_by.eq(user_id)))
   end
 
