@@ -9,28 +9,6 @@ class Api::UserRolesController < ApiController
     end
   end
 
-  def create
-    @management = ApiManagement.new(api_management_params)
-    @management.uid = current_user.id
-    if @management.save
-      render json: { message: "success"}
-    else
-      render json: { error: "Something Wrong"}, status: 500
-    end
-  end
-
-  def destroy
-    @management = ApiManagement.find(params[:id])
-    if @management.uid == current_user.id.to_s ||
-        @management.character_id == current_user.uid ||
-        current_user.has_api_manager_role?
-      @management.destroy
-      render json: {}
-    else
-      render json: { error: "You have not corrent auth"}, status: 500
-    end
-  end
-
   private
 
   def api_management_params

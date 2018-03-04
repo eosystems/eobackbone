@@ -3,7 +3,7 @@ class Api::OrdersController < ApiController
     @orders = Order
       .search_with(params[:filter], params[:sorting], params[:page], params[:count])
       .sell_orders
-      .accessible_orders(current_character.corporation_id, current_user.id)
+      .accessible_orders(current_character.corporation_id, current_user.id, operation_auth: current_user.has_contract_role?)
       .order(id: :desc)
   end
 
