@@ -82,8 +82,9 @@ ActiveRecord::Schema.define(version: 0) do
   add_index "corp_wallet_journals", ["ref_id"], name: "index_corp_wallet_journals_on_ref_id", using: :btree
 
   create_table "corporation_relations", force: :cascade do |t|
-    t.integer  "ancestor",   limit: 4, null: false
-    t.integer  "descendant", limit: 4, null: false
+    t.integer  "ancestor",    limit: 4,                 null: false
+    t.integer  "descendant",  limit: 4,                 null: false
+    t.boolean  "only_parent",           default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

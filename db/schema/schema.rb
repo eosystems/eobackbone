@@ -184,6 +184,7 @@ create_table :corporation_relations, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: 'auto_increment'
   t.int :ancestor
   t.int :descendant
+  t.boolean :only_parent, default: false
 
   t.datetime :created_at, null: true
   t.datetime :updated_at, null: true
