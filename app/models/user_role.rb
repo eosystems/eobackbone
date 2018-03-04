@@ -21,4 +21,18 @@ class UserRole < ActiveRecord::Base
 
   delegate :name, to: :user , prefix: :role_user
   delegate :name, to: :operation_role, prefix: :operation_role
+
+  # Scope
+  # 指定したCorpに属している
+  scope :accessible_corp_management, -> (corporation_id) do
+    user_detail = UserDetail.arel_table
+    role = UserRole.arel_table
+    join_condition = role.join(user_detail, Arel::Nodes::InnerJoin).
+      on(role[:user_id].eq(user_detail[:user_id])).join_sources
+
+    relation_corporations = CorporationRelation.relation_corporation(corporation_id)
+
+    joins(join_condition).where(user_details: { corporation_id: relation_corporations} )
+  end
+
 end

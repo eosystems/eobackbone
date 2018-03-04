@@ -4,10 +4,7 @@ class Api::UserRolesController < ApiController
     if current_user.has_manager_role?
       @roles = UserRole
         .search_with(params[:filter], params[:sorting], params[:page], params[:count])
-        .accessible_corp_api_management(
-          current_user.id,
-          current_user.uid,
-          current_character.corporation_id)
+        .accessible_corp_management(current_character.corporation_id)
         .order(id: :desc)
     end
   end

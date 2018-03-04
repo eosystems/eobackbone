@@ -12,4 +12,5 @@
 
 class UserDetail < ActiveRecord::Base
   belongs_to :user
+  belongs_to :corporation, primary_key: 'corporation_id'
 end
