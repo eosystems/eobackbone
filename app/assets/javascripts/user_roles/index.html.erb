@@ -15,6 +15,18 @@
         <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="60px" class="deletable">
           {{row.id}}
         </td>
+        <td data-title="'UserName'" filter="{role_user_name: 'text'}" sortable="'id'" class="deletable">
+          {{row.role_user_name}}
+        </td>
+        <td data-title="'Corporation'">
+          {{row.corporation_name}}
+        </td>
+        <td data-title="'Role'">
+          {{row.operation_role_name}}
+        </td>
+        <td data-title="'Role_ID'" filter="{role: 'text'}" sortable="'role'">
+          {{row.role}}
+        </td>
       </tr>
     </table>
   </section>
