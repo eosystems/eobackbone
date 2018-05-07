@@ -11,11 +11,6 @@
     </div>
     <div class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
-        <li>
-          <%= link_to "/#/eo_dashboards" do %>
-            Zkill Dashboard(beta)
-          <% end %>
-        </li>
       <ul class="nav navbar-nav">
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -52,41 +47,6 @@
             <i class="fa fa-plane mr-2"></i>SRP
           <% end %>
         </li>
-         <li>
-          <%= link_to "http://app.eopes.link", :target => "_blank" do %>
-            <i class="fa fa-industry mr-2"></i>Industry
-          <% end %>
-        </li>
-        <ul class="nav navbar-nav">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="fa fa-eye mr-2"></i> Trade Tool (alpha) <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu">
-                  <li>
-                    <%= link_to "/#/trades" do %>
-                      Trade
-                    <% end %>
-                  </li>
-                  <li>
-                    <%= link_to "/#/trade_histories" do %>
-                      Trade History
-                    <% end %>
-                  </li>
-                  <li>
-                    <%= link_to "/#/wallet_transactions" do %>
-                      Wallet Transaction
-                    <% end %>
-                  </li>
-                  <li>
-                    <%= link_to "/#/user_market_orders" do %>
-                      Market Order
-                    <% end %>
-                  </li>
-                </ul>
-            </li>
-        </ul>
-
       </ul>
 
 
@@ -99,27 +59,6 @@
                 <li>
                   <%= link_to "/#/corp_wallet_journals" do %>
                     Corp Wallet Journals
-                  <% end %>
-                </li>
-              </ul>
-          </li>
-      </ul>
-
-
-      <ul class="nav navbar-nav">
-          <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <i class="fa fa-cog mr-2"></i> API <b class="caret"></b>
-              </a>
-              <ul class="dropdown-menu">
-                <li>
-                  <%= link_to "/#/api_applications" do %>
-                    API Application
-                  <% end %>
-                </li>
-                <li>
-                  <%= link_to "/#/api_managements" do %>
-                    API Management
                   <% end %>
                 </li>
               </ul>
