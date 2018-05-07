@@ -48,7 +48,7 @@ class CrawlMarketJob < ActiveJob::Base
   end
 
   def fetch_market_orders(region_id)
-    client = CrestClient.new("")
+    client = EsiClient.new("")
     results = []
     retry_count = 0
     page = 1
