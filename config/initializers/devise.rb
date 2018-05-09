@@ -243,7 +243,7 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth(:eve_online, Settings.applications.app_id, Settings.applications.app_secret,
-                  scope: 'publicData characterAccountRead')
+                  scope: 'esi-wallet.read_corporation_wallets.v1 esi-corporations.read_divisions.v1')
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
