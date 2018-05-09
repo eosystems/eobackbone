@@ -25,17 +25,17 @@ class CrawlMarketJob < ActiveJob::Base
     results.each do |result|
       r = MarketOrder.new
       r.attributes = {
-        buy: result.buy,
+        buy: result.is_buy_order,
         issued: result.issued,
         price: result.price,
-        volume_entered: result.volumeEntered,
-        station_id: result.stationID,
-        volume: result.volume,
+        volume_entered: result.volume_total,
+        station_id: result.location_id,
+        volume: result.volume_remain,
         range: result.range,
-        min_volume: result.minVolume,
+        min_volume: result.min_volume,
         duration: result.duration,
-        type_id: result.type,
-        order_id: result.id
+        type_id: result.type_id,
+        order_id: result.order_id
       }
       save_results << r
       if count % 1000 == 0
@@ -56,7 +56,7 @@ class CrawlMarketJob < ActiveJob::Base
     loop do
       res = client.fetch_market_order(region_id, page)
 
-      total_count ||= res.total_count
+      total_count ||= res.total_page
       Rails.logger.info("fetch market orders (page: #{page}, total: #{total_count})" \
                         " and results #{res.items.size}")
       if res.items.size == 0 || !res.is_success

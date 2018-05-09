@@ -12,20 +12,16 @@ class MarketOrderResponse
       header = response.headers
 
       r.is_success = response.success?
-      r.total_page = body['pageCount'].to_i if body['pageCount'].present?
-      r.total_count = body['totalCount'].to_i if body['totalCount'].present?
-      if body['next'].present?
+      r.total_page = header['x-pages'].to_i if header['x-pages'].present?
+      #r.total_count = body['totalCount'].to_i if body['totalCount'].present?
+      if current_page < r.total_page
         r.has_next_page = true
-        r.next = body['next']['href'].to_s
+        #r.next = body['next']['href'].to_s
       else
         r.has_next_page = false
       end
       r.current_page = current_page
-      r.items = if body['items'].present?
-                  body['items'].map { |v| HashObject.new(v) }
-                else
-                  []
-                end
+      r.items = body.map { |v| HashObject.new(v) }
     end
   end
 end
