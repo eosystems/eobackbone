@@ -123,11 +123,12 @@ class CorpWalletJournal < ActiveRecord::Base
         ref_type = item.ref_type
         ref_type_eo = RefType.find_by(name: ref_type)
         if ref_type_eo.blank?
-          ref_type_eo = RefType.new(name: ref_type)
+          last_id = RefType.last.id
+          ref_type_eo = RefType.new(id: last_id + 1,name: ref_type)
           ref_type_eo.save
           ref_type_eo.reload
         end
-        r.ref_type_id = ref_type_eo
+        r.ref_type_id = ref_type_eo.id
         r.corp_wallet_division_id = division_id
         r.corporation_id = corporation_id
         results << r
