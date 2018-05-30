@@ -60,70 +60,74 @@ class CorpWalletJournal < ActiveRecord::Base
 
   # Methods
   def admin_token
-    User.find_by(uid: 93295362).token # 管理者
+    User.find_by(uid: 91247469).token # 管理者
   end
 
   def admin_corp
     98440844
   end
 
-  def corp_wallet_division
+  def import_all_corporation_journals(target: nil)
     token = admin_token
 
     client = EsiClient.new(token)
-    client.fetch_division(admin_corp)
-  end
 
-  def import_all_corporation_journals
-    corps = CorpApiManagement.all
-    corps.each do |corp|
-      import_all_division_journals(corp.key_id, corp.v_code, corp.corporation_id)
-    end
-  end
-
-  def import_all_division_journals(key_id, v_code, corporation_id)
-    divisions = CorpWalletDivision.where(corporation_id: corporation_id)
-    divisions.each do |division|
-      import_journals(key_id, v_code, corporation_id,division.id, account_key: division.account_key)
-    end
-  end
-
-  def import_journals(key_id, v_code, corporation_id, division_id, account_key: 1000, last_from_id: 0)
-    client = EveClient.new(key_id, v_code)
-    response = client.fetch_corp_wallet_journals(account_key: account_key, from_id: last_from_id)
-    if response.items.count != 0 && response.items[0].rowset.row != nil
-      save_journals(response, division_id, corporation_id)
-    end
-  end
-
-  def save_journals(response, division_id, corporation_id)
-    items = nil
-    if response.items[0].rowset.row.class.to_s == "HashObject"
-      items = []
-      items << response.items[0].rowset.row
+    targets = []
+    if target.present?
+      targets = target.split(',')
     else
-      items = response.items[0].rowset.row.map{ |v| HashObject.new(v) }
+      targets = [*1..7]
     end
+
+    targets.each do |i|
+      retry_count = 0
+      page = 1
+      loop do
+        res = client.fetch_corp_wallet_journal(admin_corp, i, page)
+        if res.items.size == 0 || !res.is_success
+          Rails.logger.info("fetch failed. Retry(retry count: #{retry_count})")
+          if retry_count >= 3
+            fail 'Retry Limit.'
+          else
+            retry_count += 1
+            redo
+          end
+        else
+          retry_count = 0
+          save_journals(res.items, i, admin_corp)
+          if res.has_next_page
+            page += 1
+          else
+            break
+          end
+        end
+      end
+    end
+  end
+
+  def save_journals(items, division_id, corporation_id)
     results = []
     i = 0
+
     items.each do |item|
-      exist_check = CorpWalletJournal.where(ref_id: item.refID)
+      exist_check = CorpWalletJournal.where(ref_id: item.id)
       if exist_check.count == 0
         r = CorpWalletJournal.new
-        r.i_date = item.date
-        r.ref_id = item.refID
-        r.ref_type_id = item.refTypeID
-        r.owner_name1 = item.ownerName1
-        r.owner_id1 = item.ownerID1
-        r.owner_name2 = item.ownerName2
-        r.owner_id2 = item.ownerID2
-        r.arg_name1 = item.argName1
-        r.arg_id_1 = item.argID1
         r.amount = item.amount
         r.balance = item.balance
         r.reason = item.reason
-        r.owner1_type_id = item.owner1TypeID
-        r.owner2_type_id = item.owner2TypeID
+        r.ref_id = item.id
+        r.i_date = item.date
+        r.reason = item.description
+
+        ref_type = item.ref_type
+        ref_type_eo = RefType.find_by(name: ref_type)
+        if ref_type_eo.blank?
+          ref_type_eo = RefType.new(name: ref_type)
+          ref_type_eo.save
+          ref_type_eo.reload
+        end
+        r.ref_type_id = ref_type_eo
         r.corp_wallet_division_id = division_id
         r.corporation_id = corporation_id
         results << r

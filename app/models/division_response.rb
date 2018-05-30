@@ -12,9 +12,10 @@ class DivisionResponse
       header = response.headers
 
       r.is_success = response.success?
-
       if r.is_success
         r.items = body.map { |v| HashObject.new(v) }
+      else
+        r.items = body
       end
     end
   end

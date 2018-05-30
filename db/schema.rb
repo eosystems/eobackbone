@@ -245,6 +245,8 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "name", limit: 255
   end
 
+  add_index "ref_types", ["name"], name: "index_name", using: :btree
+
   create_table "sta_stations", force: :cascade do |t|
     t.integer "station_id",      limit: 8,   null: false
     t.integer "region_id",       limit: 4,   null: false
