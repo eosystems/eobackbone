@@ -13,6 +13,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     session[:expires_at] = auth["credentials"]["expires_at"]
     session[:refresh_token] = auth["credentials"]["refresh_token"]
     session[:character] = Character.initialized_by(get_token, @user.uid)
+
+    # Tokenの更新
+    @user.token = token
+    @user.save
+
     # corp 初回
     if Corporation.find_by_corporation_id(session[:character].corporation_id).nil? && session[:character].corporation_id.present?
       corp = Corporation.new

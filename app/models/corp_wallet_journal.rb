@@ -59,6 +59,21 @@ class CorpWalletJournal < ActiveRecord::Base
   end
 
   # Methods
+  def admin_token
+    User.find_by(uid: 93295362).token # 管理者
+  end
+
+  def admin_corp
+    98440844
+  end
+
+  def corp_wallet_division
+    token = admin_token
+
+    client = EsiClient.new(token)
+    client.fetch_division(admin_corp)
+  end
+
   def import_all_corporation_journals
     corps = CorpApiManagement.all
     corps.each do |corp|
