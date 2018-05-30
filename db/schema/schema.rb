@@ -436,5 +436,6 @@ end
 create_table :ref_types, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true
   t.varchar :name, null: true
+  t.index ["name"], name: "index_name"
 end
 
