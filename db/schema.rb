@@ -47,6 +47,20 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at",                 null: false
   end
 
+  create_table "corp_members", force: :cascade do |t|
+    t.integer  "character_id",        limit: 4
+    t.string   "character_name",      limit: 255
+    t.integer  "main_character_id",   limit: 4
+    t.string   "main_character_name", limit: 255
+    t.integer  "corporation_id",      limit: 4
+    t.string   "corporation_name",    limit: 255
+    t.boolean  "token_verify",                    default: false, null: false
+    t.boolean  "token_error",                     default: false, null: false
+    t.datetime "entry_date"
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+  end
+
   create_table "corp_wallet_divisions", force: :cascade do |t|
     t.integer  "account_key",    limit: 4,   null: false
     t.string   "name",           limit: 255, null: false

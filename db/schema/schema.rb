@@ -167,6 +167,21 @@ create_table :user_details, collate: "utf8_bin" do |t|
   t.varchar :verification_code, null: true
 end
 
+create_table :corp_members, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.int :character_id, null: true
+  t.varchar :character_name, null: true
+  t.int :main_character_id, null: true
+  t.varchar :main_character_name, null: true
+  t.int :corporation_id, null: true
+  t.varchar :corporation_name, null: true
+  t.boolean :token_verify, default: false
+  t.boolean :token_error, default: false
+  t.datetime :entry_date, null: true
+  t.datetime :created_at
+  t.datetime :updated_at
+end
+
 create_table :user_roles, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
   t.int :user_id
