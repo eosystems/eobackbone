@@ -2,11 +2,12 @@
 #
 # Table name: corporation_relations
 #
-#  id         :integer          not null, primary key
-#  ancestor   :integer          not null
-#  descendant :integer          not null
-#  created_at :datetime
-#  updated_at :datetime
+#  id          :integer          not null, primary key
+#  ancestor    :integer          not null
+#  descendant  :integer          not null
+#  only_parent :boolean          default(FALSE), not null
+#  created_at  :datetime
+#  updated_at  :datetime
 #
 
 class CorporationRelation < ActiveRecord::Base
