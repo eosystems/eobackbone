@@ -84,7 +84,6 @@ class User < ActiveRecord::Base
   end
 
   def refresh_user_token
-    binding.pry
     response = RestClient.post "https://login.eveonline.com/oauth/token",
                                :grant_type => 'refresh_token',
                                :refresh_token => self.refresh_token,
