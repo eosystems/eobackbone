@@ -11,7 +11,6 @@ class GeneralEsiResponse
       body = JSON.parse(response.body)
 
       r.is_success = response.success?
-      r.current_page = current_page
       r.items = body
     end
   end

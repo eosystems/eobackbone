@@ -36,4 +36,16 @@ class CorpMember < ActiveRecord::Base
 
     end
   end
+
+  def self.fetch_corp_member(corporation_id: User.admin_corp)
+    token = User.admin_token
+    client = EsiClient.new(token)
+    response = client.fetch_corp_member(corporation_id)
+    if response.is_success?
+      [response.is_success, response.items]
+    else
+      [response.is_success, []]
+    end
+  end
+
 end

@@ -71,6 +71,10 @@ class User < ActiveRecord::Base
     91247469
   end
 
+  def self.admin_corp
+    98440844
+  end
+
   def self.admin_token
     User.user_token(User.find_by(uid: User.admin))
   end

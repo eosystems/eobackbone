@@ -26,7 +26,7 @@ class EsiClient
   end
 
   def fetch_corp_member(corporation_id)
-    path = ESI_API_BASE_URL + "/corporations/#{corporation_id}/members/token=#{@token}"
+    path = ESI_API_BASE_URL + "/corporations/#{corporation_id}/members/?token=#{@token}"
     Rails.logger.info("ESIClient Access to #{path}")
     GeneralEsiResponse.parse_simple_array(get_request_to(path))
   end
