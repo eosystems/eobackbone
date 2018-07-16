@@ -80,6 +80,7 @@ class User < ActiveRecord::Base
   end
 
   def self.user_token(user)
+    return if user.expire.nil?
     if user.user_token_expire?
       user.refresh_user_token
     else

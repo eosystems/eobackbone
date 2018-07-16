@@ -53,17 +53,23 @@ class CorpMember < ActiveRecord::Base
             character_birthday: character_info.try(:birthday),
             corporation_id: corporation_id,
             corporation_name: Corporation.find_by(corporation_id: corporation_id).try(:corporation_name),
-            entry_date: entry_date,
             manage_corporation_id: corporation_id,
             manage_corporation_name: Corporation.find_by(corporation_id: corporation_id).try(:corporation_name),
           }
         else
-          entry_date = Character.entry_corp_date(character_id, corporation_id)
-          role = Character.title(character_id, corporation_id)
-          member.attributes = {
-            entry_date: entry_date,
-            corp_role: role,
-          }
+          role = Character.title(character_id)
+          if role.nil?
+            member.attributes = {
+              token_verify: false
+            }
+          else
+            entry_date = Character.entry_corp_date(character_id, corporation_id)
+            member.attributes = {
+              entry_date: entry_date,
+              corp_role: role,
+              token_verify: true,
+            }
+          end
         end
         member.save
       end
