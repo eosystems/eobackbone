@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     resources :departments, only: [:index, :show,:create, :update, :destroy]
     resources :api_checks, only: [:index]
     resources :api_managements
+    resources :corp_members, only: [:index, :destroy]
     resources :user_roles, only: [:index, :create, :destroy]
     resources :audits, only: [:index]
     resources :corporations, only: [:index]
