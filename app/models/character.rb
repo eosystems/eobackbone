@@ -21,4 +21,23 @@ class Character
       #c.alliance_name = result["alliance"] if result["alliance"].present?
     end
   end
+
+  def self.info(character_id)
+    response = EsiClient.new('').fetch_character(character_id)
+    if response.is_success
+      response.items[0]
+    else
+      nil
+    end
+  end
+
+  # TODO
+  def self.entry_corp_date(user_id, corporation_id)
+    Time.now
+  end
+
+  # TODO
+  def self.corp_role(user_id, corporation_id)
+    'TEST'
+  end
 end

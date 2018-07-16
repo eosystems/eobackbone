@@ -177,9 +177,11 @@ create_table :corp_members, collate: "utf8_bin" do |t|
   t.varchar :corporation_name, null: true
   t.int :manage_corporation_id, null: true
   t.varchar :manage_corporation_name, null: true
+  t.varchar :corp_role, null: true
   t.boolean :token_verify, default: false
   t.boolean :token_error, default: false
   t.datetime :entry_date, null: true
+  t.datetime :character_birthday, null: true
   t.datetime :created_at
   t.datetime :updated_at
 end

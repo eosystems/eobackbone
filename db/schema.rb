@@ -65,9 +65,11 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "corporation_name",        limit: 255
     t.integer  "manage_corporation_id",   limit: 4
     t.string   "manage_corporation_name", limit: 255
+    t.string   "corp_role",               limit: 255
     t.boolean  "token_verify",                        default: false, null: false
     t.boolean  "token_error",                         default: false, null: false
     t.datetime "entry_date"
+    t.datetime "character_birthday"
     t.datetime "created_at",                                          null: false
     t.datetime "updated_at",                                          null: false
   end

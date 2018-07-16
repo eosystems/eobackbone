@@ -6,6 +6,17 @@ class GeneralEsiResponse
     is_success items
   )
 
+  def self.parse_simple(response)
+    new.tap do |r|
+      body = JSON.parse(response.body)
+
+      r.is_success = response.success?
+      if r.is_success
+        r.items = [body].map { |v| HashObject.new(v) }
+      end
+    end
+  end
+
   def self.parse_simple_array(response)
     new.tap do |r|
       body = JSON.parse(response.body)
