@@ -11,9 +11,11 @@
 #  corporation_name        :string(255)
 #  manage_corporation_id   :integer
 #  manage_corporation_name :string(255)
+#  corp_role               :string(255)
 #  token_verify            :boolean          default(FALSE), not null
 #  token_error             :boolean          default(FALSE), not null
 #  entry_date              :datetime
+#  character_birthday      :datetime
 #  created_at              :datetime         not null
 #  updated_at              :datetime         not null
 #
@@ -23,6 +25,7 @@ class CorpMember < ActiveRecord::Base
   belongs_to :user, foreign_key: "character_id", primary_key: :uid
   belongs_to :main_user, class_name: "User", foreign_key: "main_character_id", primary_key: :uid
   belongs_to :corporation
+  belongs_to :management_corporation, class_name: 'Corporation', foreign_key: :manage_corporation_id
 
   RANSACK_FILTER_ATTRIBUTES = {
     id: :id_eq_any,
