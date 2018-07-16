@@ -33,10 +33,12 @@ class CorpMember < ActiveRecord::Base
     token_error: :token_erro_eq_any
   }.with_indifferent_access.freeze
 
-  def member_token_refresh
-    if user.present?
+  # Scope
+  # 指定したCorpに属している
+  scope :accessible_corp_member_management, -> (corporation_id) do
+    c_cid = arel_table[:manage_corporation_id]
 
-    end
+    where(c_cid.eq(corporation_id))
   end
 
   def self.update_corp_member(corporation_id: User.admin_corp)
