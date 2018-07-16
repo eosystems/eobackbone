@@ -33,11 +33,24 @@ class Character
 
   # TODO
   def self.entry_corp_date(user_id, corporation_id)
+    token = User.find_by(character_id: character_id)
+    return nil if token.nil?
+
     Time.now
   end
 
-  # TODO
-  def self.corp_role(user_id, corporation_id)
-    'TEST'
+  def self.title(character_id)
+    user = User.find_by(uid: character_id)
+    return nil if user.nil?
+
+    token = User.user_token(user)
+    return nil if token.nil?
+
+    response = EsiClient.new(token).fetch_character_titles(character_id)
+    if response.is_success
+      response.items.map { |v| v["name"] }.join('|')
+    else
+      nil
+    end
   end
 end

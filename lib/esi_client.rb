@@ -12,6 +12,20 @@ class EsiClient
     GeneralEsiResponse.parse_simple(get_request_to(path))
   end
 
+  def fetch_character_roles(character_id)
+    path = ESI_API_BASE_URL + "/characters/#{character_id}/roles/?token=#{@token}"
+    Rails.logger.info("ESIClient Access to #{path}")
+
+    GeneralEsiResponse.parse_simple_array(get_request_to(path))
+  end
+
+  def fetch_character_titles(character_id)
+    path = ESI_API_BASE_URL + "/characters/#{character_id}/titles/?token=#{@token}"
+    Rails.logger.info("ESIClient Access to #{path}")
+
+    GeneralEsiResponse.parse_simple_array(get_request_to(path))
+  end
+
   def fetch_market_order(region_id, page)
     path = ESI_API_BASE_URL + market_order_url(region_id, page)
     Rails.logger.info("ESIClient Access to #{path}")

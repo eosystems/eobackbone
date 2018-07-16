@@ -47,8 +47,6 @@ class CorpMember < ActiveRecord::Base
         if member.nil?
           member = CorpMember.new
           character_info = Character.info(character_id)
-          entry_date = Character.entry_corp_date(character_id, corporation_id)
-          role = Character.corp_role(character_id, corporation_id)
           member.attributes = {
             character_id: character_id,
             character_name: character_info.try(:name),
@@ -56,13 +54,14 @@ class CorpMember < ActiveRecord::Base
             corporation_id: corporation_id,
             corporation_name: Corporation.find_by(corporation_id: corporation_id).try(:corporation_name),
             entry_date: entry_date,
-            corp_role: role,
             manage_corporation_id: corporation_id,
             manage_corporation_name: Corporation.find_by(corporation_id: corporation_id).try(:corporation_name),
           }
         else
-          role = Character.corp_role(character_id, corporation_id)
+          entry_date = Character.entry_corp_date(character_id, corporation_id)
+          role = Character.title(character_id, corporation_id)
           member.attributes = {
+            entry_date: entry_date,
             corp_role: role,
           }
         end
