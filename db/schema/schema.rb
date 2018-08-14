@@ -408,6 +408,24 @@ create_table :dashboards, collate: "utf8_bin" do |t|
   t.datetime :updated_at, null: true
 end
 
+create_table :applications, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.varchar :targetable_type
+  t.int :targetable_id
+  t.varchar :processing_status, default: 'in_process'
+  t.int :process_user_id, null: true
+  t.int :corporation_id, null: true
+  t.int :user_id, null: true
+  t.datetime :done_date, null: true
+  t.datetime :created_at , null: true
+  t.datetime :updated_at, null: true
+end
+
+create_table :application_new_members, collate: "utf8_bin" do |t|
+  t.int :id, primary_key: true, extra: :auto_increment
+  t.datetime :created_at , null: true
+  t.datetime :updated_at, null: true
+end
 
 # master
 create_table :inv_types, collate: "utf8_bin" do |t|

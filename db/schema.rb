@@ -30,6 +30,23 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at",                            null: false
   end
 
+  create_table "application_new_members", force: :cascade do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "applications", force: :cascade do |t|
+    t.string   "targetable_type",   limit: 255,                        null: false
+    t.integer  "targetable_id",     limit: 4,                          null: false
+    t.string   "processing_status", limit: 255, default: "in_process", null: false
+    t.integer  "process_user_id",   limit: 4
+    t.integer  "corporation_id",    limit: 4
+    t.integer  "user_id",           limit: 4
+    t.datetime "done_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "audits", force: :cascade do |t|
     t.string   "audit_type",     limit: 255,   null: false
     t.text     "audit_text",     limit: 65535, null: false
