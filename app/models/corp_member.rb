@@ -41,9 +41,10 @@ class CorpMember < ActiveRecord::Base
   # Scope
   # 指定したCorpに属している
   scope :accessible_corp_member_management, -> (corporation_id) do
-    c_cid = arel_table[:manage_corporation_id]
+    cid = arel_table[:manage_corporation_id]
 
-    where(c_cid.eq(corporation_id))
+    relation_corporations = CorporationRelation.relation_corporation(corporation_id)
+    where(cid.in(relation_corporations))
   end
 
   def self.update_corp_member(corporation_id: User.admin_corp)
