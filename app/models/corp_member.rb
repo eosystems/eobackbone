@@ -7,6 +7,7 @@
 #  character_name          :string(255)
 #  main_character_id       :integer
 #  main_character_name     :string(255)
+#  is_main                 :boolean
 #  corporation_id          :integer
 #  corporation_name        :string(255)
 #  manage_corporation_id   :integer
@@ -29,6 +30,7 @@ class CorpMember < ActiveRecord::Base
 
   RANSACK_FILTER_ATTRIBUTES = {
     id: :id_eq_any,
+    is_main: :is_main_eq_any,
     character_name: :character_name_cont_any,
     corporation_name: :corporation_name_cont_any,
     main_character_name: :main_character_name_cont_any,

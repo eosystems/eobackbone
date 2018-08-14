@@ -173,6 +173,7 @@ create_table :corp_members, collate: "utf8_bin" do |t|
   t.varchar :character_name, null: true
   t.int :main_character_id, null: true
   t.varchar :main_character_name, null: true
+  t.boolean :is_main, null: true
   t.int :corporation_id, null: true
   t.varchar :corporation_name, null: true
   t.int :manage_corporation_id, null: true

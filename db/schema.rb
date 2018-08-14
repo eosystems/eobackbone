@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "character_name",          limit: 255
     t.integer  "main_character_id",       limit: 4
     t.string   "main_character_name",     limit: 255
+    t.boolean  "is_main"
     t.integer  "corporation_id",          limit: 4
     t.string   "corporation_name",        limit: 255
     t.integer  "manage_corporation_id",   limit: 4
