@@ -1,4 +1,4 @@
-class Api::CorpMemberController < ApiController
+class Api::CorpMembersController < ApiController
   def index
     @manegements = nil
     # リクルーター以上のAPI権限を持っている場合は会社の全てを参照できる
