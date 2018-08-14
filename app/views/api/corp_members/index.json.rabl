@@ -1,9 +1,9 @@
 node :totalCount do
-  @managements.total_count
+  @corp_members.total_count
 end
 
-child @managements => :results do
-  collection @managements
+child @corp_members => :results do
+  collection @corp_members
 
   attributes :id, :character_id, :character_name, :main_character_id, :main_character_name,
     :corporation_id, :corporation_name, :corp_role, :token_verify, :character_birthday, :entry_date,
