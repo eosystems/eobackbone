@@ -1,0 +1,65 @@
+<div class="container-fluid">
+<div class="row">
+
+<div class="col-md-12">
+  <h2>Character Wallet Journal</h2>
+
+  <div class="text-left">
+    <button class="btn btn-normal" ng-click="reload()">Reload</button>
+    <button class="btn btn-normal" ng-click="prevPage()" ng-disabled="currentPage <= 1" ng-class="{disabled : currentPage <= 1}">Prev</button>
+    <button class="btn btn-normal" ng-click="nextPage()"  ng-disabled="!hasNextPage" ng-class="{disabled : !hasNextPage}">Next</button>
+    current page: {{currentPage}}
+  </div>
+
+  <p ng-show="recruit">
+    <i class="fa fa-info-circle"></i>
+    あなたはリクルート権限を持っています。メンバーの詳細情報（ESIによるデータ取得)はフィルターされて表示されます<br />
+  </p>
+  <p ng-show="api_manager">
+    <i class="fa fa-info-circle"></i>
+    あなたはAPIマネージャー権限を持っています。<br />
+    この情報は本人もしくはAPIマネージャーのみフィルターされずに表示されます。
+  </p>
+  <section class="content table-responsive">
+    <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
+      show-filter="true">
+      <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
+        <td data-title="'#'" width="60px" class="deletable">
+          {{row.id}}
+        </td>
+        <td data-title="'date'" width="180px">
+           {{ row.date }}
+        </td>
+        <td data-title="'amount'">
+          {{row.amount | number:2}}
+        </td>
+        <td data-title="'balance'">
+          {{row.balance | number:2}}
+        </td>
+        <td data-title="'description'">
+          {{row.description}}
+        </td>
+        <td data-title="'ref_type'">
+          {{row.ref_type}}
+        </td>
+        <td data-title="'context_id'">
+          {{row.context_id}}
+        </td>
+        <td data-title="'context_id_type'">
+          {{row.context_id_type}}
+        </td>
+        <td data-title="'first_party_id'">
+          {{row.first_party_id}}
+        </td>
+        <td data-title="'second_party_id'">
+          {{row.second_party_id}}
+        </td>
+      </tr>
+    </table>
+  </section>
+
+
+</div>
+
+</div>
+</div>

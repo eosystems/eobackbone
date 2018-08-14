@@ -17,12 +17,12 @@ class CharacterWalletJournalResponse
         r.error = body['error']
       else
         r.total_page = header['x-pages'].to_i if header['x-pages'].present?
-        if current_page < r.total_page
+        if current_page.to_i < r.total_page
           r.has_next_page = true
         else
           r.has_next_page = false
         end
-        r.current_page = current_page
+        r.current_page = current_page.to_i
         r.items = body.map { |v| HashObject.new(v) }
       end
     end

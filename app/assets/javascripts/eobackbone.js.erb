@@ -102,6 +102,11 @@ angular.module('eoApp', [
     templateUrl: '<%= asset_path 'corp_members/index.html' %>',
     controller: 'corpMembersController'
   })
+  .state('characterWalletJournals',{
+    url: '/character_wallet_journals/:id',
+    templateUrl: '<%= asset_path 'character_wallet_journals/index.html' %>',
+    controller: 'characterWalletJournalsController'
+  })
   .state('userRoles',{
     url: '/user_roles',
     templateUrl: '<%= asset_path 'user_roles/index.html' %>',

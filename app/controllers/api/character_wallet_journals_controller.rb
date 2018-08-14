@@ -1,10 +1,11 @@
-class Api::CharacterWalletsController < ApiController
+class Api::CharacterWalletJournalsController < ApiController
   def show
     @character_wallets = nil
 
     user = User.find_by(uid: params[:id])
-    if user.nil?
+    if user.blank?
       render json: { error: 'User Not Found' }, status: 404
+      return
     end
 
     # Api管理者の場合は情報閲覧可能、リクルーターの場合はほぼ全てをフィルターする
@@ -13,9 +14,10 @@ class Api::CharacterWalletsController < ApiController
       result = EsiClient.new(User.user_token(user)).fetch_character_wallet_journal(user.uid, page_num)
       if result.error.present?
         render json: { error: result.error }, status: result.status
+        return
       end
 
-      @items = result.item
+      @items = result.items
       @has_next_page = result.has_next_page
       # フィルター処理
       unless current_user.has_api_manager_role? || current_user.uid == params[:id].to_s
@@ -30,14 +32,14 @@ class Api::CharacterWalletsController < ApiController
 
   def api_mask(items)
     items.each do |item|
-      item.amount = 'xxxxxxxx'
-      item.balance = 'xxxxxxxx'
+      item.amount = 999999
+      item.balance = 999999
       item.context_id = 'xxxxxxxxx'
       item.context_id_type = 'xxxxxxxxx'
       item.description = 'xxxxxxxx'
       item.first_party_id = 'xxxxxxxx'
       item.ref_type = 'xxxxxxxxxx'
-      item.secound_party_id = 'xxxxxxxxx'
+      item.second_party_id = 'xxxxxxxxx'
     end
   end
 end

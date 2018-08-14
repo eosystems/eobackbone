@@ -33,6 +33,6 @@ Rails.application.routes.draw do
     resources :corp_wallet_divisions, only: [:index]
     resources :ref_types, only: [:index]
     resources :my_corporations, only: [:index]
-    resources :character_wallets, only: [:show]
+    resources :character_wallet_journals, only: [:show]
   end
 end
