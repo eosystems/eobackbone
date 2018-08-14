@@ -6,13 +6,19 @@
 
   <div class="text-left">
     <button class="btn btn-normal" ng-click="reload()">Reload</button>
-    <button class="btn btn-normal" ng-click="showDetail()"  ng-disabled="selectedId == null" ng-class="{disabled : selectedId == null}" >API Detail</button>
-        <button class="btn btn-normal" ng-click="deleteApi()"  ng-disabled="selectedId == null" ng-class="{disabled : selectedId == null}" >Delete</button>
+    <button class="btn btn-normal" ng-click="showDetail()"  ng-disabled="selectedId == null" ng-class="{disabled : selectedId == null}" >Show Wallet</button>
+    <button class="btn btn-normal" ng-click="deleteApi()"  ng-disabled="selectedId == null" ng-class="{disabled : selectedId == null}" >Delete</button>
   </div>
+
+  <p ng-hide="recruit || api_manager">
+    <i class="fa fa-info-circle"></i>
+    あなたはリクルート または APIマネージャー権限を持っていません。<br />
+    一般ユーザーは自分以外のメンバーの詳細情報取得及び削除はできません。
+  </p>
 
   <p ng-show="recruit">
     <i class="fa fa-info-circle"></i>
-    あなたはリクルート権限を持っています。メンバーの詳細情報（ESIによるデータ取得)は表示できません。<br />
+    あなたはリクルート権限を持っています。メンバーの詳細情報（ESIによるデータ取得)はフィルターされて表示されます。<br />
   </p>
   <p ng-show="api_manager">
     <i class="fa fa-info-circle"></i>

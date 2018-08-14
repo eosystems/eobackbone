@@ -63,22 +63,8 @@ angular.module('eoApp')
     $scope.showDetail = function() {
       if ($scope.selectedId != null)
       {
-        var row = $scope.searchResults.find(function(v) { return v.id == $scope.selectedId })
-        var modalInstance = $uibModal.open({
-          templateUrl: "<%= asset_path 'shared/detail_dialog.html' %>",
-          controller: 'DetailDialogController',
-          backdrop: true,
-          scope: $scope,
-          resolve: {
-            params: function() {
-              return {
-                title: 'API Detail',
-                message1: 'KeyId: ' + row.key_id ,
-                message2: 'Vcode: ' + row.v_code
-              };
-            }
-          }
-        });
+        var row = $scope.searchResults.find(function(v) { return v.id == $scope.selectedId });
+        $location.path("/character_wallet_journals/" + row.character_id);
       };
     }
 
