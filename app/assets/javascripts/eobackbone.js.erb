@@ -97,6 +97,11 @@ angular.module('eoApp', [
     templateUrl: '<%= asset_path 'api_managements/index.html' %>',
     controller: 'apiManagementsController'
   })
+  .state('corpMembers',{
+    url: '/corp_members',
+    templateUrl: '<%= asset_path 'corp_members/index.html' %>',
+    controller: 'corpMembersController'
+  })
   .state('userRoles',{
     url: '/user_roles',
     templateUrl: '<%= asset_path 'user_roles/index.html' %>',

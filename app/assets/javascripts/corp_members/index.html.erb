@@ -1,0 +1,68 @@
+<div class="container-fluid">
+<div class="row">
+
+<div class="col-md-12">
+  <h2>Member Management</h2>
+
+  <div class="text-left">
+    <button class="btn btn-normal" ng-click="reload()">Reload</button>
+    <button class="btn btn-normal" ng-click="showDetail()"  ng-disabled="selectedId == null" ng-class="{disabled : selectedId == null}" >API Detail</button>
+        <button class="btn btn-normal" ng-click="deleteApi()"  ng-disabled="selectedId == null" ng-class="{disabled : selectedId == null}" >Delete</button>
+  </div>
+
+  <p ng-show="recruit">
+    <i class="fa fa-info-circle"></i>
+    あなたはリクルート権限を持っています。メンバーの詳細情報（ESIによるデータ取得)は表示できません。<br />
+  </p>
+  <p ng-show="api_manager">
+    <i class="fa fa-info-circle"></i>
+    あなたはAPIマネージャー権限を持っています。コープメンバーの全ての情報を閲覧することが可能です。<br />
+    また、メンバーのAPIキーの削除もできます。
+    扱いには十分注意してください。
+  </p>
+  <section class="content table-responsive">
+    <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
+      show-filter="true">
+      <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
+        <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="60px" class="deletable">
+          {{row.id}}
+        </td>
+        <td data-title="'KeyId'" filter="{key_id: 'text'}" sortable="'key_id'">
+          {{row.key_id}}
+        </td>
+        <td data-title="'Name'" filter="{character_name: 'text'}" sortable="'character_name'">
+          {{row.character_name}}
+        </td>
+        <td data-title="'Main'" filter="{main_user_name: 'text'}" sortable="'main_user_name'">
+          {{row.main_user.name}}
+        </td>
+        <td data-title="'Corporation'" filter="{corporation_name: 'text'}" sortable="'corporation_name'">
+          {{row.corporation.corporation_name}}
+        </td>
+        <td data-title="'ApiManageCorp'" filter="{api_management_corporation_corporation_name: 'text'}" sortable="'api_management_corporation_corporation_name'">
+          {{row.api_management_corporation.corporation_name}}
+        </td>
+        <td data-title="'Alpha'" filter="{alpha: 'select'}" filter-data="boolean_status" sortable="'alpha'">
+          {{row.alpha}}
+        </td>
+        <td data-title="'Expires'" sortable="'expires'">
+          {{row.expires}}
+        </td>
+        <td data-title="'FullApi'" filter="{full_api: 'select'}" filter-data="boolean_status" sortable="'full_api'">
+          {{row.full_api}}
+        </td>
+        <td data-title="'Created'" sortable="'created_at'">
+           {{ row.created_at | date }}
+        </td>
+        <td data-title="'Updated'" sortable="'updated_at'">
+          {{ row.updated_at | date }}
+        </td>
+      </tr>
+    </table>
+  </section>
+
+
+</div>
+
+</div>
+</div>
