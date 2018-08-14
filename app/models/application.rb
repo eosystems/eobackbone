@@ -34,4 +34,8 @@ class Application < ActiveRecord::Base
     where(cid.in(relation_corporations).or(user_id.eq(user_id)))
   end
 
+  def target_type_name
+    targetable.application_name
+  end
+
 end

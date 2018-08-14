@@ -9,4 +9,9 @@
 
 class ApplicationNewMember < ActiveRecord::Base
   include NgTableSearchable
+  include Applicationable
+
+  def application_name
+    'メンバー新規申請'
+  end
 end
