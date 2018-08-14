@@ -31,11 +31,12 @@
           <label ng-show="row.token_verify == true" class="label label-success">Verify</label>
           <label ng-show="row.token_verify == false" class="label label-danger">Unverify</label>
         </td>
+        <td data-title="'isMain'" filter="{is_main: 'select'}" filter-data="boolean_status" sortable="'is_main'" width="70px">
+          <label ng-show="row.is_main == true" class="label label-success">Main</label>
+          <label ng-show="row.is_main == false" class="label label-primary">Sub</label>
+        </td>
         <td data-title="'Name'" filter="{character_name: 'text'}" sortable="'character_name'">
           {{row.character_name}}
-        </td>
-        <td data-title="'isMain'" filter="{is_main: 'select'}" filter-data="boolean_status" sortable="'is_main'">
-          {{row.is_main}}
         </td>
         <td data-title="'Main'" filter="{main_user_name: 'text'}" sortable="'main_user_name'">
           {{row.main_character_name}}
