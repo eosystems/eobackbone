@@ -36,5 +36,6 @@ Rails.application.routes.draw do
     resources :character_wallet_journals, only: [:show]
     resources :applications, only: [:index, :update]
     resources :application_new_members, only: [:show, :create]
+    resources :application_member_relations, only: [:show, :create]
   end
 end

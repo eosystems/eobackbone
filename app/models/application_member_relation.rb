@@ -16,7 +16,7 @@ class ApplicationMemberRelation < ActiveRecord::Base
   include Applicationable
 
   def application_name
-    'メンバー新規申請'
+    'Main/Subキャラ申請'
   end
 
   def has_update_operation_role(user)
@@ -24,25 +24,18 @@ class ApplicationMemberRelation < ActiveRecord::Base
   end
 
   def exec_done_process
-    target_user = User.find(self.application.user_id)
-    if CorpMember.find_by(character_id: target_user.uid).blank?
-      corporation_id = self.application.corporation_id
-      character_id = target_user.uid
+    main = CorpMember.find_by(character_id: self.main_character_id)
+    sub = CorpMember.find_by(character_id: self.character_id)
+    if main.present? && sub.present?
+      main.main_character_id = main.character_id
+      main.main_character_name = main.character_name
+      main.is_main = true
+      sub.main_character_id = main.character_id
+      sub.main_character_name = main.character_name
+      sub.is_main = false
 
-      member = CorpMember.new
-      character_info = Character.info(character_id)
-      member.attributes = {
-        character_id: character_id,
-        character_name: character_info.try(:name),
-        character_birthday: character_info.try(:birthday),
-        corporation_id: corporation_id,
-        corporation_name: Corporation.find_by(corporation_id: corporation_id).try(:corporation_name),
-        manage_corporation_id: corporation_id,
-        manage_corporation_name: Corporation.find_by(corporation_id: corporation_id).try(:corporation_name),
-        token_verify: true,
-      }
-
-      member.save!
+      main.save!
+      sub.save!
     end
   end
 
