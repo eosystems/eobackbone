@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     resources :user_roles, only: [:index, :create, :destroy]
     resources :audits, only: [:index]
     resources :corporations, only: [:index]
+    resources :members, only: [:index]
     resources :corp_wallet_journals, only: [:index, :update]
     resources :summary_corp_wallet_journals, only: [:index]
     resources :csv_corp_wallet_journals, only: [:index]
