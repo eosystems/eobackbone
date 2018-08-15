@@ -187,7 +187,7 @@ create_table :corp_members, collate: "utf8_bin" do |t|
   t.datetime :updated_at
 end
 
-create_table :corp_member_relations, collate: "utf8_bin" do |t|
+create_table :application_member_relations, collate: "utf8_bin" do |t|
   t.int :id, primary_key: true, extra: :auto_increment
   t.int :character_id, null: true
   t.varchar :character_name, null: true

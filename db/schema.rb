@@ -30,6 +30,15 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at",                            null: false
   end
 
+  create_table "application_member_relations", force: :cascade do |t|
+    t.integer  "character_id",        limit: 4
+    t.string   "character_name",      limit: 255
+    t.integer  "main_character_id",   limit: 4
+    t.string   "main_character_name", limit: 255
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
   create_table "application_new_members", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -62,15 +71,6 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "corporation_id", limit: 255, null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
-  end
-
-  create_table "corp_member_relations", force: :cascade do |t|
-    t.integer  "character_id",        limit: 4
-    t.string   "character_name",      limit: 255
-    t.integer  "main_character_id",   limit: 4
-    t.string   "main_character_name", limit: 255
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
   end
 
   create_table "corp_members", force: :cascade do |t|
