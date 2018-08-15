@@ -19,11 +19,20 @@ class Application < ActiveRecord::Base
   belongs_to :targetable, polymorphic: true
   belongs_to :corporation
   belongs_to :user
+  belongs_to :process_user, class_name: 'User', foreign_key: :process_user_id
 
   RANSACK_FILTER_ATTRIBUTES = {
     id: :id_eq_any,
     targetable_type: :targetable_type_eq_any,
- }.with_indifferent_access.freeze
+    processing_status: :processing_status_eq,
+    corporation_name: :corporation_corporation_name_cont_any,
+    user_name: :user_name_cont_any,
+  }.with_indifferent_access.freeze
+
+  # Delegates
+  delegate :name, to: :user, allow_nil: true, prefix: :application_user
+  delegate :name, to: :process_user, allow_nil: true, prefix: :process_user
+  delegate :corporation_name, to: :corporation, allow_nil: true
 
   # Scope
   # 指定したCorpに属しているまたは自分自身であれば見ることが可能

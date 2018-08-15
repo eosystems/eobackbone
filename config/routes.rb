@@ -34,6 +34,7 @@ Rails.application.routes.draw do
     resources :ref_types, only: [:index]
     resources :my_corporations, only: [:index]
     resources :character_wallet_journals, only: [:show]
+    resources :applications, only: [:index, :show, :update]
     resources :application_new_members, only: [:show, :create]
   end
 end
