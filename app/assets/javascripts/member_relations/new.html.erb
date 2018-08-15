@@ -1,0 +1,34 @@
+<div class="container-fluid" ng-controller="memberRelationsController as src">
+  <div class="row">
+
+    <div class="col-md-6">
+      <h2>Main/Subキャラ紐付け申請</h2>
+      <hr>
+
+      <p>
+        <i class="fa fa-info-circle"></i>
+        先にメンバー一覧にキャラクターが表示されていることを確認してください。
+      </p>
+
+      SubCharacter:
+      <ui-select ng-model="src.member">
+        <ui-select-match placeholder="Select Corporation ...">
+          <span>{{ src.member.character_name }}</span>
+        </ui-select-match>
+
+        <ui-select-choices repeat="c in members" refresh="searchMember($select.search)" refresh-delay="0">
+          <span>{{ c.character_name }}</span>
+        </ui-select-choices>
+      </ui-select>
+
+      <br />
+      <div>
+        <button id="applicationBtn" class="btn btn-primary" ng-click="applicationRequest()">Application</button>
+      </div>
+
+      <br/>
+
+    </div>
+
+  </div>
+</div>
