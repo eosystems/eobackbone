@@ -28,8 +28,9 @@ angular.module('eoApp')
     ];
 
     $scope.applicationTypes = [
-      { id: "", title: "" },
-      { id: 'ApplicationNewMember', title: "新規メンバー登録" },
+      { id: "", title: "全て" },
+      { id: 'ApplicationNewMember', title: "新規メンバー申請" },
+      { id: 'ApplicationMemberRelation', title: "Main/Subキャラ申請" },
     ];
 
     $scope.setTotalCount = function(count) {
