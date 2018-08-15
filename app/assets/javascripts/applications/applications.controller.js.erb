@@ -9,9 +9,6 @@ angular.module('eoApp')
 
     var RootApi = $resource("/api/applications");
     var ApplicationApi = $resource("/api/applications/:id", { id: '@id' }, {
-      get: {
-        method: 'GET'
-      },
       update: {
         method: 'PUT'
       }
@@ -60,7 +57,9 @@ angular.module('eoApp')
         row.selected = !row.selected;
       }
       $scope.selectedId = id;
-      $scope.loadDetail();
+      // 申請詳細情報
+      $scope.application = row;
+      //$scope.loadDetail();
     };
 
     // 再読み込み
@@ -73,16 +72,12 @@ angular.module('eoApp')
       ApplicationApi.get({id: $scope.selectedId}).$promise.then(function(data) {
         $scope.order = data.results;
         $scope.orderDetails = data.results.order_details;
-        // 各種操作権限
-        $scope.management_done = data.results.management_done;
-        $scope.management_cancel = data.results.management_cancel;
-        $scope.management_reject = data.results.management_reject;
-        $scope.management_in_process = data.results.management_in_process;
       });
     }
 
     // ステータス更新
     $scope.updateStatus = function(statusId) {
+      toastr.info("リクエスト処理中", "Request");
       ApplicationApi.update({ id: $scope.selectedId, status: statusId }).$promise.then(function(data) {
         toastr.success("Change Status to " + statusId + " (#" + $scope.selectedId + ")", "Success");
         $scope.reload();

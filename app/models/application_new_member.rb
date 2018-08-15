@@ -31,7 +31,6 @@ class ApplicationNewMember < ActiveRecord::Base
         character_id: character_id,
         character_name: character_info.try(:name),
         character_birthday: character_info.try(:birthday),
-        entry_date: entry_date,
         corporation_id: corporation_id,
         corporation_name: Corporation.find_by(corporation_id: corporation_id).try(:corporation_name),
         manage_corporation_id: corporation_id,
@@ -42,4 +41,6 @@ class ApplicationNewMember < ActiveRecord::Base
       member.save!
     end
   end
+
+  
 end

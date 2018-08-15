@@ -21,6 +21,8 @@ class Application < ActiveRecord::Base
   belongs_to :user
   belongs_to :process_user, class_name: 'User', foreign_key: :process_user_id
 
+  attr_accessor :management_done, :management_cancel, :management_reject, :management_in_process
+
   RANSACK_FILTER_ATTRIBUTES = {
     id: :id_eq_any,
     targetable_type: :targetable_type_eq_any,
@@ -50,6 +52,31 @@ class Application < ActiveRecord::Base
 
   def exec_done_process
     self.targetable.exec_done_process
+  end
+
+  # Rejectに変更可能か
+  def can_change_to_reject?(user)
+    return false if self.processing_status != ProcessingStatus::IN_PROCESS.id
+    self.targetable.has_update_operation_role(user)
+  end
+
+  # Cancelに変更可能か
+  # - 自分のオーダー かつ in_process であれば操作可能
+  def can_change_to_cancel?(user)
+    my_order?(user) && self.processing_status == ProcessingStatus::IN_PROCESS.id
+  end
+
+  # Doneに変更可能か
+  def can_change_to_done?(user)
+    return false if self.processing_status != ProcessingStatus::IN_PROCESS.id
+    self.targetable.has_update_operation_role(user)
+  end
+
+  private
+
+  def my_order?(user)
+    return false unless user.present?
+    user.id == self.user_id
   end
 
 end

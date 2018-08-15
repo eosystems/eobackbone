@@ -51,23 +51,42 @@
 
     <div class="col-xs-8">
     <div class="text-right">
-      <button class="btn btn-primary"  ng-click="updateStatus('in_process')"
-        ng-disabled="!management_in_process" ng-class="{disabled : !management_in_process}">In Process</button>
       <button class="btn btn-danger"  ng-click="updateStatus('reject')"
-        ng-disabled="!management_reject" ng-class="{disabled : !management_reject}">Reject</button>
+        ng-disabled="!application.management_reject" ng-class="{disabled : !application.management_reject}">Reject</button>
       <button class="btn btn-normal"  ng-click="updateStatus('canceled')"
-        ng-disabled="!management_cancel" ng-class="{disabled : !management_cancel}">Cancel</button>
+        ng-disabled="!application.management_cancel" ng-class="{disabled : !application.management_cancel}">Cancel</button>
       <button class="btn btn-success" ng-click="updateStatus('done')"
-        ng-disabled="!management_done" ng-class="{disabled : !management_done}">Done</button>
+        ng-disabled="!application.management_done" ng-class="{disabled : !application.management_done}">Done</button>
     </div>
     </div>
   </div>
 
   <form class="form-horizontal">
     <div class="form-group">
-      <label class="col-sm-3 control-label">Sell Price: </label>
+      <label class="col-sm-3 control-label">申請種別: </label>
       <div class="col-sm-9">
-        <p class="form-control-static"> {{ order.sell_price | number:2 }} ISK </p>
+        <p class="form-control-static"> {{ application.target_type_name}} </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">申請者: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ application.application_user_name}} </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">承認者: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ application.process_user_name}} </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">承認日: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ application.done_date}} </p>
       </div>
     </div>
 

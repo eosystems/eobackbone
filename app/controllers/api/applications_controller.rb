@@ -13,7 +13,7 @@ class Api::ApplicationsController < ApiController
       render json: { error: "この操作を行う権限がありません" }, status: 403
     end
 
-    @application.process_user = current_user.id
+    @application.process_user = current_user
     @application.processing_status = params[:status] if params[:status].present?
     @application.validate!
 
