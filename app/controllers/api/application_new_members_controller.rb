@@ -6,6 +6,7 @@ class Api::ApplicationNewMembersController < ApiController
   def create
     if params["corporation_id"].blank?
       render json: { error: "コープを選択してください" }, status: 500
+      return
     end
 
     @application = Application.new(corporation_id: params["corporation_id"])

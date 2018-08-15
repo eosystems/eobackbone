@@ -1,0 +1,35 @@
+<div class="container-fluid" ng-controller="newMembersController as src">
+  <div class="row">
+
+    <div class="col-md-6">
+      <h2>新規メンバー申請</h2>
+      <hr>
+
+      <p>
+        <i class="fa fa-info-circle"></i>
+        すでに提出先コープに入社している場合はこの申請は不要です。<br />
+        入社前に提出先コープ側で情報チェックのために利用されます。
+      </p>
+
+      Corporation:
+      <ui-select ng-model="src.corporation">
+        <ui-select-match placeholder="Select Corporation ...">
+          <span>{{ src.corporation.corporation_name }}</span>
+        </ui-select-match>
+
+        <ui-select-choices repeat="c in corporations" refresh="searchCorporation($select.search)" refresh-delay="0">
+          <span>{{ c.corporation_name }}</span>
+        </ui-select-choices>
+      </ui-select>
+
+      <br />
+      <div>
+        <button id="applicationBtn" class="btn btn-primary" ng-click="applicationRequest()">Application</button>
+      </div>
+
+      <br/>
+
+    </div>
+
+  </div>
+</div>
