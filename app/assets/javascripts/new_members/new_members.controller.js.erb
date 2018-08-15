@@ -51,7 +51,7 @@ angular.module('eoApp')
           var corporation_id = that.corporation != null ? that.corporation.corporation_id : null;
           NewMemberApi.create({ corporation_id: corporation_id }).$promise.then(function(data) {
             toastr.success("Request Accepted", "Success");
-            $location.path("/api_managements");
+            $location.path("/applications");
           }, function(error) {
             toastr.error(error.data.error, "Error");
             $location.path("/new_members");
