@@ -35,6 +35,7 @@ class Application < ActiveRecord::Base
   delegate :name, to: :user, allow_nil: true, prefix: :application_user
   delegate :name, to: :process_user, allow_nil: true, prefix: :process_user
   delegate :corporation_name, to: :corporation, allow_nil: true
+  delegate :uid, to: :user, allow_nil: true
 
   # Scope
   # 指定したCorpに属しているまたは自分自身であれば見ることが可能

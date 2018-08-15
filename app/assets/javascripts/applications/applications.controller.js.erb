@@ -13,6 +13,11 @@ angular.module('eoApp')
         method: 'PUT'
       }
     });
+    var ApplicationMemberRelationApi = $resource("/api/application_member_relations/:id", { id: '@id' }, {
+      get: {
+        method: 'GET'
+      }
+    });
 
     $scope.statuses = [
       { id: "", title: "" },
@@ -59,7 +64,7 @@ angular.module('eoApp')
       $scope.selectedId = id;
       // 申請詳細情報
       $scope.application = row;
-      //$scope.loadDetail();
+      $scope.loadDetail(row.targetable_id);
     };
 
     // 再読み込み
@@ -68,12 +73,17 @@ angular.module('eoApp')
     };
 
     // 詳細取得
-    $scope.loadDetail = function() {
-      ApplicationApi.get({id: $scope.selectedId}).$promise.then(function(data) {
-        $scope.order = data.results;
-        $scope.orderDetails = data.results.order_details;
-      });
+    $scope.loadDetail = function(id) {
+      if ($scope.application.targetable_type == 'ApplicationMemberRelation') {
+        ApplicationMemberRelationApi.get({id: id}).$promise.then(function(data) {
+          $scope.member_relation = data.results;
+        });
+      }
     }
+
+    $scope.gotoWalletJournal = function() {
+      $location.path("/character_wallet_journals/" + $scope.application.uid);
+    };
 
     // ステータス更新
     $scope.updateStatus = function(statusId) {
@@ -81,7 +91,8 @@ angular.module('eoApp')
       ApplicationApi.update({ id: $scope.selectedId, status: statusId }).$promise.then(function(data) {
         toastr.success("Change Status to " + statusId + " (#" + $scope.selectedId + ")", "Success");
         $scope.reload();
-        $scope.loadDetail();
+        $scope.application.management_reject = false;
+        $scope.application.management_done = false;
       }, function(error) {
         toastr.error(error.data.error, "Error");
       });
