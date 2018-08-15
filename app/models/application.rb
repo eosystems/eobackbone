@@ -22,6 +22,7 @@ class Application < ActiveRecord::Base
 
   RANSACK_FILTER_ATTRIBUTES = {
     id: :id_eq_any,
+    targetable_type: :targetable_type_eq_any,
  }.with_indifferent_access.freeze
 
   # Scope
@@ -35,7 +36,11 @@ class Application < ActiveRecord::Base
   end
 
   def target_type_name
-    targetable.application_name
+    self.targetable.application_name
+  end
+
+  def exec_done_process
+    self.targetable.exec_done_process
   end
 
 end

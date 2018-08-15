@@ -11,6 +11,7 @@ class Api::ApplicationNewMembersController < ApiController
 
     @application = Application.new(corporation_id: params["corporation_id"])
     @application.targetable = ApplicationNewMember.new
+    @application.user_id = current_user.id
 
     if @application.save
       render json: { message: 'success'}
