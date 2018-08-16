@@ -81,8 +81,6 @@ class CorpMember < ActiveRecord::Base
         end
         member.save
       end
-
-      # TODO 退社処理を書く
     end
   end
 
