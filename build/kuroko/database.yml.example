@@ -22,10 +22,10 @@ production:
   adapter: mysql2
   encoding: utf8
   database: <%= ENV['KUROKO_DATABASE_NAME'] %>
-  pool: <%= ENV['DATABASE_POOL'] %>
+  pool: <%= ENV['KUROKO_DATABASE_POOL'] %>
   timeout: 5000
-  username: <%= ENV['DATABASE_USER'] %>
-  password: <%= ENV['DATABASE_PASS'] %>
+  username: <%= ENV['KUROKO_DATABASE_USER'] %>
+  password: <%= ENV['KUROKO_DATABASE_PASS'] %>
   collation: utf8_bin
   socket: /var/run/mysqld-default/mysqld.sock
-  host: <%= ENV['DATABASE_HOST'] %>
+  host: <%= ENV['KUROKO_DATABASE_HOST'] %>

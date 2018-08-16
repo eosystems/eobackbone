@@ -52,11 +52,11 @@ services:
     build: build/storage-eobackbone
     container_name: storage-eobackbone
 
-  kuroko:
-    tty: true
-    image: eosystems/kuroko-eobackbone
-    ports:
-      - "3000:3000"
-    container_name: kuroko-eobackbone
-    build: build/kuroko-eobackbone
-    env_file: .env
+  #kuroko:
+    #tty: true
+    #image: eosystems/kuroko-eobackbone
+    #ports:
+    #  - "3000:3000"
+    #container_name: kuroko-eobackbone
+    #build: build/kuroko-eobackbone
+    #env_file: .env
