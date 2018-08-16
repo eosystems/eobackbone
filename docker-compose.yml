@@ -51,3 +51,10 @@ services:
     image: eosystems/storage-eobackbone
     build: build/storage-eobackbone
     container_name: storage-eobackbone
+
+  kuroko:
+    image: eosystems/kuroko-eobackbone
+    ports:
+      - "4000:4000"
+    container_name: kuroko-eobackbone
+    build: build/kuroko-eobackbone
