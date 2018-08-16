@@ -1,0 +1,31 @@
+development:
+  adapter: mysql2
+  encoding: utf8
+  database: kuroko_development
+  pool: 5
+  timeout: 5000
+  username: root
+  password:
+  collation: utf8_bin
+
+test:
+  adapter: mysql2
+  encoding: utf8
+  database: kuroko_test
+  pool: 5
+  timeout: 5000
+  username: root
+  password:
+  collation: utf8_bin
+
+production:
+  adapter: mysql2
+  encoding: utf8
+  database: <%= ENV['KUROKO_DATABASE_NAME'] %>
+  pool: <%= ENV['DATABASE_POOL'] %>
+  timeout: 5000
+  username: <%= ENV['DATABASE_USER'] %>
+  password: <%= ENV['DATABASE_PASS'] %>
+  collation: utf8_bin
+  socket: /var/run/mysqld-default/mysqld.sock
+  host: <%= ENV['DATABASE_HOST'] %>
