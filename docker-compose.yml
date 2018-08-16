@@ -52,11 +52,31 @@ services:
     build: build/storage-eobackbone
     container_name: storage-eobackbone
 
-  #kuroko:
-    #tty: true
-    #image: eosystems/kuroko-eobackbone
-    #ports:
-    #  - "3000:3000"
-    #container_name: kuroko-eobackbone
-    #build: build/kuroko-eobackbone
-    #env_file: .env
+  kuroko:
+    tty: true
+    image: eosystems/kuroko-eobackbone
+    ports:
+      - "13001:3000"
+    container_name: kuroko-eobackbone
+    build: build/kuroko
+    env_file: .env
+    links:
+      - mysql-kuroko
+
+  mysql-kuroko:
+    tty: true
+    image: eosystems/mysql-kuroko-eobackbone
+    volumes_from:
+      - storage-mysql-kuroko
+    ports:
+      - "13307:3306"
+    container_name: mysql-kuroko-eobackbone
+    build: build/mysql-kuroko
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+
+  storage-mysql-kuroko:
+    tty: true
+    image: eosystems/storage-mysql-kuroko-eobackbone
+    build: build/storage-mysql-kuroko
+    container_name: storage-mysql-kuroko-eobackbone
