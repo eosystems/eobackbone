@@ -1,0 +1,15 @@
+defaults: &defaults
+  applications:
+    app_id: "TODO"
+    app_secret: "TODO"
+  market:
+    jita_price_refresh_time: 600
+
+development:
+ <<: *defaults
+
+test:
+ <<: *defaults
+
+production:
+ <<: *defaults
