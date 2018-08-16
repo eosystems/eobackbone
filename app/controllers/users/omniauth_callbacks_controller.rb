@@ -19,12 +19,12 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     @user.refresh_token = auth["credentials"]["refresh_token"]
     @user.expire = Time.at(auth["credentials"]["expires_at"])
     @user.save
-
     # corp 初回
     if Corporation.find_by_corporation_id(session[:character].corporation_id).nil? && session[:character].corporation_id.present?
       corp = Corporation.new
       corp.corporation_id = session[:character].corporation_id
-      corp.corporation_name = session[:character].corporation_name
+      item = EsiClient.new('').fetch_corporation(corp.corporation_id).items[0]
+      corp.corporation_name = item.name
       corp.save!
     end
 
