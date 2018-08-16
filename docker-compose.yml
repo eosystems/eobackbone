@@ -56,12 +56,13 @@ services:
     tty: true
     image: eosystems/kuroko-eobackbone
     ports:
-      - "13001:3000"
+      - "13001:13001"
     container_name: kuroko-eobackbone
     build: build/kuroko
     env_file: .env
     links:
       - mysql-kuroko
+      - eobackbone
 
   mysql-kuroko:
     tty: true

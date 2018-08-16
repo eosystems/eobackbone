@@ -23,5 +23,6 @@ WORKDIR /var/www/eobackbone_kuroko
 RUN bundle install
 COPY ./database.yml.example config/database.yml
 COPY Procfile Procfile
+COPY kuroko2.yml config/kuroko2.yml
 
 CMD ["foreman", "start"]
