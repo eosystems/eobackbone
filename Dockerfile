@@ -25,6 +25,7 @@ RUN bundle install --without development test
 ADD .git/index /data/dummy_eobackbone
 COPY supervisord.conf /etc/
 
+ARG gitbranch
 RUN git fetch
 RUN git checkout $gitbranch
 RUN git pull origin HEAD
