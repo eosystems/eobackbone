@@ -65,6 +65,14 @@ class EsiClient
     CharacterWalletJournalResponse.parse(get_request_to(path), current_page: page)
   end
 
+  def fetch_corporation(corporation_id)
+    path = "#{ESI_API_BASE_URL}/corporations/#{corporation_id}"
+    Rails.logger.info("ESIClient Access to #{path}")
+    GeneralEsiResponse.parse_simple(get_request_to(path))
+  end
+
+
+
   private
 
   def build_api_connection
