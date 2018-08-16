@@ -23,14 +23,20 @@ Rails.application.routes.draw do
     resources :departments, only: [:index, :show,:create, :update, :destroy]
     resources :api_checks, only: [:index]
     resources :api_managements
+    resources :corp_members, only: [:index, :destroy]
     resources :user_roles, only: [:index, :create, :destroy]
     resources :audits, only: [:index]
     resources :corporations, only: [:index]
+    resources :members, only: [:index]
     resources :corp_wallet_journals, only: [:index, :update]
     resources :summary_corp_wallet_journals, only: [:index]
     resources :csv_corp_wallet_journals, only: [:index]
     resources :corp_wallet_divisions, only: [:index]
     resources :ref_types, only: [:index]
     resources :my_corporations, only: [:index]
+    resources :character_wallet_journals, only: [:show]
+    resources :applications, only: [:index, :update]
+    resources :application_new_members, only: [:show, :create]
+    resources :application_member_relations, only: [:show, :create]
   end
 end

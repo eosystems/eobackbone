@@ -97,6 +97,31 @@ angular.module('eoApp', [
     templateUrl: '<%= asset_path 'api_managements/index.html' %>',
     controller: 'apiManagementsController'
   })
+  .state('applications',{
+    url: '/applications',
+    templateUrl: '<%= asset_path 'applications/index.html' %>',
+    controller: 'applicationsController'
+  })
+  .state('newMembers',{
+    url: '/new_members',
+    templateUrl: '<%= asset_path 'new_members/new.html' %>',
+    controller: 'newMembersController'
+  })
+  .state('memberRelations',{
+    url: '/member_relations',
+    templateUrl: '<%= asset_path 'member_relations/new.html' %>',
+    controller: 'memberRelationsController'
+  })
+  .state('corpMembers',{
+    url: '/corp_members',
+    templateUrl: '<%= asset_path 'corp_members/index.html' %>',
+    controller: 'corpMembersController'
+  })
+  .state('characterWalletJournals',{
+    url: '/character_wallet_journals/:id',
+    templateUrl: '<%= asset_path 'character_wallet_journals/index.html' %>',
+    controller: 'characterWalletJournalsController'
+  })
   .state('userRoles',{
     url: '/user_roles',
     templateUrl: '<%= asset_path 'user_roles/index.html' %>',

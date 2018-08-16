@@ -1,0 +1,76 @@
+<div class="container-fluid">
+<div class="row">
+
+<div class="col-md-12">
+  <h2>Member Management</h2>
+
+  <div class="text-left">
+    <button class="btn btn-normal" ng-click="reload()">Reload</button>
+    <button class="btn btn-normal" ng-click="showDetail()"  ng-disabled="selectedId == null" ng-class="{disabled : selectedId == null}" >Show Wallet</button>
+    <button class="btn btn-normal" ng-click="deleteApi()"  ng-disabled="selectedId == null" ng-class="{disabled : selectedId == null}" >Delete</button>
+  </div>
+
+  <p ng-hide="recruit || api_manager">
+    <i class="fa fa-info-circle"></i>
+    あなたはリクルート または APIマネージャー権限を持っていません。<br />
+    一般ユーザーは自分以外のメンバーの詳細情報取得及び削除はできません。
+  </p>
+
+  <p ng-show="recruit">
+    <i class="fa fa-info-circle"></i>
+    あなたはリクルート権限を持っています。メンバーの詳細情報（ESIによるデータ取得)はフィルターされて表示されます。<br />
+  </p>
+  <p ng-show="api_manager">
+    <i class="fa fa-info-circle"></i>
+    あなたはAPIマネージャー権限を持っています。コープメンバーの全ての情報を閲覧することが可能です。<br />
+    また、メンバー削除もできます。
+    扱いには十分注意してください。
+  </p>
+  <section class="content table-responsive">
+    <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
+      show-filter="true">
+      <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
+        <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="60px" class="deletable">
+          {{row.id}}
+        </td>
+        <td data-title="'Verify'" filter="{token_verify: 'select'}" filter-data="boolean_status" sortable="'token_verify'" width="70px">
+          <label ng-show="row.token_verify == true" class="label label-success">Verify</label>
+          <label ng-show="row.token_verify == false" class="label label-danger">Unverify</label>
+        </td>
+        <td data-title="'isMain'" filter="{is_main: 'select'}" filter-data="boolean_status" sortable="'is_main'" width="70px">
+          <label ng-show="row.is_main == true" class="label label-success">Main</label>
+          <label ng-show="row.is_main == false" class="label label-primary">Sub</label>
+        </td>
+        <td data-title="'Name'" filter="{character_name: 'text'}" sortable="'character_name'">
+          {{row.character_name}}
+        </td>
+        <td data-title="'Main'" filter="{main_character_name: 'text'}" sortable="'main_character_name'">
+          {{row.main_character_name}}
+        </td>
+        <td data-title="'CorpRole'" filter="{corp_role: 'text'}" sortable="'corp_role'">
+          {{row.corp_role}}
+        </td>
+        <td data-title="'Corporation'" filter="{corporation_name: 'text'}" sortable="'corporation_name'">
+          {{row.corporation.corporation_name}}
+        </td>
+        <td data-title="'EntryDate'" sortable="'entry_date'">
+           {{ row.entry_date | date }}
+        </td>
+        <td data-title="'Birthday'" sortable="'character_birthday'">
+           {{ row.character_birthday | date }}
+        </td>
+        <td data-title="'Created'" sortable="'created_at'">
+           {{ row.created_at | date }}
+        </td>
+        <td data-title="'Updated'" sortable="'updated_at'">
+          {{ row.updated_at | date }}
+        </td>
+      </tr>
+    </table>
+  </section>
+
+
+</div>
+
+</div>
+</div>

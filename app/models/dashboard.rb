@@ -3,13 +3,13 @@
 # Table name: dashboards
 #
 #  id             :integer          not null, primary key
-#  iframe_text    :text(65535)      not null
-#  title          :string(255)      not null
+#  iframe_text    :text(65535)
+#  title          :string(255)
 #  description    :string(255)
 #  corporation_id :integer
 #  user_id        :integer
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  created_at     :datetime
+#  updated_at     :datetime
 #
 
 class Dashboard < ActiveRecord::Base

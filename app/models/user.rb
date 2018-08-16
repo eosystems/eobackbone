@@ -66,4 +66,48 @@ class User < ActiveRecord::Base
   def has_recruit_role?
     UserRole.exists?(user_id: self.id, role: OperationRole::RECRUIT.id)
   end
+
+  def self.admin
+    91247469
+  end
+
+  def self.admin_corp
+    98440844
+  end
+
+  def self.admin_token
+    User.user_token(User.find_by(uid: User.admin))
+  end
+
+  def self.user_token(user)
+    return if user.expire.nil?
+    if user.user_token_expire?
+      user.refresh_user_token
+    else
+      user.token
+    end
+  end
+
+  def refresh_user_token
+    response = RestClient.post "https://login.eveonline.com/oauth/token",
+                               :grant_type => 'refresh_token',
+                               :refresh_token => self.refresh_token,
+                               :client_id => Settings.applications.app_id,
+                               :client_secret => Settings.applications.app_secret
+
+    refresh_hash = JSON.parse(response)
+    self.token = refresh_hash['access_token']
+    self.expire = Time.at(refresh_hash['expires_in'].to_i + Time.current.to_i)
+    self.refresh_token = refresh_hash['refresh_token']
+
+    self.save
+    self.token
+  end
+
+  def user_token_expire?
+    if self.expire < Time.current
+      return true
+    end
+    false
+  end
 end

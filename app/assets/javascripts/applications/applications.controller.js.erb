@@ -1,0 +1,103 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+  'applicationsController',
+  ['ngTableParams', '$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+    function(ngTableParams, $resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+
+    var RootApi = $resource("/api/applications");
+    var ApplicationApi = $resource("/api/applications/:id", { id: '@id' }, {
+      update: {
+        method: 'PUT'
+      }
+    });
+    var ApplicationMemberRelationApi = $resource("/api/application_member_relations/:id", { id: '@id' }, {
+      get: {
+        method: 'GET'
+      }
+    });
+
+    $scope.statuses = [
+      { id: "", title: "" },
+      { id: 'in_process', title: "In Process" },
+      { id: 'done', title: "Done" },
+      { id: 'canceled', title: "Canceled" },
+      { id: 'reject', title: "Reject" }
+    ];
+
+    $scope.applicationTypes = [
+      { id: "", title: "全て" },
+      { id: 'ApplicationNewMember', title: "新規メンバー申請" },
+      { id: 'ApplicationMemberRelation', title: "Main/Subキャラ申請" },
+    ];
+
+    $scope.setTotalCount = function(count) {
+      $scope.totalCount = count;
+    };
+
+    $scope.tableParams = new ngTableParams({
+      filter: { },
+      count: 20,
+    }, {
+      counts: [10, 20, 50],
+      getData: function(params) {
+        var urlParams = params.url();
+
+        return RootApi.get(urlParams).$promise.then(function(data) {
+          params.total(data.totalCount);
+          $scope.setTotalCount(data.totalCount);
+          $scope.searchResults = data.results;
+          return data.results;
+        });
+      }
+    });
+
+    // Order Grid押下時
+    $scope.selectRow = function(id) {
+      var results = $scope.searchResults;
+      _.each($scope.searchResults, function(v) { v.selected = false; });
+      var row = $scope.searchResults.find(function(v) { return v.id == id })
+      if (row) {
+        row.selected = !row.selected;
+      }
+      $scope.selectedId = id;
+      // 申請詳細情報
+      $scope.application = row;
+      $scope.loadDetail(row.targetable_id);
+    };
+
+    // 再読み込み
+    $scope.reload = function() {
+      $scope.tableParams.reload();
+    };
+
+    // 詳細取得
+    $scope.loadDetail = function(id) {
+      if ($scope.application.targetable_type == 'ApplicationMemberRelation') {
+        ApplicationMemberRelationApi.get({id: id}).$promise.then(function(data) {
+          $scope.member_relation = data.results;
+        });
+      }
+    }
+
+    $scope.gotoWalletJournal = function() {
+      $location.path("/character_wallet_journals/" + $scope.application.uid);
+    };
+
+    // ステータス更新
+    $scope.updateStatus = function(statusId) {
+      toastr.info("リクエスト処理中", "Request");
+      ApplicationApi.update({ id: $scope.selectedId, status: statusId }).$promise.then(function(data) {
+        toastr.success("Change Status to " + statusId + " (#" + $scope.selectedId + ")", "Success");
+        $scope.reload();
+        $scope.application.management_reject = false;
+        $scope.application.management_done = false;
+      }, function(error) {
+        toastr.error(error.data.error, "Error");
+      });
+    }
+
+  }]
+);

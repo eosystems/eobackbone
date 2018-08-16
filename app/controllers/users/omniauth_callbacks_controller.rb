@@ -16,6 +16,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     # Tokenの更新
     @user.token = token
+    @user.refresh_token = auth["credentials"]["refresh_token"]
+    @user.expire = Time.at(auth["credentials"]["expires_at"])
     @user.save
 
     # corp 初回

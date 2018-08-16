@@ -1,0 +1,65 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+  'memberRelationsController',
+  ['$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+  function($resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+
+    var that = this;
+
+    var MemberRelationApi = $resource("/api/application_member_relations", {}, {
+      create: {
+        method: 'POST'
+      }
+    });
+    var MemberApi = $resource("/api/members", {});
+
+    // Corporation Suggest
+    this.member = null;
+    $scope.searchMember = function(memberName) {
+      MemberApi.get({ keyword: memberName }).$promise.then(function(data) {
+        $scope.members = data.results;
+      });
+    };
+
+    // Applicationボタン
+    $scope.applicationRequest = function() {
+      var modalInstance = $uibModal.open({
+        templateUrl: "<%= asset_path 'shared/simple_dialog.html' %>",
+        controller: 'SimpleDialogController',
+        backdrop: true,
+        scope: $scope,
+        resolve: {
+          params: function() {
+            return {
+              title: 'Main/Subキャラ紐付け申請',
+              message: '申請しますか？'
+            };
+          }
+        }
+      });
+
+      modalInstance.result.then(
+        // cancel
+        function(result) {
+        },
+        // request
+        function(result) {
+          toastr.info("Send Member Relation Request", "Request");
+          var character_id = that.member != null ? that.member.character_id : null;
+          MemberRelationApi.create({ character_id: character_id }).$promise.then(function(data) {
+            toastr.success("Request Accepted", "Success");
+            $location.path("/applications");
+          }, function(error) {
+            toastr.error(error.data.error, "Error");
+            $location.path("/member_relations");
+          });
+        }
+      );
+
+    };
+
+  }]
+);

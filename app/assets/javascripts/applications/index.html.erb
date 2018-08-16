@@ -1,0 +1,122 @@
+<div class="container-fluid">
+<div class="row">
+
+<div class="col-md-6">
+  <h2>申請一覧</h2>
+
+  <div class="text-left">
+    <button class="btn btn-normal" ng-click="reload()">Reload</button>
+  </div>
+
+  <section class="content table-responsive">
+    <table ng-table="tableParams" class="table table-condensed table-responsive table-hover mt-10"
+      show-filter="true">
+      <tr ng-repeat="row in $data" ng-click="selectRow(row.id)" ng-class="{selected: row.selected}">
+        <td data-title="'Status'" sortable="'processing_status'" width="100px"
+          filter="{processing_status: 'select'}" filter-data="statuses" class="text-center">
+          <label ng-show="row.processing_status == 'in_process'" class="label label-primary">In Process</label>
+          <label ng-show="row.processing_status == 'done'" class="label label-success">Done</label>
+          <label ng-show="row.processing_status == 'canceled'" class="label label-default">Canceled</label>
+          <label ng-show="row.processing_status == 'reject'" class="label label-danger">Reject</label>
+        </td>
+        <td data-title="'#'" filter="{id: 'text'}" sortable="'id'" width="60px" class="deletable">
+          {{row.id}}
+        </td>
+        <td data-title="'Type'" sortable="'targetable_type'" filter="{targetable_type: 'select'}" filter-data="applicationTypes" class="text-center">
+          {{row.target_type_name}}
+        </td>
+        <td data-title="'applicant'" filter="{user_name: 'text'}" sortable="'user_name'">
+          {{row.application_user_name}}
+        </td>
+        <td data-title="'Corporation'" filter="{corporation_name: 'text'}" sortable="'corporation_name'">
+          {{row.corporation_name}}
+        </td>
+        <td data-title="'Created'" sortable="'created_at'">
+          {{row.created_at}}
+        </td>
+      </tr>
+    </table>
+  </section>
+</div>
+
+<div class="col-md-6">
+  <div class="loading" dw-loading="loading" dw-loading-options="{text: 'Loading...'}">
+  <!-- メモ: 何故かloadingで囲うとng-modelが動かなくなることがある。何かあったら削除 -->
+
+  <h2>申請詳細 (#{{selectedId}})</h2>
+
+  <div class="row">
+    <div class="col-xs-4">
+    </div>
+
+    <div class="col-xs-8">
+    <div class="text-right">
+      <span ng-show="application.targetable_type == 'ApplicationNewMember'">
+        <button class="btn btn-primary"  ng-click="gotoWalletJournal()"
+          ng-disabled="!(application.has_recruite_role || application.has_api_manager_role)"
+           ng-class="{disabled : !(application.has_recruite_role || application.has_api_manager_role)}">
+           View Wallet Journal
+         </button>
+      </span>
+      <button class="btn btn-danger"  ng-click="updateStatus('reject')"
+        ng-disabled="!application.management_reject" ng-class="{disabled : !application.management_reject}">Reject</button>
+      <button class="btn btn-normal"  ng-click="updateStatus('canceled')"
+        ng-disabled="!application.management_cancel" ng-class="{disabled : !application.management_cancel}">Cancel</button>
+      <button class="btn btn-success" ng-click="updateStatus('done')"
+        ng-disabled="!application.management_done" ng-class="{disabled : !application.management_done}">Done</button>
+    </div>
+    </div>
+  </div>
+
+  <form class="form-horizontal">
+    <div class="form-group">
+      <label class="col-sm-3 control-label">申請種別: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ application.target_type_name}} </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">申請者: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ application.application_user_name}} </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">承認者: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ application.process_user_name}} </p>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label">承認日: </label>
+      <div class="col-sm-9">
+        <p class="form-control-static"> {{ application.done_date}} </p>
+      </div>
+    </div>
+
+    <span ng-show="application.targetable_type == 'ApplicationMemberRelation'">
+      <div class="form-group">
+        <label class="col-sm-3 control-label">Main Character: </label>
+        <div class="col-sm-9">
+          <p class="form-control-static"> {{ member_relation.main_character_name}} </p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-3 control-label">Sub Character: </label>
+        <div class="col-sm-9">
+          <p class="form-control-static"> {{ member_relation.character_name}} </p>
+        </div>
+      </div>
+
+    </span>
+  </form>
+
+  </div>
+</div>
+
+
+</div>
+</div>

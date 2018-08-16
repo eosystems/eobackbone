@@ -1,0 +1,61 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+  'characterWalletJournalsController',
+  ['ngTableParams', '$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+  function(ngTableParams, $resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+
+    var RootApi = $resource("/api/character_wallet_journals/:id", { id: '@id' }, {
+      get: {
+        method: 'GET'
+      }
+    });
+
+    var initialize = function() {
+      $scope.currentPage = 1;
+      loadWallet($scope.currentPage);
+    };
+
+    var loadWallet = function(page) {
+      $scope.tableParams = new ngTableParams({
+        filter: { },
+      }, {
+        getData: function(params) {
+          var urlParams = params.url();
+          return RootApi.get({id: $scope.$state.params.id, page: page}).$promise.then(function(data) {
+            $scope.searchResults = data.results;
+            // 権限
+            $scope.api_manager = data.api_manager;
+            $scope.recruit = data.recruit;
+
+            $scope.currentPage = page;
+            $scope.hasNextPage = data.has_next_page;
+
+            return data.results;
+          },
+          function(error) {
+            toastr.error(error.data.error, "Error");
+          });
+        }
+      });
+    };
+
+    initialize();
+
+    $scope.prevPage = function() {
+      loadWallet($scope.currentPage - 1);
+    };
+
+    $scope.nextPage = function() {
+      loadWallet($scope.currentPage + 1);
+    };
+
+    // 再読み込み
+    $scope.reload = function() {
+      loadWallet($scope.currentPage);
+    };
+
+  }]
+);

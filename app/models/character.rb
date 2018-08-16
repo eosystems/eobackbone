@@ -21,4 +21,53 @@ class Character
       #c.alliance_name = result["alliance"] if result["alliance"].present?
     end
   end
+
+  def self.info(character_id)
+    response = EsiClient.new('').fetch_character(character_id)
+    if response.is_success
+      response.items[0]
+    else
+      nil
+    end
+  end
+
+  def self.entry_corp_date(character_id, corporation_id)
+    user = User.find_by(uid: character_id)
+    return nil if user.nil?
+
+    token = User.user_token(user)
+    return nil if token.nil?
+
+    response = EsiClient.new(token).fetch_character_corporation_history(character_id)
+    if response.is_success
+      entry_date = nil
+      response.items.each do |i|
+        if corporation_id == i["corporation_id"]
+          if entry_date.nil? || entry_date > i["start_date"].to_date
+            entry_date = i["start_date"].to_date
+          end
+        end
+      end
+      entry_date
+    else
+      nil
+    end
+  end
+
+  def self.title(character_id)
+    user = User.find_by(uid: character_id)
+    return nil if user.nil?
+
+    token = User.user_token(user)
+    return nil if token.nil?
+
+    response = EsiClient.new(token).fetch_character_titles(character_id)
+    if response.is_success
+      title = response.items.map { |v| v["name"] }.join('|')
+      title = '' if title.nil?
+      title
+    else
+      nil
+    end
+  end
 end

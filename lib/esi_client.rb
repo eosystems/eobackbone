@@ -5,6 +5,34 @@ class EsiClient
     @token = token
   end
 
+  def fetch_character(character_id)
+    path = ESI_API_BASE_URL + "/characters/#{character_id}/"
+    Rails.logger.info("ESIClient Access to #{path}")
+
+    GeneralEsiResponse.parse_simple(get_request_to(path))
+  end
+
+  def fetch_character_roles(character_id)
+    path = ESI_API_BASE_URL + "/characters/#{character_id}/roles/?token=#{@token}"
+    Rails.logger.info("ESIClient Access to #{path}")
+
+    GeneralEsiResponse.parse_simple_array(get_request_to(path))
+  end
+
+  def fetch_character_corporation_history(character_id)
+    path = ESI_API_BASE_URL + "/characters/#{character_id}/corporationhistory/?token=#{@token}"
+    Rails.logger.info("ESIClient Access to #{path}")
+
+    GeneralEsiResponse.parse_simple_array(get_request_to(path))
+  end
+
+  def fetch_character_titles(character_id)
+    path = ESI_API_BASE_URL + "/characters/#{character_id}/titles/?token=#{@token}"
+    Rails.logger.info("ESIClient Access to #{path}")
+
+    GeneralEsiResponse.parse_simple_array(get_request_to(path))
+  end
+
   def fetch_market_order(region_id, page)
     path = ESI_API_BASE_URL + market_order_url(region_id, page)
     Rails.logger.info("ESIClient Access to #{path}")
@@ -23,6 +51,18 @@ class EsiClient
     path = ESI_API_BASE_URL + "/corporations/#{corporation_id}/wallets/#{division}/journal/?page=#{page}&token=#{@token}"
     Rails.logger.info("ESIClient Access to #{path}")
     CorpWalletJournalResponse.parse(get_request_to(path), current_page: page)
+  end
+
+  def fetch_corp_member(corporation_id)
+    path = ESI_API_BASE_URL + "/corporations/#{corporation_id}/members/?token=#{@token}"
+    Rails.logger.info("ESIClient Access to #{path}")
+    GeneralEsiResponse.parse_simple_array(get_request_to(path))
+  end
+
+  def fetch_character_wallet_journal(character_id, page)
+    path = "#{ESI_API_BASE_URL}/characters/#{character_id}/wallet/journal/?token=#{@token}&page=#{page}"
+    Rails.logger.info("ESIClient Access to #{path}, page: #{page.to_s}")
+    CharacterWalletJournalResponse.parse(get_request_to(path), current_page: page)
   end
 
   private

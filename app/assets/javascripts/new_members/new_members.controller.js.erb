@@ -1,0 +1,65 @@
+'use strict';
+
+angular.module('eoApp')
+
+.controller(
+  'newMembersController',
+  ['$resource', '$scope', '$state', '$uibModal', '$loading', 'toastr', '$location',
+  function($resource, $scope, $state, $uibModal, $loading, toastr, $location) {
+
+    var that = this;
+
+    var NewMemberApi = $resource("/api/application_new_members", {}, {
+      create: {
+        method: 'POST'
+      }
+    });
+    var CorporationApi = $resource("/api/corporations", {});
+
+    // Corporation Suggest
+    this.corporation = null;
+    $scope.searchCorporation = function(corporationName) {
+      CorporationApi.get({ keyword: corporationName }).$promise.then(function(data) {
+        $scope.corporations = data.results;
+      });
+    };
+
+    // Applicationボタン
+    $scope.applicationRequest = function() {
+      var modalInstance = $uibModal.open({
+        templateUrl: "<%= asset_path 'shared/simple_dialog.html' %>",
+        controller: 'SimpleDialogController',
+        backdrop: true,
+        scope: $scope,
+        resolve: {
+          params: function() {
+            return {
+              title: '新規メンバー申請',
+              message: '申請後権限を持ったユーザーがあなたの一部情報閲覧できるようになります。（最上位権限を持った人以外には情報はフィルターされて表示されます)。申請しても良いですか？'
+            };
+          }
+        }
+      });
+
+      modalInstance.result.then(
+        // cancel
+        function(result) {
+        },
+        // request
+        function(result) {
+          toastr.info("Send New Member Request", "Request");
+          var corporation_id = that.corporation != null ? that.corporation.corporation_id : null;
+          NewMemberApi.create({ corporation_id: corporation_id }).$promise.then(function(data) {
+            toastr.success("Request Accepted", "Success");
+            $location.path("/applications");
+          }, function(error) {
+            toastr.error(error.data.error, "Error");
+            $location.path("/new_members");
+          });
+        }
+      );
+
+    };
+
+  }]
+);

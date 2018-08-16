@@ -30,6 +30,32 @@ ActiveRecord::Schema.define(version: 0) do
     t.datetime "updated_at",                            null: false
   end
 
+  create_table "application_member_relations", force: :cascade do |t|
+    t.integer  "character_id",        limit: 4
+    t.string   "character_name",      limit: 255
+    t.integer  "main_character_id",   limit: 4
+    t.string   "main_character_name", limit: 255
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  create_table "application_new_members", force: :cascade do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "applications", force: :cascade do |t|
+    t.string   "targetable_type",   limit: 255,                        null: false
+    t.integer  "targetable_id",     limit: 4,                          null: false
+    t.string   "processing_status", limit: 255, default: "in_process", null: false
+    t.integer  "process_user_id",   limit: 4
+    t.integer  "corporation_id",    limit: 4
+    t.integer  "user_id",           limit: 4
+    t.datetime "done_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "audits", force: :cascade do |t|
     t.string   "audit_type",     limit: 255,   null: false
     t.text     "audit_text",     limit: 65535, null: false
@@ -45,6 +71,25 @@ ActiveRecord::Schema.define(version: 0) do
     t.string   "corporation_id", limit: 255, null: false
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+  end
+
+  create_table "corp_members", force: :cascade do |t|
+    t.integer  "character_id",            limit: 4
+    t.string   "character_name",          limit: 255
+    t.integer  "main_character_id",       limit: 4
+    t.string   "main_character_name",     limit: 255
+    t.boolean  "is_main"
+    t.integer  "corporation_id",          limit: 4
+    t.string   "corporation_name",        limit: 255
+    t.integer  "manage_corporation_id",   limit: 4
+    t.string   "manage_corporation_name", limit: 255
+    t.string   "corp_role",               limit: 255
+    t.boolean  "token_verify",                        default: false, null: false
+    t.boolean  "token_error",                         default: false, null: false
+    t.datetime "entry_date"
+    t.datetime "character_birthday"
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
   end
 
   create_table "corp_wallet_divisions", force: :cascade do |t|
