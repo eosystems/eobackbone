@@ -11,7 +11,6 @@ BUNDLE_PATH=/usr/local/bundle
 10 5,10,15,18,21 * * * root command 'cd /var/www/eobackbone/current/ && ./script/jobs/market_crawl.sh -e production'
 20 * * * * root command 'cd /var/www/eobackbone/current/ && bundle exec rake eobackbone:workflow:crawl_corp_wallet_journal RAILS_ENV=production'
 30 5,10,15,18,21 * * * root command 'cd /var/www/eobackbone/current/ && bundle exec rake eobackbone:workflow:corp_member_update RAILS_ENV=production'
-30 5,10,15,18,21 * * * root command 'cd /var/www/eobackbone/current/ && bundle exec rake eobackbone:workflow:corp_member_update RAILS_ENV=production'
 0 1,13 * * * root command 'cd /var/www/eobackbone/current/ && tools/delayed_job_crawler.sh -e production restart'
 
 
