@@ -10,6 +10,7 @@ class CorpWalletJournalResponse
     new.tap do |r|
       body = JSON.parse(response.body)
       header = response.headers
+
       r.is_success = response.success?
       r.total_page = header['x-pages'].to_i if header['x-pages'].present?
       #r.total_count = body['totalCount'].to_i if body['totalCount'].present?

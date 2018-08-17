@@ -59,19 +59,10 @@ class CorpWalletJournal < ActiveRecord::Base
   end
 
   # Methods
-  def admin_token
-    User.find_by(uid: 91247469).token # 管理者
-  end
-
-  def admin_corp
-    98440844
-  end
-
-  def import_all_corporation_journals(target: admin_corp)
-    token = admin_token
+  def import_all_corporation_journals(target: nil)
+    token = User.admin_token
 
     client = EsiClient.new(token)
-
     targets = []
     if target.present?
       targets = target.split(',')
@@ -83,7 +74,7 @@ class CorpWalletJournal < ActiveRecord::Base
       retry_count = 0
       page = 1
       loop do
-        res = client.fetch_corp_wallet_journal(admin_corp, i, page)
+        res = client.fetch_corp_wallet_journal(User.admin_corp, i, page)
         if res.items.size == 0 || !res.is_success
           Rails.logger.info("fetch failed. Retry(retry count: #{retry_count})")
           if retry_count >= 3
@@ -94,7 +85,7 @@ class CorpWalletJournal < ActiveRecord::Base
           end
         else
           retry_count = 0
-          save_journals(res.items, i, admin_corp)
+          save_journals(res.items, i, User.admin_corp)
           if res.has_next_page
             page += 1
           else
