@@ -67,7 +67,7 @@ class CorpWalletJournal < ActiveRecord::Base
     98440844
   end
 
-  def import_all_corporation_journals(target: nil)
+  def import_all_corporation_journals(target: admin_corp)
     token = admin_token
 
     client = EsiClient.new(token)
