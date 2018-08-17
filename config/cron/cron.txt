@@ -9,10 +9,9 @@ BUNDLE_PATH=/usr/local/bundle
 
 
 10 5,10,15,18,21 * * * cd /var/www/eobackbone/current/ && ./script/jobs/market_crawl.sh -e production
-20 * * * * /bin/bash -lc 'cd /var/www/eobackbone/current/ && bundle exec rake eobackbone:workflow:crawl_corp_wallet_journal RAILS_ENV=production'
+* * * * * /bin/bash -lc 'cd /var/www/eobackbone/current/ && bundle exec rake eobackbone:workflow:crawl_corp_wallet_journal RAILS_ENV=production'
 
 #0,15,30,45 0-19,21-23 * * * cd /var/www/eobackbone/current/ && ./script/jobs/crawl_user_market_job.sh -e production
 #0,15,30,45 0-19,21-23 * * * cd /var/www/eobackbone/current/ && ./script/jobs/crawl_wallet_transaction.job -e production
 #0,5,10,15,20,25,30,35,40,45,50,55 0-19,21-23 * * * cd /var/www/eobackbone/current/ &&  ./script/jobs/crawl_monitor_market_job.sh -e production
 #8 * * * * cd /var/www/eobackbone/current/ && ./script/jobs/calculate_sale_job_gnu.sh -e production -from `date +\%Y\%m\%d --date "14 days ago"` -to `date +\%Y\%m\%d`
-

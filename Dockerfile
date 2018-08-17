@@ -38,8 +38,8 @@ RUN cp config/database.yml.example config/database.yml
 RUN cp config/settings.yml.example config/settings.yml
 
 # Cron
-# COPY /config/cron/cron.txt /var/crontab.txt
-# RUN crontab /var/crontab.txt
-# RUN chmod 600 /etc/crontab
+COPY /config/cron/cron.txt /var/crontab.txt
+RUN crontab /var/crontab.txt
+RUN chmod 600 /etc/crontab
 
 CMD ["/usr/bin/supervisord"]
