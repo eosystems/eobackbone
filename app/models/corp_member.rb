@@ -53,17 +53,17 @@ class CorpMember < ActiveRecord::Base
       character_ids.each do |character_id|
         member = CorpMember.find_by(character_id: character_id)
         if member.nil?
-          member = CorpMember.new
-          character_info = Character.info(character_id)
-          member.attributes = {
-            character_id: character_id,
-            character_name: character_info.try(:name),
-            character_birthday: character_info.try(:birthday),
-            corporation_id: corporation_id,
-            corporation_name: Corporation.find_by(corporation_id: corporation_id).try(:corporation_name),
-            manage_corporation_id: corporation_id,
-            manage_corporation_name: Corporation.find_by(corporation_id: corporation_id).try(:corporation_name),
-          }
+          #member = CorpMember.new
+          #character_info = Character.info(character_id)
+          #member.attributes = {
+          #  character_id: character_id,
+          #  character_name: character_info.try(:name),
+          #  character_birthday: character_info.try(:birthday),
+          #  corporation_id: corporation_id,
+          #  corporation_name: Corporation.find_by(corporation_id: corporation_id).try(:corporation_name),
+          #  manage_corporation_id: corporation_id,
+          #  manage_corporation_name: Corporation.find_by(corporation_id: corporation_id).try(:corporation_name),
+          #}
         else
           role = Character.title(character_id)
           if role.nil?
@@ -78,8 +78,8 @@ class CorpMember < ActiveRecord::Base
               token_verify: true,
             }
           end
+          member.save
         end
-        member.save
       end
     end
   end

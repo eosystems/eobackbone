@@ -1,10 +1,21 @@
 class Api::ApplicationsController < ApiController
   def index
-    @applications = Application
-      .search_with(params[:filter], params[:sorting], params[:page], params[:count])
-      .accessible_corp_member_management(
-        current_character.corporation_id, current_user.id)
-      .order(id: :desc)
+    # リクルーター以上のAPI権限を持っている場合は会社の全てを参照できる
+    # そうでない場合も今はメンバー全員の情報は見られない
+    if current_user.has_api_manager_role? || current_user.has_recruit_role?
+      @applications = Application
+        .search_with(params[:filter], params[:sorting], params[:page], params[:count])
+        .accessible_corp_member_management(
+          current_character.corporation_id, current_user.id)
+        .order(id: :desc)
+    else
+      @applications = Application
+        .search_with(params[:filter], params[:sorting], params[:page], params[:count])
+        .accessible_corp_member_management(
+          current_character.corporation_id, current_user.id)
+        .where(user_id: current_user.id)
+        .order(id: :desc)
+    end
   end
 
   def update
