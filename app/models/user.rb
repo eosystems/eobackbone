@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
   end
 
   def self.admin_corp
-    98440844
+    98572367
   end
 
   def self.admin_token
