@@ -6,7 +6,9 @@
 
   <div class="text-left">
     <button class="btn btn-normal" ng-click="reload()">Reload</button>
-    <button class="btn btn-normal" ng-click="showDetail()"  ng-disabled="selectedId == null" ng-class="{disabled : selectedId == null}" >Show Wallet</button>
+    <button class="btn btn-normal" ng-click="showDetail()"
+      ng-disabled="selectedId == null || !(api_manager || recruit)"
+      ng-class="{disabled : !(api_manager || recruit) || selectedId == null" >ESI Check</button>
     <button class="btn btn-normal" ng-click="deleteApi()"  ng-disabled="selectedId == null" ng-class="{disabled : selectedId == null}" >Delete</button>
   </div>
 
