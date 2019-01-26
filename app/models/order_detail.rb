@@ -46,8 +46,11 @@ class OrderDetail < ActiveRecord::Base
   end
 
   def retrieval!
+    item = nil
+
     begin
-      self.item_id = InvType.find_by("type_name = ?", "#{self.raw_item_name.gsub("*", "")}").type_id
+      item = InvType.find_by("type_name = ?", "#{self.raw_item_name.gsub("*", "")}")
+      self.item_id = item.type_id
     rescue => e
       begin
         self.item_id = TrnTranslation.find_by("text = ? and tc_id = 8", "#{self.raw_item_name.gsub("*", "")}").key_id
@@ -56,6 +59,16 @@ class OrderDetail < ActiveRecord::Base
       end
     end
     self.unit_price = MarketOrder.jita_buy_price(self.item_id)
+    # WH特別対応
+    # Ancient Coordinates Database
+    # Neural Network Analyzer
+    # Sleeper Data Library
+    # Sleeper Drone AI Nexus
+    # 上記のアイテムはNPC買取価格を設定
+    if self.item_id == 30746 || self.item_id == 30744 || self.item_id == 30745 || self.item_id == 30747
+      self.unit_price = item.base_price
+    end
+
     self.sell_unit_price = self.unit_price
   end
 end
